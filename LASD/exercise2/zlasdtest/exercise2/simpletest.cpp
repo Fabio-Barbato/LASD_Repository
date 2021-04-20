@@ -6,12 +6,12 @@
 #include "../container/container.hpp"
 
 #include "../stack/stack.hpp"
-#include "../../stack/vec/stackvec.hpp"
+//#include "../../stack/vec/stackvec.hpp"
 #include "../../stack/lst/stacklst.hpp"
 
-#include "../queue/queue.hpp"
-#include "../../queue/vec/queuevec.hpp"
-#include "../../queue/lst/queuelst.hpp"
+//#include "../queue/queue.hpp"
+//#include "../../queue/vec/queuevec.hpp"
+//#include "../../queue/lst/queuelst.hpp"
 
 /* ************************************************************************** */
 
@@ -183,7 +183,7 @@ void stestStack(uint& testnum, uint& testerr) {
   cout << endl << "Exercise 2 - Stack (Errors/Tests: " << loctesterr << "/" << loctestnum << ")" << endl;
 }
 
-/* ************************************************************************** */
+/* ************************************************************************** *
 
 template <typename Que>
 void stestQueueInt(Que& que, uint& testnum, uint& testerr) {
@@ -354,6 +354,6 @@ void stestQueue(uint& testnum, uint& testerr) {
 void testSimpleExercise2() {
   uint testnum = 0, testerr = 0;
   stestStack(testnum, testerr);
-  stestQueue(testnum, testerr);
+  //stestQueue(testnum, testerr);
   cout << endl << "Exercise 2 (Simple Test) (Errors/Tests: " << testerr << "/" << testnum << ")" << endl;
 }

@@ -46,11 +46,11 @@ public:
 
   // Specific member functions
 
-  void Enqueue(const Data&); // Copy of the value
-  void Enqueue(Data&&) noexcept; // Move of the value
-  Data& Head() const; // (concrete function must throw std::length_error when empty)
-  void Dequeue(); // (concrete function must throw std::length_error when empty)
-  Data HeadNDequeue(); // (concrete function must throw std::length_error when empty)
+  virtual void Enqueue(const Data&) = 0; // Copy of the value
+  virtual void Enqueue(Data&&) noexcept = 0; // Move of the value
+  virtual Data& Head() const = 0; // (concrete function must throw std::length_error when empty)
+  virtual void Dequeue() = 0; // (concrete function must throw std::length_error when empty)
+  virtual Data HeadNDequeue() = 0; // (concrete function must throw std::length_error when empty)
 
 };
 
