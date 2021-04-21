@@ -6,81 +6,38 @@ namespace lasd {
 //Push(copy)
 template <typename Data>
 void StackLst<Data>::Push(const Data& value){
-  List<Data>::Node::Node* tmp = new Node(value);
-  if(head==nullptr){
-    tmp->next = head;
-    head = tmp;
-  }
-  else{
-    tmp->next = head;
-    head = tmp;
-  }
-  size++;
+  List<Data>::InsertAtFront(value);
 }
 
 //Push(move)
 template <typename Data>
 void StackLst<Data>::Push(Data&& value) noexcept{
-  Node* tmp = new Node(value);
-  std::swap(tmp->info, value);
-  if(head==nullptr){
-    tmp->next = head;
-    head = tmp;
-  }
-  else{
-    tmp->next = head;
-    head = tmp;
-  }
-  size++;
+  List<Data>::InsertAtFront(std::move(value));
 }
 
 //Top
 template <typename Data>
 Data& StackLst<Data>::Top() const{
-  if(head==nullptr){
-    throw std::length_error("Empty Stack!");
-  }
-  else{
-    return head->info;
-  }
+  return List<Data>::Front();
 }
 
 //Pop
 template <typename Data>
 void StackLst<Data>::Pop(){
-  if(size>0){
-    Node* tmp = head;
-    head = tmp->next;
-    size--;
-    delete tmp;
-  }else{
-    throw std::length_error("Empty Stack!");
+  List<Data>::RemoveFromFront();
   }
-}
+
 
 //TopNPop
 template <typename Data>
 Data StackLst<Data>::TopNPop(){
-  if(size>0){
-    Data dat;
-    Node* tmp = head;
-    head = tmp->next;
-    size--;
-    dat = tmp->info;
-    delete tmp;
-    return dat;
-  }else{
-    throw std::length_error("Empty Stack!");
-  }
+  return List<Data>::FrontNRemove();
 }
 
 //Clear
 template <typename Data>
 void StackLst<Data>::Clear(){
-  ulong tmpsize = size;
-  for (ulong i = 0; i < tmpsize; i++) {
-    Pop();
-  }
+  List<Data>::Clear();
 }
 
 //Destructor
@@ -92,23 +49,7 @@ StackLst<Data>::~StackLst(){
 //Comparison operators
 template <typename Data>
 bool StackLst<Data>::operator==(const StackLst<Data>& stck) const noexcept{
-  if(size == stck.size){
-    Node* tmp1 = head;
-    Node* tmp2 = stck.head;
-    while(tmp1!=nullptr && tmp1 == tmp2){
-      tmp1 = tmp1->next;
-      tmp2 = tmp2->next;
-    }
-    if(tmp1==nullptr){
-      return true;
-    }
-    else{
-      return false;
-    }
-  }
-  else{
-    return false;
-  }
+  return List<Data>::operator==(stck);
 }
 
 template <typename Data>
@@ -135,18 +76,19 @@ StackLst<Data>& StackLst<Data>::operator=(StackLst<Data>&& stk) noexcept{
 //Copy constructor
 template <typename Data>
 StackLst<Data>::StackLst(const StackLst<Data>& stk) {
-  StackLst<Data> tmp_stk;
-  Node* tmp_node = stk.head;
+  struct List<Data>::Node* tmp = stk.head;
+  StackLst<Data> tmp_stack;
   for (ulong i = 0; i < stk.size; i++) {
-    tmp_stk.Push(tmp_node->info);
-    tmp_node = tmp_node->next;
+    tmp_stack.Push(tmp->info);
+    tmp = tmp->next;
   }
 
-  tmp_node = tmp_stk.head;
-  for (ulong i = 0; i < tmp_stk.size; i++) {
-    Push(tmp_node->info);
-    tmp_node = tmp_node->next;
+  tmp = tmp_stack.head;
+  for (ulong i = 0; i < stk.size; i++) {
+    Push(tmp->info);
+    tmp = tmp->next;
   }
+
 }
 
 //Copy assignment
