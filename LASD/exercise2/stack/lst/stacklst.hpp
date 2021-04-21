@@ -39,10 +39,10 @@ public:
   /* ************************************************************************ */
 
   // Copy constructor
-   StackLst(const Stack<Data>&);
+   StackLst(const StackLst<Data>&);
 
   // Move constructor
-  StackLst(Stack<Data>&&) noexcept;
+  StackLst(StackLst<Data>&&) noexcept;
 
   /* ************************************************************************ */
 
@@ -52,16 +52,16 @@ public:
   /* ************************************************************************ */
 
   // Copy assignment
-  Stack<Data>& operator=(const Stack<Data>&);
+  StackLst& operator=(const StackLst<Data>&);
 
   // Move assignment
-  Stack<Data>& operator=(Stack<Data>&&) noexcept;
+  StackLst& operator=(StackLst<Data>&&) noexcept;
 
   /* ************************************************************************ */
 
   // Comparison operators
-  bool operator==(const Stack<Data>&) const noexcept;
-  bool operator!=(const Stack<Data>&) const noexcept;
+  bool operator==(const StackLst<Data>&) const noexcept;
+  bool operator!=(const StackLst<Data>&) const noexcept;
 
   /* ************************************************************************ */
 

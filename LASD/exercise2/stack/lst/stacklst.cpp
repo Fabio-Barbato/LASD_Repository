@@ -1,11 +1,12 @@
 
 namespace lasd {
 
+
 /* ************************************************************************** */
 //Push(copy)
 template <typename Data>
 void StackLst<Data>::Push(const Data& value){
-  List<Data>::Node::Node* tmp = new List<Data>::Node::Node(value);
+  List<Data>::Node::Node* tmp = new Node(value);
   if(head==nullptr){
     tmp->next = head;
     head = tmp;
@@ -90,7 +91,7 @@ StackLst<Data>::~StackLst(){
 
 //Comparison operators
 template <typename Data>
-bool StackLst<Data>::operator==(StackLst<Data>& stck) const noexcept{
+bool StackLst<Data>::operator==(const StackLst<Data>& stck) const noexcept{
   if(size == stck.size){
     Node* tmp1 = head;
     Node* tmp2 = stck.head;
@@ -111,7 +112,7 @@ bool StackLst<Data>::operator==(StackLst<Data>& stck) const noexcept{
 }
 
 template <typename Data>
-bool StackLst<Data>::operator!=(StackLst<Data>& stck) const noexcept{
+bool StackLst<Data>::operator!=(const StackLst<Data>& stck) const noexcept{
   return !(*this==stck);
 }
 
@@ -124,7 +125,7 @@ StackLst<Data>::StackLst(StackLst<Data>&& stk) noexcept{
 
 //Move assignment
 template <typename Data>
-StackLst<Data>& StackLst<Data>::StackLst(StackLst<Data>&& stk) noexcept{
+StackLst<Data>& StackLst<Data>::operator=(StackLst<Data>&& stk) noexcept{
   std::swap(head, stk.head);
   std::swap(size, stk.size);
 
@@ -133,8 +134,8 @@ StackLst<Data>& StackLst<Data>::StackLst(StackLst<Data>&& stk) noexcept{
 
 //Copy constructor
 template <typename Data>
-StackLst<Data>::StackLst(const StackLst& stk) {
-  StackLst tmp_stk = new StackLst();
+StackLst<Data>::StackLst(const StackLst<Data>& stk) {
+  StackLst<Data> tmp_stk;
   Node* tmp_node = stk.head;
   for (ulong i = 0; i < stk.size; i++) {
     tmp_stk.Push(tmp_node->info);
@@ -146,8 +147,6 @@ StackLst<Data>::StackLst(const StackLst& stk) {
     Push(tmp_node->info);
     tmp_node = tmp_node->next;
   }
-
-  delete tmp_stk;
 }
 
 //Copy assignment
@@ -164,7 +163,7 @@ StackLst<Data>& StackLst<Data>::operator=(const StackLst<Data>& stk){
 template <typename Data>
 StackLst<Data>::StackLst(const LinearContainer<Data>& con){
   size = 0;
-  for (ulong i = 0; i < con.Size(); i++){
+  for (ulong i = con.Size(); i >= 0; i--){
     Push(con[i]);
   }
 }
