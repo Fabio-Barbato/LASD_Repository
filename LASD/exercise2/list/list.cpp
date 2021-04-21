@@ -26,20 +26,6 @@ List<Data>::Node::Node(Node&& node_swapped) noexcept{
 }
 
 
-//Comparison operators
-template <typename Data>
-bool List<Data>::Node::operator==(const Node& node) const noexcept{
-  if(info == node->info)
-     return true;
-  else
-     return false;
-}
-
-template <typename Data>
-bool List<Data>::Node::operator!=(const Node& node) const noexcept{
-  return !(*this==node);
-}
-
 
 //List methods
 
@@ -121,7 +107,7 @@ void List<Data>::RemoveFromFront(){
     size--;
     delete tmp;
   }else{
-    throw std::length_error("Empty List!");
+    throw std::length_error("Empty!");
   }
 }
 
@@ -137,7 +123,7 @@ Data List<Data>::FrontNRemove(){
     delete tmp;
     return dat;
   }else{
-    throw std::length_error("Empty List!");
+    throw std::length_error("Empty!");
   }
 }
 
@@ -164,7 +150,7 @@ List<Data>::List(const LinearContainer<Data>& con){
 template <typename Data>
 Data& List<Data>::operator[](const ulong index) const {
   if(index>size){
-    throw std::out_of_range("Out of range! List size: "+ std::to_string(size));
+    throw std::out_of_range("Out of range! Size: "+ std::to_string(size));
   }
   else{
     Node* tmp = head;
@@ -180,10 +166,11 @@ Data& List<Data>::operator[](const ulong index) const {
 //Copy constructor
 template <typename Data>
 List<Data>::List(const List<Data>& lst){
+  Node* tmp = lst.head;
   for (ulong i = 0; i < lst.size; i++) {
-    InsertAtBack(lst[i]);
+    InsertAtBack(tmp->info);
+    tmp = tmp->next;
   }
-  size = lst.size;
 }
 
 //Move constructor
@@ -222,14 +209,18 @@ List<Data>& List<Data>::operator=(List<Data>&& lst) noexcept{
 template <typename Data>
 bool List<Data>::operator==(const List<Data>& lst) const noexcept{
   if(size == lst.size){
-    ulong index = 0;
-    while (index<size) {
-      if((*this)[index]!=lst[index]){
-        return false;
-      }
-      index++;
+    Node* tmp1 = head;
+    Node* tmp2 = lst.head;
+    while(tmp1!=nullptr && tmp1->info == tmp2->info){
+      tmp1 = tmp1->next;
+      tmp2 = tmp2->next;
     }
-    return true;
+    if(tmp1==nullptr){
+      return true;
+    }
+    else{
+      return false;
+    }
   }
   else{
     return false;
@@ -246,7 +237,7 @@ bool List<Data>::operator!=(const List<Data>& lst) const noexcept{
 template <typename Data>
 Data& List<Data>::Front() const{
   if(head==nullptr){
-    throw std::length_error("Empty List!");
+    throw std::length_error("Empty!");
   }
   else{
     return head->info;
@@ -258,7 +249,7 @@ Data& List<Data>::Front() const{
 template <typename Data>
 Data& List<Data>::Back() const{
   if(head==nullptr){
-    throw std::length_error("Empty List!");
+    throw std::length_error("Empty!");
   }
   else{
     return tail->info;

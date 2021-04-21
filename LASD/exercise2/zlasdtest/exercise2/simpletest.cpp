@@ -9,9 +9,9 @@
 //#include "../../stack/vec/stackvec.hpp"
 #include "../../stack/lst/stacklst.hpp"
 
-//#include "../queue/queue.hpp"
+#include "../queue/queue.hpp"
 //#include "../../queue/vec/queuevec.hpp"
-//#include "../../queue/lst/queuelst.hpp"
+#include "../../queue/lst/queuelst.hpp"
 
 /* ************************************************************************** */
 
@@ -183,7 +183,7 @@ void stestStack(uint& testnum, uint& testerr) {
   cout << endl << "Exercise 2 - Stack (Errors/Tests: " << loctesterr << "/" << loctestnum << ")" << endl;
 }
 
-/* ************************************************************************** *
+/* ************************************************************************** */
 
 template <typename Que>
 void stestQueueInt(Que& que, uint& testnum, uint& testerr) {
@@ -240,9 +240,9 @@ void stestQueueInt(Que& que, uint& testnum, uint& testerr) {
 }
 void stestQueueInt(uint& testnum, uint& testerr) {
   uint loctestnum = 0, loctesterr = 0;
-  lasd::QueueVec<int> quevec;
+  /*lasd::QueueVec<int> quevec;
   cout << endl << "Begin of QueueVec<int> Test:" << endl;
-  stestQueueInt(quevec, loctestnum, loctesterr);
+  stestQueueInt(quevec, loctestnum, loctesterr);*/
   lasd::QueueLst<int> quelst;
   cout << endl << "Begin of QueueLst<int> Test:" << endl;
   stestQueueInt(quelst, loctestnum, loctesterr);
@@ -276,9 +276,9 @@ void stestQueueFloat(Que& que, uint& testnum, uint& testerr) {
 }
 void stestQueueFloat(uint& testnum, uint& testerr) {
   uint loctestnum = 0, loctesterr = 0;
-  lasd::QueueVec<double> quevec;
+  /*lasd::QueueVec<double> quevec;
   cout << endl << "Begin of QueueVec<double> Test:" << endl;
-  stestQueueFloat(quevec, loctestnum, loctesterr);
+  stestQueueFloat(quevec, loctestnum, loctesterr);*/
   lasd::QueueLst<double> quelst;
   cout << endl << "Begin of QueueLst<double> Test:" << endl;
   stestQueueFloat(quelst, loctestnum, loctesterr);
@@ -286,7 +286,7 @@ void stestQueueFloat(uint& testnum, uint& testerr) {
   testerr += loctesterr;
 }
 
-template <typename Que>
+/*template <typename Que>
 void stestQueueString(Que& que, uint& testnum, uint& testerr) {
   uint loctestnum = 0, loctesterr = 0;
   try {
@@ -337,13 +337,13 @@ void stestQueueString(uint& testnum, uint& testerr) {
   }
   testnum += loctestnum;
   testerr += loctesterr;
-}
+}*/
 
 void stestQueue(uint& testnum, uint& testerr) {
   uint loctestnum = 0, loctesterr = 0;
   stestQueueInt(loctestnum, loctesterr);
   stestQueueFloat(loctestnum, loctesterr);
-  stestQueueString(loctestnum, loctesterr);
+  //stestQueueString(loctestnum, loctesterr);
   testnum += loctestnum;
   testerr += loctesterr;
   cout << endl << "Exercise 2 - Queue (Errors/Tests: " << loctesterr << "/" << loctestnum << ")" << endl;
@@ -354,6 +354,6 @@ void stestQueue(uint& testnum, uint& testerr) {
 void testSimpleExercise2() {
   uint testnum = 0, testerr = 0;
   stestStack(testnum, testerr);
-  //stestQueue(testnum, testerr);
+  stestQueue(testnum, testerr);
   cout << endl << "Exercise 2 (Simple Test) (Errors/Tests: " << testerr << "/" << testnum << ")" << endl;
 }
