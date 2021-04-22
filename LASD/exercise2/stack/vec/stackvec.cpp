@@ -35,7 +35,7 @@ StackVec<Data>::StackVec(StackVec<Data>&& stk) noexcept{
 //Destructor
 template <typename Data>
 StackVec<Data>::~StackVec(){
-  delete[] Elements;
+  Clear();
 }
 
 //Copy assignment
@@ -43,7 +43,6 @@ template <typename Data>
 StackVec<Data>& StackVec<Data>::operator=(const StackVec<Data>& stk){
   StackVec<Data>* tmpvec = new StackVec<Data>(stk);
   std::swap(*tmpvec, *this);
-  delete tmpvec;
   return *this;
 }
 
@@ -92,30 +91,45 @@ ulong StackVec<Data>::Size() const noexcept{
 //Clear
 template <typename Data>
 void StackVec<Data>::Clear() {
-  size = 10;
+  Vector<Data>::Clear();
   real_size = 0;
-  delete[] Elements;
-  Elements = new Data[10];
 }
 
 
 //Push(copy)
 template <typename Data>
 void StackVec<Data>::Push(const Data& value){
-  Elements[real_size] = value;
-  real_size++;
-  if(real_size==size){
-    Expand();
+  if(size==0){
+    Elements = new Data[10];
+    size=10;
+    Elements[real_size] = value;
+    real_size++;
   }
+  else{
+    Elements[real_size] = value;
+    real_size++;
+    if(real_size==size){
+      Expand();
+    }
+  }
+
 }
 
 //Push(move)
 template <typename Data>
 void StackVec<Data>::Push(Data&& value) noexcept{
-  Elements[real_size] = std::move(value);
-  real_size++;
-  if(real_size==size-1){
-    Expand();
+  if(size==0){
+    Elements = new Data[10];
+    size=10;
+    Elements[real_size] = std::move(value);
+    real_size++;
+  }
+  else{
+    Elements[real_size] = value;
+    real_size++;
+    if(real_size==size){
+      Expand();
+    }
   }
 }
 

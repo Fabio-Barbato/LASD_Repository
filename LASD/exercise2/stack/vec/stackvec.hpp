@@ -22,8 +22,8 @@ private:
 
 protected:
 
-  ulong size = 10;
-  Data* Elements = new Data[10];
+  using Vector<Data>::size;
+  using Vector<Data>::Elements;
   ulong real_size = 0;
 
 public:

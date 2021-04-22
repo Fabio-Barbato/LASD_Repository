@@ -286,7 +286,7 @@ void stestQueueFloat(uint& testnum, uint& testerr) {
   testerr += loctesterr;
 }
 
-/*template <typename Que>
+template <typename Que>
 void stestQueueString(Que& que, uint& testnum, uint& testerr) {
   uint loctestnum = 0, loctesterr = 0;
   try {
@@ -310,9 +310,9 @@ void stestQueueString(Que& que, uint& testnum, uint& testerr) {
 }
 void stestQueueString(uint& testnum, uint& testerr) {
   uint loctestnum = 0, loctesterr = 0;
-  lasd::QueueVec<string> quevec;
+  /*lasd::QueueVec<string> quevec;
   cout << endl << "Begin of QueueVec<string> Test:" << endl;
-  stestQueueString(quevec, loctestnum, loctesterr);
+  stestQueueString(quevec, loctestnum, loctesterr);*/
   lasd::QueueLst<string> quelst;
   cout << endl << "Begin of QueueLst<string> Test:" << endl;
   stestQueueString(quelst, loctestnum, loctesterr);
@@ -322,10 +322,10 @@ void stestQueueString(uint& testnum, uint& testerr) {
     SetAt(loctestnum, loctesterr, vec, true, 0, string("A"));
     SetAt(loctestnum, loctesterr, vec, true, 1, string("B"));
 
-    EnqueueM(loctestnum, loctesterr, quevec, string("A"));
+    /*EnqueueM(loctestnum, loctesterr, quevec, string("A"));
     EnqueueM(loctestnum, loctesterr, quevec, string("B"));
     lasd::QueueVec<string> newquevec(vec);
-    EqualStack(loctestnum, loctesterr, quevec, newquevec, true);
+    EqualStack(loctestnum, loctesterr, quevec, newquevec, true);*/
 
     EnqueueM(loctestnum, loctesterr, quelst, string("A"));
     EnqueueM(loctestnum, loctesterr, quelst, string("B"));
@@ -337,13 +337,13 @@ void stestQueueString(uint& testnum, uint& testerr) {
   }
   testnum += loctestnum;
   testerr += loctesterr;
-}*/
+}
 
 void stestQueue(uint& testnum, uint& testerr) {
   uint loctestnum = 0, loctesterr = 0;
-  //stestQueueInt(loctestnum, loctesterr);
-  //stestQueueFloat(loctestnum, loctesterr);
-  //stestQueueString(loctestnum, loctesterr);
+  stestQueueInt(loctestnum, loctesterr);
+  stestQueueFloat(loctestnum, loctesterr);
+  stestQueueString(loctestnum, loctesterr);
   testnum += loctestnum;
   testerr += loctesterr;
   cout << endl << "Exercise 2 - Queue (Errors/Tests: " << loctesterr << "/" << loctestnum << ")" << endl;
