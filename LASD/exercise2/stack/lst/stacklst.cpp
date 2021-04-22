@@ -105,7 +105,7 @@ StackLst<Data>& StackLst<Data>::operator=(const StackLst<Data>& stk){
 template <typename Data>
 StackLst<Data>::StackLst(const LinearContainer<Data>& con){
   size = 0;
-  for (ulong i = con.Size()-1; i >= 0; i--){
+  for (long i = con.Size()-1; i >= 0; i--){
     Push(con[i]);
   }
 }

@@ -22,7 +22,7 @@ private:
 
 protected:
 
-  ulong size = 0;
+  ulong size = 10;
   Data* Elements = new Data[10];
   ulong real_size = 0;
 

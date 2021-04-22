@@ -341,8 +341,8 @@ void stestQueueString(uint& testnum, uint& testerr) {
 
 void stestQueue(uint& testnum, uint& testerr) {
   uint loctestnum = 0, loctesterr = 0;
-  stestQueueInt(loctestnum, loctesterr);
-  stestQueueFloat(loctestnum, loctesterr);
+  //stestQueueInt(loctestnum, loctesterr);
+  //stestQueueFloat(loctestnum, loctesterr);
   //stestQueueString(loctestnum, loctesterr);
   testnum += loctestnum;
   testerr += loctesterr;

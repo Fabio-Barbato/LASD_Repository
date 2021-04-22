@@ -19,9 +19,9 @@ StackVec<Data>::StackVec(const LinearContainer<Data>& con){
 template <typename Data>
 StackVec<Data>::StackVec(const StackVec<Data>& stk){
   Elements = new Data[stk.size];
+  std::copy(stk.Elements, stk.Elements + stk.real_size, Elements);
   real_size = stk.real_size;
   size = stk.size;
-  std::copy(stk.Elements, stk.Elements + stk.real_size, Elements);
 }
 
 //Move constructor
@@ -77,24 +77,29 @@ bool StackVec<Data>::operator!=(const StackVec<Data>& stk) const noexcept{
   return !(*this==stk);
 }
 
+//Empty
 template <typename Data>
 bool StackVec<Data>::Empty() const noexcept{
   return real_size==0;
 }
 
+//Size
 template <typename Data>
 ulong StackVec<Data>::Size() const noexcept{
   return real_size;
 }
 
+//Clear
 template <typename Data>
 void StackVec<Data>::Clear() {
   size = 10;
   real_size = 0;
   delete[] Elements;
-  Elements = nullptr;
+  Elements = new Data[10];
 }
 
+
+//Push(copy)
 template <typename Data>
 void StackVec<Data>::Push(const Data& value){
   Elements[real_size] = value;
@@ -104,6 +109,7 @@ void StackVec<Data>::Push(const Data& value){
   }
 }
 
+//Push(move)
 template <typename Data>
 void StackVec<Data>::Push(Data&& value) noexcept{
   Elements[real_size] = std::move(value);
@@ -113,6 +119,7 @@ void StackVec<Data>::Push(Data&& value) noexcept{
   }
 }
 
+//Pop
 template <typename Data>
 void StackVec<Data>::Pop(){
   if(real_size==0){
@@ -126,16 +133,19 @@ void StackVec<Data>::Pop(){
   }
 }
 
+//Reduce
 template <typename Data>
 void StackVec<Data>::Reduce(){
   Vector<Data>::Resize(size/2);
 }
 
+//Expand
 template <typename Data>
 void StackVec<Data>::Expand(){
   Vector<Data>::Resize(size*2);
 }
 
+//Top
 template <typename Data>
 Data& StackVec<Data>::Top() const{
   if(real_size==0){
@@ -146,6 +156,7 @@ Data& StackVec<Data>::Top() const{
 
 }
 
+//Top
 template <typename Data>
 Data StackVec<Data>::TopNPop(){
   if(real_size==0){
