@@ -24,8 +24,8 @@ protected:
 
   using Vector<Data>::size;
   using Vector<Data>::Elements;
-  Data* head = nullptr;
-  Data* tail = nullptr;
+  ulong head = 0;
+  ulong tail = 0;
 
 public:
 

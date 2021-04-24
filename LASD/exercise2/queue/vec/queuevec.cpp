@@ -10,68 +10,64 @@ void QueueVec<Data>::Enqueue(const Data& value){
     Elements = new Data[10] {};
     size = 10;
     Elements[0] = value;
-    head = &Elements[0];
-    tail = &Elements[1];
+    head = 0;
+    tail = 1;
   }
   else{ //Queue non piena
-    Elements[(tail - &Elements[0])] = value;
-    std::cout << *tail << '\n';
-    if (tail+1 > &Elements[size-1]){ //tail arrivata alla fine del Vector
-      if(head == &Elements[0]){ //Vector pieno
+    Elements[tail] = value;
+    tail++;
+    if (tail == size){ //tail arrivata alla fine del Vector
+      if(head == 0){ //Vector pieno
         Expand();
       }
       else{
-        tail = &Elements[0];
+        tail = 0;
       }
     }
     else{//tail non alla fine del Vector
       if(head == tail+1){//Vector pieno
         Expand();
       }
-      else{
-        tail++;
-      }
     }
   }
-  std::cout << tail - &Elements[0] << '\n';
  }
 
  //Enqueue (move)
  template <typename Data>
  void QueueVec<Data>::Enqueue(Data&& value) noexcept{
    if(size==0){ //Queue vuota
-     Elements = new Data[3]{};
-     size = 3;
+     Elements = new Data[10]{};
+     size = 10;
      std::swap(Elements[0] , value);
-     head = &Elements[0];
-     tail = &Elements[1];
+     head = 0;
+     tail = 1;
+     std::cout << Elements[0] << '\n';
    }
    else{ //Queue non piena
-     std::swap(Elements[(tail - &Elements[0])] , value);
-     if (tail+1 > &Elements[size-1]){ //tail arrivata alla fine del Vector
-       if(head == &Elements[0]){ //Vector pieno
+     std::swap(Elements[tail] , value);
+     tail++;
+     if (tail == size){ //tail arrivata alla fine del Vector
+       if(head == 0){ //Vector pieno
          Expand();
        }
        else{
-         tail = &Elements[0];
+         tail = 0;
        }
      }
      else{//tail non alla fine del Vector
        if(head == tail+1){//Vector pieno
          Expand();
        }
-       else{
-         tail++;
-       }
      }
    }
+   std::cout << Elements[tail]<< '\n';
   }
 
   //Head
   template <typename Data>
   Data& QueueVec<Data>::Head() const{
     if(!(Empty())){
-      return *head;
+      return Elements[head];
     }
     else{
       throw std::length_error("Empty");
@@ -82,9 +78,7 @@ void QueueVec<Data>::Enqueue(const Data& value){
   template <typename Data>
   ulong QueueVec<Data>::Size() const noexcept{
     if(head>tail){
-      ulong head_long = head - &Elements[0];
-      ulong tail_long = tail - &Elements[0];
-      return size - (head_long - tail_long);
+      return size - (head - tail);
     }
     else{
       return tail-head;
@@ -104,16 +98,16 @@ void QueueVec<Data>::Enqueue(const Data& value){
       throw std::length_error("Empty");
     }
     else{
-      if(head+1 > &Elements[size-1]){ //Se la head è arrivata alla fine del Vector
-        head = &Elements[0];
+      if(head == size-1){ //Se la head è arrivata alla fine del Vector
+        head = 0;
       }
       else{
         head++;
       }
 
-      /*if(Size() == size/4){
+      if(Size() == size/4){
         Reduce();
-      }*/
+      }
     }
   }
 
@@ -129,33 +123,34 @@ void QueueVec<Data>::Enqueue(const Data& value){
   template <typename Data>
   void QueueVec<Data>::Clear(){
     Vector<Data>::Clear();
-    tail = nullptr;
-    head = nullptr;
+    tail = 0;
+    head = 0;
   }
 
   //SwapVectors
   template <typename Data>
-  void QueueVec<Data>::SwapVectors(const ulong new_size){
-    Data* tmp = new Data[new_size] {};
-    ulong index_tmp = 0;
-    ulong index = head - &Elements[size];
-    while(index<size && index!=tail - &Elements[0]){
-      tmp[index_tmp] = Elements[index];
-      index++;
-      index_tmp++;
-    }
-    if(index==size){
-      index = 0;
-      while (index != tail - &Elements[0]) {
-        tmp[index_tmp] = Elements[index];
-        index++;
-        index_tmp++;
-      }
-    }
-    std::swap(Elements, tmp);
-    head = &Elements[0];
-    tail = &Elements[index_tmp];
-    delete[] tmp;
+  void QueueVec<Data>::SwapVectors(const ulong x){
+    Data* TmpElements = new Data[x]{};
+     ulong i=0;
+       if(tail<head){
+             for(ulong index = head; index < size; index++){
+                 std::swap(Elements[index], TmpElements[i]);
+                 i++;
+             }
+             for(ulong index = 0; index < tail; index++){
+                 std::swap(Elements[index], TmpElements[i]);
+                 i++;
+             }
+         }else{
+           for(ulong index = head; index < tail; index++){
+               std::swap(Elements[index], TmpElements[i]);
+               i++;
+         }}
+     std::swap(Elements, TmpElements);
+     size = x;
+     tail=tail-head;
+     head=0;
+     delete[] TmpElements;
   }
 
   //Expand
@@ -173,20 +168,20 @@ void QueueVec<Data>::Enqueue(const Data& value){
   //Comparison operators
   template <typename Data>
   bool QueueVec<Data>::operator==(const QueueVec<Data>& queue) const noexcept{
-    if(size == queue.size && Size()==queue.Size() && head - &Elements[0] == queue.head - &queue.Elements[0] && tail - &Elements[0] == queue.tail - &queue.Elements[0]){
-      ulong index = head - &Elements[0];
-      while (index<size && index != tail - &Elements[0]) {
+    if(Size()==queue.Size() && head == queue.head && tail == queue.tail){
+      ulong index = head;
+      while (index<size && index != tail) {
         if(Elements[index]!= queue.Elements[index]){
           return false;
         }
         index++;
       }
-      if(index== tail - &Elements[0]){
+      if(index== tail){
         return true;
       }
       else{
         index = 0;
-        while(index != tail - &Elements[0]){
+        while(index != tail){
           if(Elements[index]!= queue.Elements[index]){
             return false;
           }
@@ -210,10 +205,11 @@ void QueueVec<Data>::Enqueue(const Data& value){
   QueueVec<Data>::QueueVec(const LinearContainer<Data>& con){
     size = con.Size();
     Elements = new Data[size] {};
-    head = &Elements[0];
+    head = 0;
     tail = head;
-    for (ulong i = 0; i < size; i++) {
-      Enqueue(con[i]);
+    for (ulong i = 0; i < con.Size(); i++) {
+      Elements[i] = con[i];
+      tail++;
     }
   }
 
@@ -222,16 +218,16 @@ void QueueVec<Data>::Enqueue(const Data& value){
   QueueVec<Data>::QueueVec(const QueueVec<Data>& queue){
     size = queue.size;
     Elements = new Data [size] {};
-    head = &Elements[queue.head - &queue.Elements[0]];
+    head = queue.head;
     tail = head;
-    ulong index = queue.head - &queue.Elements[0];
-    while (index<size && index!= queue.tail - &queue.Elements[0]) {
+    ulong index = queue.head;
+    while (index<size && index!= queue.tail) {
       Enqueue(queue.Elements[index]);
       index++;
     }
     if(index==size){
       index = 0;
-      while (index!= queue.tail - &queue.Elements[0]) {
+      while (index!= queue.tail) {
         Enqueue(queue.Elements[index]);
         index++;
       }
