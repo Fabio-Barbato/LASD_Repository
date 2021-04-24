@@ -11,7 +11,7 @@ void QueueVec<Data>::Enqueue(const Data& value){
     size = 10;
     Elements[0] = value;
     head = &Elements[0];
-    tail = head;
+    tail = &Elements[1];
   }
   else{ //Queue non piena
     Elements[(tail - &Elements[0])] = value;
@@ -42,7 +42,7 @@ void QueueVec<Data>::Enqueue(const Data& value){
      size = 3;
      std::swap(Elements[0] , value);
      head = &Elements[0];
-     tail = head;
+     tail = &Elements[0];
    }
    else{ //Queue non piena
      std::swap(Elements[(tail - &Elements[0])] , value);
