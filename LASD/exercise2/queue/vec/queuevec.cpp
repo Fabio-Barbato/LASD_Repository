@@ -15,6 +15,7 @@ void QueueVec<Data>::Enqueue(const Data& value){
   }
   else{ //Queue non piena
     Elements[(tail - &Elements[0])] = value;
+    std::cout << *tail << '\n';
     if (tail+1 > &Elements[size-1]){ //tail arrivata alla fine del Vector
       if(head == &Elements[0]){ //Vector pieno
         Expand();
@@ -32,6 +33,7 @@ void QueueVec<Data>::Enqueue(const Data& value){
       }
     }
   }
+  std::cout << tail - &Elements[0] << '\n';
  }
 
  //Enqueue (move)
@@ -42,7 +44,7 @@ void QueueVec<Data>::Enqueue(const Data& value){
      size = 3;
      std::swap(Elements[0] , value);
      head = &Elements[0];
-     tail = &Elements[0];
+     tail = &Elements[1];
    }
    else{ //Queue non piena
      std::swap(Elements[(tail - &Elements[0])] , value);
@@ -82,7 +84,7 @@ void QueueVec<Data>::Enqueue(const Data& value){
     if(head>tail){
       ulong head_long = head - &Elements[0];
       ulong tail_long = tail - &Elements[0];
-      return size - head_long - tail_long;
+      return size - (head_long - tail_long);
     }
     else{
       return tail-head;
@@ -109,9 +111,9 @@ void QueueVec<Data>::Enqueue(const Data& value){
         head++;
       }
 
-      if(Size() == size/4){
+      /*if(Size() == size/4){
         Reduce();
-      }
+      }*/
     }
   }
 
@@ -220,16 +222,18 @@ void QueueVec<Data>::Enqueue(const Data& value){
   QueueVec<Data>::QueueVec(const QueueVec<Data>& queue){
     size = queue.size;
     Elements = new Data [size] {};
-    head = &Elements[queue.head - &Elements[0]];
+    head = &Elements[queue.head - &queue.Elements[0]];
     tail = head;
-    ulong index = queue.head - &Elements[0];
-    while (index<size && index!= queue.tail - &Elements[0]) {
+    ulong index = queue.head - &queue.Elements[0];
+    while (index<size && index!= queue.tail - &queue.Elements[0]) {
       Enqueue(queue.Elements[index]);
+      index++;
     }
     if(index==size){
       index = 0;
-      while (index!= queue.tail - &Elements[0]) {
+      while (index!= queue.tail - &queue.Elements[0]) {
         Enqueue(queue.Elements[index]);
+        index++;
       }
     }
   }
