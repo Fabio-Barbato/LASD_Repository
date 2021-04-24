@@ -10,7 +10,7 @@
 #include "../../stack/lst/stacklst.hpp"
 
 #include "../queue/queue.hpp"
-//#include "../../queue/vec/queuevec.hpp"
+#include "../../queue/vec/queuevec.hpp"
 #include "../../queue/lst/queuelst.hpp"
 
 /* ************************************************************************** */
@@ -52,12 +52,12 @@ void stestStackInt(Stk& stk, uint& testnum, uint& testerr) {
     NonEqualStack(loctestnum, loctesterr, stk, copstk, true);
 
     Top(loctestnum, loctesterr, copstk, true, 6);
-    copstk = std::move(stk);
+    copstk = move(stk);
     TopNPop(loctestnum, loctesterr, copstk, true, 5);
     Pop(loctestnum, loctesterr, copstk, true);
     Top(loctestnum, loctesterr, copstk, true, 3);
 
-    Stk movstk(std::move(stk));
+    Stk movstk(move(stk));
     Top(loctestnum, loctesterr, stk, false, 0);
 
     movstk.Clear();
@@ -218,12 +218,12 @@ void stestQueueInt(Que& que, uint& testnum, uint& testerr) {
     NonEqualQueue(loctestnum, loctesterr, que, copque, true);
 
     Head(loctestnum, loctesterr, copque, true, 0);
-    copque = std::move(que);
+    copque = move(que);
     HeadNDequeue(loctestnum, loctesterr, copque, true, 0);
     Dequeue(loctestnum, loctesterr, copque, true);
     Head(loctestnum, loctesterr, copque, true, 1);
 
-    Que movque(std::move(que));
+    Que movque(move(que));
     Head(loctestnum, loctesterr, que, false, 0);
 
     movque.Clear();
@@ -240,9 +240,9 @@ void stestQueueInt(Que& que, uint& testnum, uint& testerr) {
 }
 void stestQueueInt(uint& testnum, uint& testerr) {
   uint loctestnum = 0, loctesterr = 0;
-  /*lasd::QueueVec<int> quevec;
+  lasd::QueueVec<int> quevec;
   cout << endl << "Begin of QueueVec<int> Test:" << endl;
-  stestQueueInt(quevec, loctestnum, loctesterr);*/
+  stestQueueInt(quevec, loctestnum, loctesterr);
   lasd::QueueLst<int> quelst;
   cout << endl << "Begin of QueueLst<int> Test:" << endl;
   stestQueueInt(quelst, loctestnum, loctesterr);
@@ -276,9 +276,9 @@ void stestQueueFloat(Que& que, uint& testnum, uint& testerr) {
 }
 void stestQueueFloat(uint& testnum, uint& testerr) {
   uint loctestnum = 0, loctesterr = 0;
-  /*lasd::QueueVec<double> quevec;
+  lasd::QueueVec<double> quevec;
   cout << endl << "Begin of QueueVec<double> Test:" << endl;
-  stestQueueFloat(quevec, loctestnum, loctesterr);*/
+  stestQueueFloat(quevec, loctestnum, loctesterr);
   lasd::QueueLst<double> quelst;
   cout << endl << "Begin of QueueLst<double> Test:" << endl;
   stestQueueFloat(quelst, loctestnum, loctesterr);
@@ -310,9 +310,9 @@ void stestQueueString(Que& que, uint& testnum, uint& testerr) {
 }
 void stestQueueString(uint& testnum, uint& testerr) {
   uint loctestnum = 0, loctesterr = 0;
-  /*lasd::QueueVec<string> quevec;
+  lasd::QueueVec<string> quevec;
   cout << endl << "Begin of QueueVec<string> Test:" << endl;
-  stestQueueString(quevec, loctestnum, loctesterr);*/
+  stestQueueString(quevec, loctestnum, loctesterr);
   lasd::QueueLst<string> quelst;
   cout << endl << "Begin of QueueLst<string> Test:" << endl;
   stestQueueString(quelst, loctestnum, loctesterr);
@@ -322,15 +322,15 @@ void stestQueueString(uint& testnum, uint& testerr) {
     SetAt(loctestnum, loctesterr, vec, true, 0, string("A"));
     SetAt(loctestnum, loctesterr, vec, true, 1, string("B"));
 
-    /*EnqueueM(loctestnum, loctesterr, quevec, string("A"));
+    EnqueueM(loctestnum, loctesterr, quevec, string("A"));
     EnqueueM(loctestnum, loctesterr, quevec, string("B"));
     lasd::QueueVec<string> newquevec(vec);
-    EqualStack(loctestnum, loctesterr, quevec, newquevec, true);*/
+    EqualQueue(loctestnum, loctesterr, quevec, newquevec, true);
 
     EnqueueM(loctestnum, loctesterr, quelst, string("A"));
     EnqueueM(loctestnum, loctesterr, quelst, string("B"));
     lasd::QueueLst<string> newquelst(vec);
-    EqualStack(loctestnum, loctesterr, quelst, newquelst, true);
+    EqualQueue(loctestnum, loctesterr, quelst, newquelst, true);
   } catch(...) {
     loctestnum++; loctesterr++;
     cout << endl << "Unmanaged error! " << endl;

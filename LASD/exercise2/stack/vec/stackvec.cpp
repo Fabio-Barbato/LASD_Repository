@@ -100,8 +100,8 @@ void StackVec<Data>::Clear() {
 template <typename Data>
 void StackVec<Data>::Push(const Data& value){
   if(size==0){
-    Elements = new Data[10];
-    size=10;
+    Elements = new Data[3];
+    size=3;
     Elements[real_size] = value;
     real_size++;
   }
@@ -119,8 +119,8 @@ void StackVec<Data>::Push(const Data& value){
 template <typename Data>
 void StackVec<Data>::Push(Data&& value) noexcept{
   if(size==0){
-    Elements = new Data[10];
-    size=10;
+    Elements = new Data[3];
+    size=3;
     Elements[real_size] = std::move(value);
     real_size++;
   }
@@ -141,7 +141,7 @@ void StackVec<Data>::Pop(){
   }
   else{
     real_size--;
-    if(real_size==size/4){
+    if(real_size==size/4 && size>3){
       Reduce();
     }
   }
@@ -170,17 +170,14 @@ Data& StackVec<Data>::Top() const{
 
 }
 
-//Top
+//TopNPop
 template <typename Data>
 Data StackVec<Data>::TopNPop(){
-  if(real_size==0){
-    throw std::length_error("Empty!");
-  }else{
-    Data dat = Elements[real_size-1];
+    Data dat = Top();
     real_size--;
     return dat;
   }
-}
+
 
 
 
