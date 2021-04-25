@@ -1,9 +1,9 @@
 #include <iostream>
-##include "test.hpp"
+#include "test.hpp"
 #include <stdlib.h>
 #include <time.h>
 #include <algorithm>
-
+using namespace lasd;
 std::string GenerateString(){
     std::string string;
 
@@ -26,13 +26,13 @@ void myTest(){
     if(sceltaStrutturaDati==1)
         CreazioneStackVec(dimensioneStruttura);
     else if(sceltaStrutturaDati==2){
-        CreazioneQueueVec(dimensioneStruttura);
+      //  CreazioneQueueVec(dimensioneStruttura);
     }
     else if(sceltaStrutturaDati==3){
-        CreazioneQueueLst(dimensioneStruttura);
+      //  CreazioneQueueLst(dimensioneStruttura);
     }
     else if(sceltaStrutturaDati==4){
-        CreazioneStackLst(dimensioneStruttura);
+      //  CreazioneStackLst(dimensioneStruttura);
     }
   }
 
@@ -43,7 +43,7 @@ void myTest(){
       std::cin>>sceltaDati;
 
       if(sceltaDati==1){
-          lasd::StackVec<int> stack;   //costruzione lista di interi
+          lasd::StackVec<int> stack;   //costruzione stack di interi
           srand(time(NULL));
           for(int i=1;i<=dimensioneStruttura;i++){
               stack.Push(rand()%50);
@@ -51,14 +51,14 @@ void myTest(){
           MenuStackVec(stack);
       }
       else if(sceltaDati==2){
-          lasd::List<float> stack;   //costruzione list di float
+          lasd::StackVec<float> stack;   //costruzione stack di float
           srand(time(NULL));
           for(int i=1;i<=dimensioneStruttura;i++)
               stack.Push(float(rand())/float(RAND_MAX));
           MenuStackVec(stack);
       }
       else if(sceltaDati==3){
-          lasd::List<std::string> stack;  //costruzione list di stringhe
+          lasd::StackVec<std::string> stack;  //costruzione stack di stringhe
           for(int i=1;i<=dimensioneStruttura;i++)
               stack.Push(GenerateString());
           MenuStackVec(stack);
@@ -70,7 +70,7 @@ void myTest(){
   void MenuStackVec(lasd::StackVec<Data> stack){
     uint scelta;
     do{
-    std::cout << "Quali operazioni vuoi effettuare?\n1)Inserisci un elemento\n2)Rimuovi un elemento\n3)Rimuovi un elemento e leggilo\n4)Scopri se è vuoto\n5)Scopri dimensione\n6)Svuota\n\nScegli: " << '\n';
+    std::cout << "Quali operazioni vuoi effettuare?\n1)Inserisci un elemento\n2)Rimuovi un elemento\n3)Rimuovi un elemento e leggilo\n4)Scopri se è vuoto\n5)Scopri dimensione\n6)Svuota\n7)Leggi la testa\n\nScegli: " << '\n';
     std::cin>>scelta;
     if(scelta==1){
       std::cout << "Inserisci: " << '\n';
@@ -79,19 +79,43 @@ void myTest(){
       stack.Push(elem);
     }
     else if(scelta==2){
-      stack.Pop();
+      try{
+        stack.Pop();
+        std::cout << "Elemento rimosso!" << std::endl;
+      }catch(std::length_error e){
+        std::cout << "Stack vuoto!" << '\n';
+      }
+
     }
     else if(scelta==3){
-      std::cout << stack.HeadNPop() << '\n';
+      try{
+        std::cout << "Testa: "<< stack.TopNPop() << std::endl;
+      }catch(std::length_error e){
+        std::cout << "Stack vuoto" << '\n';
+      }
+
     }
     else if(scelta==4){
-      std::cout << stack.Empty() << '\n';
+      try{
+        std::cout << "Stack non vuoto"<< std::endl;
+      }catch(std::length_error e){
+        std::cout << "Stack vuoto" << '\n';
+      }
+
     }
     else if(scelta==5){
-      std::cout << stack.Size() << '\n';
+      std::cout << "Size: "<<stack.Size() << std::endl;
     }
     else if(scelta==6){
       stack.Clear();
+      std::cout << "Stack pulito!" << '\n';
     }
-  }while (scelta<5 && scelta>0) ;
-  }
+    else if(scelta==7){
+      try{
+        std::cout << "Testa: "<< stack.Top() << std::endl;
+      }catch(std::length_error e){
+        std::cout << "Stack vuoto" << '\n';
+      }
+    }
+  }while (scelta<=7 && scelta>=1) ;
+}

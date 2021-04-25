@@ -43,6 +43,7 @@ template <typename Data>
 StackVec<Data>& StackVec<Data>::operator=(const StackVec<Data>& stk){
   StackVec<Data>* tmpvec = new StackVec<Data>(stk);
   std::swap(*tmpvec, *this);
+  delete tmpvec;
   return *this;
 }
 

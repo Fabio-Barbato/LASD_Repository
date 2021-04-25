@@ -100,6 +100,10 @@ void QueueVec<Data>::Enqueue(const Data& value){
       if(head == size){ //Se la head è arrivata alla fine del Vector
         head = 0;
       }
+      if(Empty()){
+        head=0;
+        tail=0;
+      }
 
 
       if(Size() == size/4){
