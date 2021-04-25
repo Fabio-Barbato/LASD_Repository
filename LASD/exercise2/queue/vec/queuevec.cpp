@@ -7,8 +7,8 @@ namespace lasd {
 template <typename Data>
 void QueueVec<Data>::Enqueue(const Data& value){
   if(size==0){ //Queue vuota
-    Elements = new Data[10] {};
-    size = 10;
+    Elements = new Data[2] {};
+    size = 2;
     Elements[0] = value;
     head = 0;
     tail = 1;
@@ -36,12 +36,11 @@ void QueueVec<Data>::Enqueue(const Data& value){
  template <typename Data>
  void QueueVec<Data>::Enqueue(Data&& value) noexcept{
    if(size==0){ //Queue vuota
-     Elements = new Data[10]{};
-     size = 10;
+     Elements = new Data[2]{};
+     size = 2;
      std::swap(Elements[0] , value);
-     head = 0;
+     head=0;
      tail = 1;
-     std::cout << Elements[0] << '\n';
    }
    else{ //Queue non piena
      std::swap(Elements[tail] , value);
@@ -60,7 +59,6 @@ void QueueVec<Data>::Enqueue(const Data& value){
        }
      }
    }
-   std::cout << Elements[tail]<< '\n';
   }
 
   //Head
@@ -98,12 +96,11 @@ void QueueVec<Data>::Enqueue(const Data& value){
       throw std::length_error("Empty");
     }
     else{
-      if(head == size-1){ //Se la head è arrivata alla fine del Vector
+      head++;
+      if(head == size){ //Se la head è arrivata alla fine del Vector
         head = 0;
       }
-      else{
-        head++;
-      }
+
 
       if(Size() == size/4){
         Reduce();
@@ -170,30 +167,34 @@ void QueueVec<Data>::Enqueue(const Data& value){
   bool QueueVec<Data>::operator==(const QueueVec<Data>& queue) const noexcept{
     if(Size()==queue.Size() && head == queue.head && tail == queue.tail){
       ulong index = head;
-      while (index<size && index != tail) {
-        if(Elements[index]!= queue.Elements[index]){
-          return false;
+      if(head<tail){
+        while (index<tail) {
+          if (Elements[index] != queue.Elements[index]) {
+            return false;
+          }
+          index++;
         }
-        index++;
-      }
-      if(index== tail){
         return true;
-      }
-      else{
-        index = 0;
-        while(index != tail){
-          if(Elements[index]!= queue.Elements[index]){
+      }else{
+        while (index<size) {
+          if (Elements[index] != queue.Elements[index]) {
+            return false;
+          }
+          index++;
+        }
+        index=0;
+        while (index<tail) {
+          if (Elements[index] != queue.Elements[index]) {
             return false;
           }
           index++;
         }
         return true;
       }
-    }
-    else{
-      return false;
-    }
+  }else{
+    return false;
   }
+}
 
   template <typename Data>
   bool QueueVec<Data>::operator!=(const QueueVec<Data>& queue) const noexcept{
@@ -205,8 +206,6 @@ void QueueVec<Data>::Enqueue(const Data& value){
   QueueVec<Data>::QueueVec(const LinearContainer<Data>& con){
     size = con.Size();
     Elements = new Data[size] {};
-    head = 0;
-    tail = head;
     for (ulong i = 0; i < con.Size(); i++) {
       Elements[i] = con[i];
       tail++;
