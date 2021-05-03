@@ -22,6 +22,9 @@ void QueueVec<Data>::Enqueue(const Data& value){
       }
       else{
         tail = 0;
+        if(head == tail+1){//Vector pieno
+          Expand();
+        }
       }
     }
     else{//tail non alla fine del Vector
@@ -51,6 +54,9 @@ void QueueVec<Data>::Enqueue(const Data& value){
        }
        else{
          tail = 0;
+         if(head == tail+1){//Vector pieno
+           Expand();
+         }
        }
      }
      else{//tail non alla fine del Vector
@@ -149,7 +155,7 @@ void QueueVec<Data>::Enqueue(const Data& value){
          }}
      std::swap(Elements, TmpElements);
      size = x;
-     tail=tail-head;
+     tail=i;
      head=0;
      delete[] TmpElements;
   }
