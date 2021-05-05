@@ -8,7 +8,9 @@
 
 #include "../iterator/iterator.hpp"
 
-// #include "..."
+#include "../queue/lst/queuelst.hpp"
+
+#include "../stack/lst/stacklst.hpp"
 
 /* ************************************************************************** */
 
@@ -17,7 +19,7 @@ namespace lasd {
 /* ************************************************************************** */
 
 template <typename Data>
-class BinaryTree { // Must extend InOrder/BreadthMappableContainer<Data> and InOrder/BreadthFoldableContainer<Data>
+class BinaryTree: virtual public InOrderMappableContainer<Data>, virtual public BreadthMappableContainer<Data>, virtual public InOrderFoldableContainer<Data>, virtual public BreadthFoldableContainer<Data> { // Must extend InOrder/BreadthMappableContainer<Data> and InOrder/BreadthFoldableContainer<Data>
 
 private:
 
@@ -25,9 +27,7 @@ private:
 
 protected:
 
-  // using InOrder/BreadthMappableContainer<Data>::???;
-
-  // ...
+  using BreadthMappableContainer<Data>::size;
 
 public:
 
@@ -39,71 +39,67 @@ public:
 
   protected:
 
-    // ...
+    // Comparison operators
+    bool operator==(const Node&) const noexcept; // Comparison of abstract types is possible, but should not be visible.
+    bool operator!=(const Node&) const noexcept; // Comparison of abstract types is possible, but should not be visible.
 
   public:
 
-    // friend class BinaryTree<Data>;
+    friend class BinaryTree<Data>;
 
     /* ********************************************************************** */
 
     // Destructor
-    // ~Node() specifiers
+    virtual ~Node() = default;
 
     /* ********************************************************************** */
 
     // Copy assignment
-    // type operator=(argument); // Copy assignment of abstract types should not be possible.
+    Node& operator=(const Node&) = delete; // Copy assignment of abstract types should not be possible.
 
     // Move assignment
-    // type operator=(argument); // Move assignment of abstract types should not be possible.
-
-    /* ********************************************************************** */
-
-    // Comparison operators
-    // type operator==(argument) specifiers; // Comparison of abstract types is possible, but should not be visible.
-    // type operator!=(argument) specifiers; // Comparison of abstract types is possible, but should not be visible.
+    Node& operator=(Node&&) = delete; // Move assignment of abstract types should not be possible.
 
     /* ********************************************************************** */
 
     // Specific member functions
 
-    // type Element() specifiers; // Mutable access to the element (concrete function should not throw exceptions)
-    // type Element() specifiers; // Immutable access to the element (concrete function should not throw exceptions)
+    virtual Data& Element() noexcept = 0; // Mutable access to the element (concrete function should not throw exceptions)
+    virtual Data& Element() const noexcept = 0; // Immutable access to the element (concrete function should not throw exceptions)
 
-    // type IsLeaf() specifiers; // (concrete function should not throw exceptions)
-    // type HasLeftChild() specifiers; // (concrete function should not throw exceptions)
-    // type HasRightChild() specifiers; // (concrete function should not throw exceptions)
+    virtual bool IsLeaf() const noexcept = 0; // (concrete function should not throw exceptions)
+    virtual bool HasLeftChild() const noexcept = 0; // (concrete function should not throw exceptions)
+    virtual bool HasRightChild() const noexcept = 0; // (concrete function should not throw exceptions)
 
-    // type LeftChild() specifiers; // (concrete function must throw std::out_of_range when not existent)
-    // type RightChild() specifiers; // (concrete function must throw std::out_of_range when not existent)
+    virtual Node& LeftChild() const = 0; // (concrete function must throw std::out_of_range when not existent)
+    virtual Node& RightChild() const = 0; // (concrete function must throw std::out_of_range when not existent)
 
   };
 
   /* ************************************************************************ */
 
   // Destructor
-  // ~BinaryTree() specifiers
+  virtual ~BinaryTree() = default;
 
   /* ************************************************************************ */
 
   // Copy assignment
-  // type operator=(argument); // Copy assignment of abstract types should not be possible.
+  BinaryTree<Data>& operator=(const BinaryTree<Data>&) = delete; // Copy assignment of abstract types should not be possible.
 
   // Move assignment
-  // type operator=(argument); // Move assignment of abstract types should not be possible.
+  BinaryTree<Data>& operator=(BinaryTree<Data>&&) noexcept = delete; // Move assignment of abstract types should not be possible.
 
   /* ************************************************************************ */
 
   // Comparison operators
-  // type operator==(argument) specifiers; // Comparison of abstract binary tree is possible.
-  // type operator!=(argument) specifiers; // Comparison of abstract binary tree is possible.
+  bool operator==(const BinaryTree<Data>&) const noexcept; // Comparison of abstract binary tree is possible.
+  bool operator!=(const BinaryTree<Data>&) const noexcept; // Comparison of abstract binary tree is possible.
 
   /* ************************************************************************ */
 
   // Specific member functions
 
-  // type Root() specifiers; // (concrete function must throw std::length_error when empty)
+  Node& Root() const; // (concrete function must throw std::length_error when empty)
 
   /* ************************************************************************ */
 
