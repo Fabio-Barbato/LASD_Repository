@@ -8,9 +8,9 @@
 
 #include "../iterator/iterator.hpp"
 
-#include "../queue/lst/queuelst.hpp"
+#include "../queue/vec/queuevec.hpp"
 
-#include "../stack/lst/stacklst.hpp"
+#include "../stack/vec/stackvec.hpp"
 
 /* ************************************************************************** */
 
@@ -186,7 +186,7 @@ protected:
 /* ************************************************************************** */
 
 template <typename Data>
-class BTPreOrderIterator { // Must extend ForwardIterator<Data>
+class BTPreOrderIterator: virtual public ForwardIterator<Data> { // Must extend ForwardIterator<Data>
 
 private:
 
@@ -194,53 +194,54 @@ private:
 
 protected:
 
-  // ...
+  struct BinaryTree<Data>::Node* node = nullptr;
+  StackVec<Data> stack;
 
 public:
 
   // Specific constructors
-  // BTPreOrderIterator(argument) specifiers; // An iterator over a given binary tree
+  BTPreOrderIterator(const BinaryTree<Data>&); // An iterator over a given binary tree
 
   /* ************************************************************************ */
 
   // Copy constructor
-  // BTPreOrderIterator(argument) specifiers;
+  BTPreOrderIterator(const BTPreOrderIterator<Data>&);
 
   // Move constructor
-  // BTPreOrderIterator(argument) specifiers;
+  BTPreOrderIterator(BTPreOrderIterator<Data>&&) noexcept;
 
   /* ************************************************************************ */
 
   // Destructor
-  // ~BTPreOrderIterator() specifiers;
+  ~BTPreOrderIterator();
 
   /* ************************************************************************ */
 
   // Copy assignment
-  // type operator=(argument) specifiers;
+  BTPreOrderIterator<Data>& operator=(const BTPreOrderIterator<Data>&);
 
   // Move assignment
-  // type operator=(argument) specifiers;
+  BTPreOrderIterator<Data>& operator=(BTPreOrderIterator<Data>&&) noexcept;
 
   /* ************************************************************************ */
 
   // Comparison operators
-  // type operator==(argument) specifiers;
-  // type operator!=(argument) specifiers;
+  bool operator==(const BTPreOrderIterator<Data>&) const noexcept;
+  bool operator!=(const BTPreOrderIterator<Data>&) const noexcept;
 
   /* ************************************************************************ */
 
   // Specific member functions (inherited from Iterator)
 
-  // type operator*() specifiers; // (throw std::out_of_range when terminated)
+  struct BinaryTree<Data>::Node& operator*() const; // (throw std::out_of_range when terminated)
 
-  // type Terminated() specifiers; // (should not throw exceptions)
+  bool Terminated() const noexcept; // (should not throw exceptions)
 
   /* ************************************************************************ */
 
   // Specific member functions (inherited from ForwardIterator)
 
-  // type operator++() specifiers; // (throw std::out_of_range when terminated)
+  struct BinaryTree<Data>::Node& operator++(); // (throw std::out_of_range when terminated)
 
 };
 

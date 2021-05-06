@@ -1,11 +1,14 @@
 
 #include "../queue/vec/queuevec.hpp"
 
-#include "../stack/lst/stacklst.hpp"
+#include "../stack/vec/stackvec.hpp"
 
 namespace lasd {
 
 /* ************************************************************************** */
+
+
+//Node
 
 //Comparison operator (Node)
 template <typename Data>
@@ -38,6 +41,12 @@ template <typename Data>
 bool BinaryTree<Data>::Node::operator!=(const Node& node) const noexcept{
   return !(*this == node);
 }
+
+
+/*  ************************************************************** */
+
+//BinaryTree
+
 
 //Comparison operator
 template <typename Data>
@@ -208,4 +217,107 @@ void BinaryTree<Data>::FoldInOrderAux(const FoldFunctor fun, Node* node, const v
 }
 /* ************************************************************************** */
 
+//BTPreOrderIterator
+
+//Specific constructor
+  template <typename Data>
+  BTPreOrderIterator<Data>::BTPreOrderIterator(const BinaryTree<Data>& bt){
+    node = bt.Root();
+    stack = new StackVec<Data>();
+  }
+
+//Copy constructor
+  template <typename Data>
+  BTPreOrderIterator<Data>::BTPreOrderIterator(const BTPreOrderIterator<Data>& it){
+    node = it.node;
+    stack = it.stack;
+  }
+
+  //Move constructor
+  template <typename Data>
+  BTPreOrderIterator<Data>::BTPreOrderIterator(BTPreOrderIterator<Data>&& it) noexcept{
+    std::swap(node, it.node);
+    std::swap(stack, it.stack);
+  }
+
+  //Destructor
+  template <typename Data>
+  BTPreOrderIterator<Data>::~BTPreOrderIterator(){
+    delete node;
+    delete stack;
+  }
+
+  //Copy assignment
+  template <typename Data>
+  BTPreOrderIterator<Data>& BTPreOrderIterator<Data>::operator=(const BTPreOrderIterator& it){
+    BTPreOrderIterator<Data>* it_tmp = new BTPreOrderIterator<Data>(it);
+    std::swap(*this, *it_tmp);
+    delete it_tmp;
+
+    return *this;
+  }
+
+  //Move assignment
+  template <typename Data>
+  BTPreOrderIterator<Data>& BTPreOrderIterator<Data>::operator=(BTPreOrderIterator&& it) noexcept {
+    std::swap(node, it.node);
+    std::swap(stack, it.stack);
+
+    return *this;
+  }
+
+  //Comparison operators
+  template <typename Data>
+  bool BTPreOrderIterator<Data>::operator==(const BTPreOrderIterator<Data>& it) const noexcept{
+    return node == it.node && stack == it.stack;
+  }
+
+  template <typename Data>
+  bool BTPreOrderIterator<Data>::operator!=(const BTPreOrderIterator<Data>& it) const noexcept{
+    return !(*this==it);
+  }
+
+  //Operator *
+  template <typename Data>
+  struct BinaryTree<Data>::Node& BTPreOrderIterator<Data>::operator*() const{
+    if(node == nullptr){
+      std::out_of_range("Out of range!");
+    }
+    else{
+      return *node;
+    }
+  }
+
+  //Terminated
+  template <typename Data>
+  bool BTPreOrderIterator<Data>::Terminated() const noexcept{
+    return (node == nullptr);
+  }
+
+  //Operator ++
+  template <typename Data>
+  struct BinaryTree<Data>::Node& BTPreOrderIterator<Data>::operator++() {
+    if(node != nullptr){
+      if(node.HasLeftChild()){
+        if(node.HasRightChild()){
+          stack.Push(node.RightChild());
+        }
+        node = node.LeftChild();
+      }
+      else if (node.HasRightChild()){
+        node = node.RightChild();
+      }
+      else{
+        if(!stack.Empty()){
+          node = stack.TopNPop();
+        }
+        else{
+          std::out_of_range("Out of range!");
+        }
+      }
+    }
+    else{
+      std::out_of_range("Out of range!");
+    }
+  }
 }
