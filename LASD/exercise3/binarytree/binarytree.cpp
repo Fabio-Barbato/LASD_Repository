@@ -325,13 +325,133 @@ void BinaryTree<Data>::FoldInOrderAux(const FoldFunctor fun, Node* node, const v
 
   //BTPostOrderIterator
 
+  //LeftMostLeaf
+  template <typename Data>
+  struct BinaryTree<Data>::Node& BTPostOrderIterator<Data>::LeftMostLeaf(struct BinaryTree<Data>::Node& node) const noexcept{
+    if(node.HasLeftChild()){
+      stack.Push(node);
+      LeftMostLeaf(node.LeftChild());
+    }
+    if(node.HasRightChild()){
+      stack.Push(node);
+      LeftMostLeaf(node.RightChild());
+    }
+
+    return node;
+  }
+
+  //Specific constructor
+    template <typename Data>
+    BTInOrderIterator<Data>::BTInOrderIterator(const BinaryTree<Data>& bt){
+      stack = new StackVec<Data>();
+      node = LeftMostLeaf(bt.Root());
+    }
+
+  //Copy constructor
+    template <typename Data>
+    BTInOrderIterator<Data>::BTInOrderIterator(const BTInOrderIterator<Data>& it){
+      node = it.node;
+      stack = it.stack;
+    }
+
+    //Move constructor
+    template <typename Data>
+    BTInOrderIterator<Data>::BTInOrderIterator(BTInOrderIterator<Data>&& it) noexcept{
+      std::swap(node, it.node);
+      std::swap(stack, it.stack);
+    }
+
+    //Destructor
+    template <typename Data>
+    BTInOrderIterator<Data>::~BTInOrderIterator(){
+      delete node;
+      delete stack;
+    }
+
+    //Copy assignment
+    template <typename Data>
+    BTInOrderIterator<Data>& BTInOrderIterator<Data>::operator=(const BTInOrderIterator& it){
+      BTInOrderIterator<Data>* it_tmp = new BTInOrderIterator<Data>(it);
+      std::swap(*this, *it_tmp);
+      delete it_tmp;
+
+      return *this;
+    }
+
+    //Move assignment
+    template <typename Data>
+    BTInOrderIterator<Data>& BTInOrderIterator<Data>::operator=(BTInOrderIterator&& it) noexcept {
+      std::swap(node, it.node);
+      std::swap(stack, it.stack);
+
+      return *this;
+    }
+
+    //Comparison operators
+    template <typename Data>
+    bool BTInOrderIterator<Data>::operator==(const BTInOrderIterator<Data>& it) const noexcept{
+      return node == it.node && stack == it.stack;
+    }
+
+    template <typename Data>
+    bool BTInOrderIterator<Data>::operator!=(const BTInOrderIterator<Data>& it) const noexcept{
+      return !(*this==it);
+    }
+
+    //Operator *
+    template <typename Data>
+    struct BinaryTree<Data>::Node& BTInOrderIterator<Data>::operator*() const{
+      if(node == nullptr){
+        std::out_of_range("Out of range!");
+      }
+      else{
+        return *node;
+      }
+    }
+
+    //Terminated
+    template <typename Data>
+    bool BTInOrderIterator<Data>::Terminated() const noexcept{
+      return (node == nullptr);
+    }
+
+    //Operator ++
+    template <typename Data>
+    struct BinaryTree<Data>::Node& BTInOrderIterator<Data>::operator++(){
+      if(node!=nullptr){
+        if(stack.Empty()){
+          std::out_of_range("Out of range!");
+        }
+        else{
+          Node* tmp = stack.Top();
+          if(tmp.HasLeftChild()){
+            if(node == tmp.LeftChild()){
+              node = LeftMostLeaf(tmp.RightChild());
+            }
+            else{
+              if(stack.Empty()){
+                std::out_of_range("Out of range!");
+              }
+              else{
+                node = stack.TopNPop();
+              }
+            }
+          }
+          else{
+            node = stack.TopNPop();
+          }
+
+        }
+      }
+    }
+
 
   /*  ************************************************************************* */
 
   //BTInOrderIterator
 
 
-  //LeftMostLeaf
+  //LeftMostChild
   template <typename Data>
   struct BinaryTree<Data>::Node& BTInOrderIterator<Data>::LeftMostChild(struct BinaryTree<Data>::Node& node) const noexcept{
     if(node.HasLeftChild()){
@@ -345,7 +465,7 @@ void BinaryTree<Data>::FoldInOrderAux(const FoldFunctor fun, Node* node, const v
     template <typename Data>
     BTInOrderIterator<Data>::BTInOrderIterator(const BinaryTree<Data>& bt){
       stack = new StackVec<Data>();
-      node = LeftMostLeaf(bt.Root());
+      node = LeftMostChild(bt.Root());
     }
 
   //Copy constructor
@@ -424,7 +544,13 @@ void BinaryTree<Data>::FoldInOrderAux(const FoldFunctor fun, Node* node, const v
           node = node.LeftMostChild(node.RightChild());
         }
         else{
-          node = stack.TopNPop();
+          if(!stack.Empty()){
+            node = stack.TopNPop();
+          }
+          else{
+            std::out_of_range("Out of range!");
+          }
+
         }
       }
       else{
