@@ -279,7 +279,7 @@ void BinaryTree<Data>::FoldInOrderAux(const FoldFunctor fun, Node* node, const v
 
   //Operator *
   template <typename Data>
-  struct BinaryTree<Data>::Node& BTPreOrderIterator<Data>::operator*() const{
+  Data& BTPreOrderIterator<Data>::operator*() const{
     if(node == nullptr){
       std::out_of_range("Out of range!");
     }
@@ -342,36 +342,36 @@ void BinaryTree<Data>::FoldInOrderAux(const FoldFunctor fun, Node* node, const v
 
   //Specific constructor
     template <typename Data>
-    BTInOrderIterator<Data>::BTInOrderIterator(const BinaryTree<Data>& bt){
+    BTPostOrderIterator<Data>::BTPostOrderIterator(const BinaryTree<Data>& bt){
       stack = new StackVec<Data>();
       node = LeftMostLeaf(bt.Root());
     }
 
   //Copy constructor
     template <typename Data>
-    BTInOrderIterator<Data>::BTInOrderIterator(const BTInOrderIterator<Data>& it){
+    BTPostOrderIterator<Data>::BTPostOrderIterator(const BTPostOrderIterator<Data>& it){
       node = it.node;
       stack = it.stack;
     }
 
     //Move constructor
     template <typename Data>
-    BTInOrderIterator<Data>::BTInOrderIterator(BTInOrderIterator<Data>&& it) noexcept{
+    BTPostOrderIterator<Data>::BTPostOrderIterator(BTPostOrderIterator<Data>&& it) noexcept{
       std::swap(node, it.node);
       std::swap(stack, it.stack);
     }
 
     //Destructor
     template <typename Data>
-    BTInOrderIterator<Data>::~BTInOrderIterator(){
+    BTPostOrderIterator<Data>::~BTPostOrderIterator(){
       delete node;
       delete stack;
     }
 
     //Copy assignment
     template <typename Data>
-    BTInOrderIterator<Data>& BTInOrderIterator<Data>::operator=(const BTInOrderIterator& it){
-      BTInOrderIterator<Data>* it_tmp = new BTInOrderIterator<Data>(it);
+    BTPostOrderIterator<Data>& BTPostOrderIterator<Data>::operator=(const BTPostOrderIterator& it){
+      BTPostOrderIterator<Data>* it_tmp = new BTPostOrderIterator<Data>(it);
       std::swap(*this, *it_tmp);
       delete it_tmp;
 
@@ -380,7 +380,7 @@ void BinaryTree<Data>::FoldInOrderAux(const FoldFunctor fun, Node* node, const v
 
     //Move assignment
     template <typename Data>
-    BTInOrderIterator<Data>& BTInOrderIterator<Data>::operator=(BTInOrderIterator&& it) noexcept {
+    BTPostOrderIterator<Data>& BTPostOrderIterator<Data>::operator=(BTPostOrderIterator&& it) noexcept {
       std::swap(node, it.node);
       std::swap(stack, it.stack);
 
@@ -389,18 +389,18 @@ void BinaryTree<Data>::FoldInOrderAux(const FoldFunctor fun, Node* node, const v
 
     //Comparison operators
     template <typename Data>
-    bool BTInOrderIterator<Data>::operator==(const BTInOrderIterator<Data>& it) const noexcept{
+    bool BTPostOrderIterator<Data>::operator==(const BTPostOrderIterator<Data>& it) const noexcept{
       return node == it.node && stack == it.stack;
     }
 
     template <typename Data>
-    bool BTInOrderIterator<Data>::operator!=(const BTInOrderIterator<Data>& it) const noexcept{
+    bool BTPostOrderIterator<Data>::operator!=(const BTPostOrderIterator<Data>& it) const noexcept{
       return !(*this==it);
     }
 
     //Operator *
     template <typename Data>
-    struct BinaryTree<Data>::Node& BTInOrderIterator<Data>::operator*() const{
+    Data& BTPostOrderIterator<Data>::operator*() const{
       if(node == nullptr){
         std::out_of_range("Out of range!");
       }
@@ -411,19 +411,19 @@ void BinaryTree<Data>::FoldInOrderAux(const FoldFunctor fun, Node* node, const v
 
     //Terminated
     template <typename Data>
-    bool BTInOrderIterator<Data>::Terminated() const noexcept{
+    bool BTPostOrderIterator<Data>::Terminated() const noexcept{
       return (node == nullptr);
     }
 
     //Operator ++
     template <typename Data>
-    struct BinaryTree<Data>::Node& BTInOrderIterator<Data>::operator++(){
+    struct BinaryTree<Data>::Node& BTPostOrderIterator<Data>::operator++(){
       if(node!=nullptr){
         if(stack.Empty()){
           std::out_of_range("Out of range!");
         }
         else{
-          Node* tmp = stack.Top();
+          struct BinaryTree<Data>::Node* tmp = stack.Top();
           if(tmp.HasLeftChild()){
             if(node == tmp.LeftChild()){
               node = LeftMostLeaf(tmp.RightChild());
@@ -521,7 +521,7 @@ void BinaryTree<Data>::FoldInOrderAux(const FoldFunctor fun, Node* node, const v
 
     //Operator *
     template <typename Data>
-    struct BinaryTree<Data>::Node& BTInOrderIterator<Data>::operator*() const{
+    Data& BTInOrderIterator<Data>::operator*() const{
       if(node == nullptr){
         std::out_of_range("Out of range!");
       }
@@ -557,4 +557,101 @@ void BinaryTree<Data>::FoldInOrderAux(const FoldFunctor fun, Node* node, const v
         std::out_of_range("Out of range!");
       }
     }
+
+
+/*    ************************************************************************* */
+
+//BTBreadthIterator
+
+//Specific constructor
+  template <typename Data>
+  BTBreadthIterator<Data>::BTBreadthIterator(const BinaryTree<Data>& bt){
+    queue = new QueueVec<Data>();
+    node = bt.Root();
+  }
+
+//Copy constructor
+  template <typename Data>
+  BTBreadthIterator<Data>::BTBreadthIterator(const BTBreadthIterator<Data>& it){
+    node = it.node;
+    queue = it.queue;
+  }
+
+  //Move constructor
+  template <typename Data>
+  BTBreadthIterator<Data>::BTBreadthIterator(BTBreadthIterator<Data>&& it) noexcept{
+    std::swap(node, it.node);
+    std::swap(queue, it.queue);
+  }
+
+  //Destructor
+  template <typename Data>
+  BTBreadthIterator<Data>::~BTBreadthIterator(){
+    delete node;
+    delete queue;
+  }
+
+  //Copy assignment
+  template <typename Data>
+  BTBreadthIterator<Data>& BTBreadthIterator<Data>::operator=(const BTBreadthIterator& it){
+    BTBreadthIterator<Data>* it_tmp = new BTBreadthIterator<Data>(it);
+    std::swap(*this, *it_tmp);
+    delete it_tmp;
+
+    return *this;
+  }
+
+  //Move assignment
+  template <typename Data>
+  BTBreadthIterator<Data>& BTBreadthIterator<Data>::operator=(BTBreadthIterator&& it) noexcept {
+    std::swap(node, it.node);
+    std::swap(queue, it.queue);
+
+    return *this;
+  }
+
+  //Comparison operators
+  template <typename Data>
+  bool BTBreadthIterator<Data>::operator==(const BTBreadthIterator<Data>& it) const noexcept{
+    return node == it.node && queue == it.queue;
+  }
+
+  template <typename Data>
+  bool BTBreadthIterator<Data>::operator!=(const BTBreadthIterator<Data>& it) const noexcept{
+    return !(*this==it);
+  }
+
+  //Operator *
+  template <typename Data>
+  Data& BTBreadthIterator<Data>::operator*() const{
+    if(node == nullptr){
+      std::out_of_range("Out of range!");
+    }
+    else{
+      return *node;
+    }
+  }
+
+  //Terminated
+  template <typename Data>
+  bool BTBreadthIterator<Data>::Terminated() const noexcept{
+    return (node == nullptr);
+  }
+
+  //Operator ++
+  template <typename Data>
+  struct BinaryTree<Data>::Node& BTBreadthIterator<Data>::operator++() {
+    if(node!=nullptr){
+      if(node.HasLeftChild()){
+        queue.Enqueue(node.LeftChild());
+      }
+      if(node.HasRightChild()){
+        queue.Enqueue(node.RightChild());
+      }
+      node = queue.HeadNDequeue();
+    }
+    else{
+      std::out_of_range("Out of range!");
+    }
+  }
 }
