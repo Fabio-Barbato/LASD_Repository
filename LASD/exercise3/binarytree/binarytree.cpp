@@ -281,7 +281,7 @@ void BinaryTree<Data>::FoldInOrderAux(const FoldFunctor fun, Node* node, const v
   template <typename Data>
   Data& BTPreOrderIterator<Data>::operator*() const{
     if(node == nullptr){
-      std::out_of_range("Out of range!");
+      throw std::out_of_range("Out of range!");
     }
     else{
       return node.Element();
@@ -312,13 +312,15 @@ void BinaryTree<Data>::FoldInOrderAux(const FoldFunctor fun, Node* node, const v
           node = &stack.TopNPop();
         }
         else{
-          std::out_of_range("Out of range!");
+          throw std::out_of_range("Out of range!");
         }
       }
     }
     else{
-      std::out_of_range("Out of range!");
+      throw std::out_of_range("Out of range!");
     }
+
+    return node;
   }
 
   /*  ******************************************************************** */
@@ -402,7 +404,7 @@ void BinaryTree<Data>::FoldInOrderAux(const FoldFunctor fun, Node* node, const v
     template <typename Data>
     Data& BTPostOrderIterator<Data>::operator*() const{
       if(node == nullptr){
-        std::out_of_range("Out of range!");
+        throw std::out_of_range("Out of range!");
       }
       else{
         return node.Element();
@@ -420,7 +422,7 @@ void BinaryTree<Data>::FoldInOrderAux(const FoldFunctor fun, Node* node, const v
     struct BinaryTree<Data>::Node& BTPostOrderIterator<Data>::operator++(){
       if(node!=nullptr){
         if(stack.Empty()){
-          std::out_of_range("Out of range!");
+          throw std::out_of_range("Out of range!");
         }
         else{
           struct BinaryTree<Data>::Node* tmp = stack.Top();
@@ -430,7 +432,7 @@ void BinaryTree<Data>::FoldInOrderAux(const FoldFunctor fun, Node* node, const v
             }
             else{
               if(stack.Empty()){
-                std::out_of_range("Out of range!");
+                throw std::out_of_range("Out of range!");
               }
               else{
                 node = &stack.TopNPop();
@@ -443,6 +445,7 @@ void BinaryTree<Data>::FoldInOrderAux(const FoldFunctor fun, Node* node, const v
 
         }
       }
+      return node;
     }
 
 
@@ -523,7 +526,7 @@ void BinaryTree<Data>::FoldInOrderAux(const FoldFunctor fun, Node* node, const v
     template <typename Data>
     Data& BTInOrderIterator<Data>::operator*() const{
       if(node == nullptr){
-        std::out_of_range("Out of range!");
+        throw std::out_of_range("Out of range!");
       }
       else{
         return node.Element();
@@ -548,14 +551,16 @@ void BinaryTree<Data>::FoldInOrderAux(const FoldFunctor fun, Node* node, const v
             node = &stack.TopNPop();
           }
           else{
-            std::out_of_range("Out of range!");
+            throw std::out_of_range("Out of range!");
           }
 
         }
       }
       else{
-        std::out_of_range("Out of range!");
+        throw std::out_of_range("Out of range!");
       }
+
+      return node;
     }
 
 
@@ -625,7 +630,7 @@ void BinaryTree<Data>::FoldInOrderAux(const FoldFunctor fun, Node* node, const v
   template <typename Data>
   Data& BTBreadthIterator<Data>::operator*() const{
     if(node == nullptr){
-      std::out_of_range("Out of range!");
+      throw std::out_of_range("Out of range!");
     }
     else{
       return node.Element();
@@ -651,7 +656,9 @@ void BinaryTree<Data>::FoldInOrderAux(const FoldFunctor fun, Node* node, const v
       node = &queue.HeadNDequeue();
     }
     else{
-      std::out_of_range("Out of range!");
+      throw std::out_of_range("Out of range!");
     }
+
+    return node;
   }
 }

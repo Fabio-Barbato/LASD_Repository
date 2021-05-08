@@ -58,7 +58,7 @@ public:
     Node& operator=(const Node&) = delete; // Copy assignment of abstract types should not be possible.
 
     // Move assignment
-    Node& operator=(Node&&) = delete; // Move assignment of abstract types should not be possible.
+    Node& operator=(Node&&) noexcept = delete; // Move assignment of abstract types should not be possible.
 
     /* ********************************************************************** */
 
