@@ -18,7 +18,7 @@ bool BinaryTree<Data>::Node::operator==(const Node& node) const noexcept{
     }
     else{
       if(HasLeftChild() == node.HasLeftChild()){
-        if(HasLeftChild){
+        if(HasLeftChild()){
           LeftChild() == node.LeftChild();
         }
       }
@@ -26,7 +26,7 @@ bool BinaryTree<Data>::Node::operator==(const Node& node) const noexcept{
         return false;
       }
       if(HasRightChild() == node.HasRightChild()){
-        if(HasRightChild){
+        if(HasRightChild()){
           RightChild() == node.RightChild();
         }
       }
@@ -63,8 +63,8 @@ bool BinaryTree<Data>::operator!=(const BinaryTree<Data>& bt) const noexcept{
 template <typename Data>
 void BinaryTree<Data>::MapPreOrder(const MapFunctor fun, void* par) {
   if(size!=0){
-    Node* tmp = Root();
-    MapPreOrderAux(&fun, &tmp, &par);
+    Node* tmp = &Root();
+    MapPreOrderAux(fun, tmp, par);
   }
 }
 
@@ -72,8 +72,8 @@ void BinaryTree<Data>::MapPreOrder(const MapFunctor fun, void* par) {
 template <typename Data>
 void BinaryTree<Data>::MapPostOrder(const MapFunctor fun, void* par) {
   if(size!=0){
-    Node* tmp = Root();
-    MapPostOrderAux(&fun, &tmp, &par);
+    Node* tmp = &Root();
+    MapPostOrderAux(fun, tmp, par);
   }
 }
 
@@ -81,8 +81,8 @@ void BinaryTree<Data>::MapPostOrder(const MapFunctor fun, void* par) {
 template <typename Data>
 void BinaryTree<Data>::MapInOrder(const MapFunctor fun, void* par) {
   if(size!=0){
-    Node* tmp = Root();
-    MapInOrderAux(&fun, &tmp, &par);
+    Node* tmp = &Root();
+    MapInOrderAux(fun, tmp, par);
   }
 }
 
@@ -90,8 +90,17 @@ void BinaryTree<Data>::MapInOrder(const MapFunctor fun, void* par) {
 template <typename Data>
 void BinaryTree<Data>::FoldPreOrder(const FoldFunctor fun, const void* par, void* acc) const{
   if(size!=0){
-    Node* tmp = Root();
-    FoldPreOrderAux(&fun, &tmp, &par, &acc);
+    Node* tmp = &Root();
+    FoldPreOrderAux(fun, tmp, par, acc);
+  }
+}
+
+//FoldInOrder
+template <typename Data>
+void BinaryTree<Data>::FoldInOrder(const FoldFunctor fun, const void* par, void* acc) const{
+  if(size!=0){
+    Node* tmp = &Root();
+    FoldInOrderAux(fun, tmp, par, acc);
   }
 }
 
@@ -99,8 +108,8 @@ void BinaryTree<Data>::FoldPreOrder(const FoldFunctor fun, const void* par, void
 template <typename Data>
 void BinaryTree<Data>::FoldPostOrder(const FoldFunctor fun, const void* par, void* acc) const{
   if(size!=0){
-    Node* tmp = Root();
-    FoldPostOrderAux(&fun, &tmp, &par, &acc);
+    Node* tmp = &Root();
+    FoldPostOrderAux(fun, tmp, par, acc);
   }
 }
 
@@ -108,19 +117,19 @@ void BinaryTree<Data>::FoldPostOrder(const FoldFunctor fun, const void* par, voi
 template <typename Data>
 void BinaryTree<Data>::MapBreadth(const MapFunctor fun, void* par){
   if(size!=0){
-    Node* tmp = Root();
-    QueueVec<Node*> queue = new QueueVec<Node*>();
+    Node* tmp = &Root();
+    QueueVec<Node*>* queue = new QueueVec<Node*>();
     do {
-      fun(&tmp, par);
-      if(tmp.HasLeftChild()){
-        queue.Enqueue(tmp.LeftChild());
+      fun(tmp->Element(), par);
+      if(tmp->HasLeftChild()){
+        queue->Enqueue(&tmp->LeftChild());
       }
-      if(tmp.HasRightChild()){
-        queue.Enqueue(tmp.RightChild());
+      if(tmp->HasRightChild()){
+        queue->Enqueue(&tmp->RightChild());
       }
-      tmp = &queue.HeadNDequeue();
-    } while (!queue.Empty());
-    fun(&tmp, par);
+      tmp = queue->HeadNDequeue();
+    } while (!queue->Empty());
+    fun(tmp->Element(), par);
   }
 }
 
@@ -128,91 +137,91 @@ void BinaryTree<Data>::MapBreadth(const MapFunctor fun, void* par){
 template <typename Data>
 void BinaryTree<Data>::FoldBreadth(const FoldFunctor fun, const void* par, void* acc) const{
   if(size!=0){
-    Node* tmp = Root();
-    QueueVec<Node*> queue = new QueueVec<Node*>();
+    Node* tmp = &Root();
+    QueueVec<Node*>* queue = new QueueVec<Node*>();
     do {
-      fun(&tmp, par, acc);
-      if(tmp.HasLeftChild()){
-        queue.Enqueue(tmp.LeftChild());
+      fun(tmp->Element(), par, acc);
+      if(tmp->HasLeftChild()){
+        queue->Enqueue(&tmp->LeftChild());
       }
-      if(tmp.HasRightChild()){
-        queue.Enqueue(tmp.RightChild());
+      if(tmp->HasRightChild()){
+        queue->Enqueue(&tmp->RightChild());
       }
-      tmp = &queue.HeadNDequeue();
-    } while (!queue.Empty());
-    fun(&tmp, par, acc);
+      tmp = queue->HeadNDequeue();
+    } while (!queue->Empty());
+    fun(tmp->Element(), par, acc);
   }
 }
 
 //MapPreOrderAux
 template <typename Data>
 void BinaryTree<Data>::MapPreOrderAux(const MapFunctor fun, Node* node, void* par) {
-  fun(&node, par);
-  if(node.HasLeftChild()){
-    MapPreOrderAux(&fun, node.LeftChild(), &par);
+  fun(node->Element(), par);
+  if(node->HasLeftChild()){
+    MapPreOrderAux(fun, &node->LeftChild(), par);
   }
-  if(node.HasRightChild()){
-    MapPreOrderAux(&fun, node.RightChild(), &par);
+  if(node->HasRightChild()){
+    MapPreOrderAux(fun, &node->RightChild(), par);
   }
 }
 
 //MapPostOrderAux
 template <typename Data>
 void BinaryTree<Data>::MapPostOrderAux(const MapFunctor fun, Node* node, void* par) {
-  if(node.HasLeftChild()){
-    MapPostOrderAux(&fun, node.LeftChild(), &par);
+  if(node->HasLeftChild()){
+    MapPostOrderAux(fun, &node->LeftChild(), par);
   }
-  if(node.HasRightChild()){
-    MapPostOrderAux(&fun, node.RightChild(), &par);
+  if(node->HasRightChild()){
+    MapPostOrderAux(fun, &node->RightChild(), par);
   }
-  fun(&node, par);
+  fun(node->Element(), par);
 }
 
 //MapInOrderAux
 template <typename Data>
 void BinaryTree<Data>::MapInOrderAux(const MapFunctor fun, Node* node, void* par) {
-  if(node.HasLeftChild()){
-    MapInOrderAux(&fun, node.LeftChild(), &par);
+  if(node->HasLeftChild()){
+    MapInOrderAux(fun, &node->LeftChild(), par);
   }
-  fun(&node, par);
-  if(node.HasRightChild()){
-    MapInOrderAux(&fun, node.RightChild(), &par);
+  fun(node->Element(), par);
+  if(node->HasRightChild()){
+    MapInOrderAux(fun, &node->RightChild(), par);
   }
 }
 
 //FoldPreOrderAux
 template <typename Data>
 void BinaryTree<Data>::FoldPreOrderAux(const FoldFunctor fun, Node* node, const void* par, void* acc) const{
-  fun(&node, par);
-  if(node.HasLeftChild()){
-    FoldPreOrderAux(&fun, node.LeftChild(), &par, &acc);
+  fun(node->Element(), par, acc);
+  if(node->HasLeftChild()){
+    FoldPreOrderAux(fun, &node->LeftChild(), par, acc);
   }
-  if(node.HasRightChild()){
-    FoldPreOrderAux(&fun, node.RightChild(), &par, &acc);
+  if(node->HasRightChild()){
+    FoldPreOrderAux(fun, &node->RightChild(), par, acc);
   }
 }
 
 //FoldPostOrderAux
 template <typename Data>
 void BinaryTree<Data>::FoldPostOrderAux(const FoldFunctor fun, Node* node, const void* par, void* acc) const{
-  if(node.HasLeftChild()){
-    FoldPostOrderAux(&fun, node.LeftChild(), &par, &acc);
+  if(node->HasLeftChild()){
+    FoldPostOrderAux(fun, &node->LeftChild(), par, acc);
   }
-  if(node.HasRightChild()){
-    FoldPostOrderAux(&fun, node.RightChild(), &par, &acc);
+  if(node->HasRightChild()){
+    FoldPostOrderAux(fun, &node->RightChild(), par, acc);
   }
-  fun(&node, par);
+  fun(node->Element(), par, acc);
 }
 
 //FoldInOrderAux
 template <typename Data>
 void BinaryTree<Data>::FoldInOrderAux(const FoldFunctor fun, Node* node, const void* par, void* acc) const{
-  if(node.HasLeftChild()){
-    FoldInOrderAux(&fun, node.LeftChild(), &par, &acc);
+  if(node->HasLeftChild()){
+    FoldInOrderAux(fun, &node->LeftChild(), par, acc);
   }
-  fun(&node, par);
-  if(node.HasRightChild()){
-    FoldInOrderAux(&fun, node.RightChild(), &par, &acc);
+  fun(node->Element(), par, acc);
+  if(node->HasRightChild()){
+    FoldInOrderAux(fun, &node->RightChild(), par, acc);
   }
 }
 /* ************************************************************************** */
@@ -244,7 +253,6 @@ void BinaryTree<Data>::FoldInOrderAux(const FoldFunctor fun, Node* node, const v
   template <typename Data>
   BTPreOrderIterator<Data>::~BTPreOrderIterator(){
     delete node;
-    delete stack;
   }
 
   //Copy assignment
@@ -367,7 +375,6 @@ void BinaryTree<Data>::FoldInOrderAux(const FoldFunctor fun, Node* node, const v
     template <typename Data>
     BTPostOrderIterator<Data>::~BTPostOrderIterator(){
       delete node;
-      delete stack;
     }
 
     //Copy assignment
@@ -426,9 +433,9 @@ void BinaryTree<Data>::FoldInOrderAux(const FoldFunctor fun, Node* node, const v
         }
         else{
           struct BinaryTree<Data>::Node* tmp = stack.Top();
-          if(tmp.HasLeftChild()){
-            if(node == tmp.LeftChild()){
-              node = LeftMostLeaf(tmp.RightChild());
+          if(tmp->HasLeftChild()){
+            if(node == tmp->LeftChild()){
+              node = LeftMostLeaf(tmp->RightChild());
             }
             else{
               if(stack.Empty()){
@@ -464,6 +471,7 @@ void BinaryTree<Data>::FoldInOrderAux(const FoldFunctor fun, Node* node, const v
 
     return node;
   }
+
   //Specific constructor
     template <typename Data>
     BTInOrderIterator<Data>::BTInOrderIterator(const BinaryTree<Data>& bt){
@@ -489,7 +497,6 @@ void BinaryTree<Data>::FoldInOrderAux(const FoldFunctor fun, Node* node, const v
     template <typename Data>
     BTInOrderIterator<Data>::~BTInOrderIterator(){
       delete node;
-      delete stack;
     }
 
     //Copy assignment
@@ -593,7 +600,6 @@ void BinaryTree<Data>::FoldInOrderAux(const FoldFunctor fun, Node* node, const v
   template <typename Data>
   BTBreadthIterator<Data>::~BTBreadthIterator(){
     delete node;
-    delete queue;
   }
 
   //Copy assignment

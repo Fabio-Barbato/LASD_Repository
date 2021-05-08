@@ -54,13 +54,13 @@ namespace lasd {
   // Mutable access to the element
   template <typename Data>
   Data& BinaryTreeLnk<Data>::NodeLnk::Element() noexcept{
-    return &info;
+    return info;
   }
 
   // Immutable access to the element
   template <typename Data>
-  Data& BinaryTreeLnk<Data>::NodeLnk::Element() const noexcept{
-    return &info;
+  const Data& BinaryTreeLnk<Data>::NodeLnk::Element() const noexcept{
+    return info;
   }
 
   //IsLeaf
@@ -88,7 +88,7 @@ namespace lasd {
       throw std::out_of_range("Out of range!");
     }
     else{
-      return &left;
+      return *left;
     }
   }
 
@@ -99,7 +99,7 @@ namespace lasd {
       throw std::out_of_range("Out of range!");
     }
     else{
-      return &right;
+      return *right;
     }
   }
 
@@ -176,7 +176,7 @@ struct BinaryTreeLnk<Data>::NodeLnk& BinaryTreeLnk<Data>::Root() const{
     throw std::length_error("Empty");
   }
   else{
-    return root;
+    return *root;
   }
 }
 

@@ -76,7 +76,7 @@ void stestBinaryTreeInt(uint& testnum, uint& testerr) {
   testnum += loctestnum;
   testerr += loctesterr;
 }
-
+/*
 void stestBinaryTreeFloat(lasd::BinaryTree<double>& bt, uint& testnum, uint& testerr) {
   uint loctestnum = 0, loctesterr = 0;
   try {
@@ -144,7 +144,7 @@ void stestBinaryTreeFloat(uint& testnum, uint& testerr) {
 
     /*lasd::BinaryTreeVec<double> btvec(lst);
     cout << endl << "Begin of BinaryTreeVec<double> Test:" << endl;
-    stestBinaryTreeFloat(btvec, loctestnum, loctesterr);*/
+    stestBinaryTreeFloat(btvec, loctestnum, loctesterr);*
     lasd::BinaryTreeLnk<double> btlnk(lst);
     cout << endl << "Begin of BinaryTreeLnk<double> Test:" << endl;
     stestBinaryTreeFloat(btlnk, loctestnum, loctesterr);
@@ -154,7 +154,7 @@ void stestBinaryTreeFloat(uint& testnum, uint& testerr) {
     Empty(loctestnum, loctesterr, btvec, true);
     EqualTrees(loctestnum, loctesterr, copbtvec, btvec, false);
     btvec = copbtvec;
-    EqualTrees(loctestnum, loctesterr, copbtvec, btvec, true);*/
+    EqualTrees(loctestnum, loctesterr, copbtvec, btvec, true);*
 
     lasd::BinaryTreeLnk<double> copbtlnk(move(btlnk));
     Empty(loctestnum, loctesterr, btlnk, true);
@@ -199,7 +199,7 @@ void stestBinaryTreeString(uint& testnum, uint& testerr) {
     /*cout << endl << "Begin of BinaryTreeVec<string> Test:" << endl;
     lasd::BinaryTreeVec<string> btvec(vec);
     stestBinaryTreeString(btvec, loctestnum, loctesterr);
-    cout << endl << "Begin of BinaryTreeVec<string> Test:" << endl;*/
+    cout << endl << "Begin of BinaryTreeVec<string> Test:" << endl;*
     lasd::BinaryTreeLnk<string> btlnk(vec);
     stestBinaryTreeString(btlnk, loctestnum, loctesterr);
     cout << "\n";
@@ -211,7 +211,7 @@ void stestBinaryTreeString(uint& testnum, uint& testerr) {
     EqualTrees(loctestnum, loctesterr, btvec, btlnk, false);
     btvec.Root().RightChild().Element() = string("X");
     btlnk.Root().LeftChild().LeftChild().Element() = string("S");
-    EqualTrees(loctestnum, loctesterr, btlnk, btvec, true);*/
+    EqualTrees(loctestnum, loctesterr, btlnk, btvec, true);*
   } catch(...) {
     loctestnum++; loctesterr++;
     cout << endl << "Unmanaged error! " << endl;
@@ -225,7 +225,7 @@ void stestBinaryTreeString(uint& testnum, uint& testerr) {
 void testSimpleExercise3() {
   uint testnum = 0, testerr = 0;
   stestBinaryTreeInt(testnum, testerr);
-  stestBinaryTreeFloat(testnum, testerr);
-  stestBinaryTreeString(testnum, testerr);
+  //stestBinaryTreeFloat(testnum, testerr);
+  //stestBinaryTreeString(testnum, testerr);
   cout << endl << "Exercise 3 (Simple Test) (Errors/Tests: " << testerr << "/" << testnum << ")" << endl;
 }

@@ -37,10 +37,10 @@ protected:
     NodeLnk* left = nullptr;
     NodeLnk* right = nullptr;
 
+  public:
+
     //Specific constructor
     NodeLnk(const LinearContainer<Data>&, ulong);
-
-  public:
 
     // Destructor
     ~NodeLnk();
@@ -58,7 +58,7 @@ protected:
     // Specific member functions
 
    Data& Element() noexcept; // Mutable access to the element (concrete function should not throw exceptions)
-   Data& Element() const noexcept; // Immutable access to the element (concrete function should not throw exceptions)
+   const Data& Element() const noexcept; // Immutable access to the element (concrete function should not throw exceptions)
 
    bool IsLeaf() const noexcept; // (concrete function should not throw exceptions)
    bool HasLeftChild() const noexcept; // (concrete function should not throw exceptions)
