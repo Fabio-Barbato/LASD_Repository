@@ -113,6 +113,7 @@ template <typename Data>
 BinaryTreeLnk<Data>::BinaryTreeLnk(const LinearContainer<Data>& con){
   if(con.Size()>0){
     root = new NodeLnk(con, 0);
+    size = con.Size();
   }
 }
 

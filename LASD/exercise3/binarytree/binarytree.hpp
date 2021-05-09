@@ -147,27 +147,27 @@ protected:
 
   // Auxiliary member functions (for MappableContainer)
 
-  void MapPreOrderAux(const MapFunctor, Node*, void*); // Accessory function executing from one node of the tree
-  void MapPostOrderAux(const MapFunctor, Node*, void*); // Accessory function executing from one node of the tree
+  void MapPreOrderAux(const MapFunctor, Node&, void*); // Accessory function executing from one node of the tree
+  void MapPostOrderAux(const MapFunctor, Node&, void*); // Accessory function executing from one node of the tree
 
   /* ************************************************************************ */
 
   // Auxiliary member functions (for FoldableContainer)
 
-  void FoldPreOrderAux(const FoldFunctor, Node*, const void*, void*) const; // Accessory function executing from one node of the tree
-  void FoldPostOrderAux(const FoldFunctor, Node*, const void*, void*) const; // Accessory function executing from one node of the tree
+  void FoldPreOrderAux(const FoldFunctor, Node&, const void*, void*) const; // Accessory function executing from one node of the tree
+  void FoldPostOrderAux(const FoldFunctor, Node&, const void*, void*) const; // Accessory function executing from one node of the tree
 
   /* ************************************************************************ */
 
   // Auxiliary member functions (for InOrderMappableContainer)
 
-  void MapInOrderAux(const MapFunctor, Node*, void*); // Accessory function executing from one node of the tree
+  void MapInOrderAux(const MapFunctor, Node&, void*); // Accessory function executing from one node of the tree
 
   /* ************************************************************************ */
 
   // Auxiliary member functions (for InOrderFoldableContainer)
 
-  void FoldInOrderAux(const FoldFunctor, Node*, const void*, void*) const; // Accessory function executing from one node of the tree
+  void FoldInOrderAux(const FoldFunctor, Node&, const void*, void*) const; // Accessory function executing from one node of the tree
 
   /* ************************************************************************ */
 
@@ -195,7 +195,7 @@ private:
 protected:
 
   struct BinaryTree<Data>::Node* node = nullptr;
-  StackVec<Data> stack;
+  StackVec<struct BinaryTree<Data>::Node*> stack;
 
 public:
 
@@ -257,7 +257,7 @@ private:
 protected:
 
   struct BinaryTree<Data>::Node* node = nullptr;
-  StackVec<Data> stack;
+  StackVec<struct BinaryTree<Data>::Node*> stack;
 
   struct BinaryTree<Data>::Node& LeftMostLeaf(struct BinaryTree<Data>::Node&) const noexcept;
 
@@ -321,7 +321,7 @@ private:
 protected:
 
   struct BinaryTree<Data>::Node* node = nullptr;
-  StackVec<Data> stack;
+  StackVec<struct BinaryTree<Data>::Node*> stack;
 
   struct BinaryTree<Data>::Node& LeftMostChild(struct BinaryTree<Data>::Node&) const noexcept;
 
@@ -385,7 +385,7 @@ private:
 protected:
 
   struct BinaryTree<Data>::Node* node = nullptr;
-  QueueVec<Data> queue;
+  QueueVec<struct BinaryTree<Data>::Node*> queue;
 
 public:
 

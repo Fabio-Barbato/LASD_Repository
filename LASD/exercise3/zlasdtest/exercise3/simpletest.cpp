@@ -40,7 +40,7 @@ void stestBinaryTreeInt(lasd::BinaryTree<int>& bt, uint& testnum, uint& testerr)
 
 void stestBinaryTreeInt(uint& testnum, uint& testerr) {
   uint loctestnum = 0, loctesterr = 0;
-  cout << endl << "Begin of BinaryTreeVec<int> Test" << endl;
+  //cout << endl << "Begin of BinaryTreeVec<int> Test" << endl;
   try {
     lasd::Vector<int> vec(4);
     SetAt(loctestnum, loctesterr, vec, true, 0, 0);
