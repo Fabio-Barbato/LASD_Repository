@@ -294,13 +294,13 @@ void BinaryTree<Data>::FoldInOrderAux(const FoldFunctor fun, Node& node, const v
   //Terminated
   template <typename Data>
   bool BTPreOrderIterator<Data>::Terminated() const noexcept{
-    return (node == nullptr);
+    return (node == nullptr && stack->Empty());
   }
 
   //Operator ++
   template <typename Data>
   BTPreOrderIterator<Data>& BTPreOrderIterator<Data>::operator++() {
-    if(node != nullptr){
+    if(!Terminated()){
       if(node->HasLeftChild()){
         if(node->HasRightChild()){
           stack->Push(&node->RightChild());
@@ -315,12 +315,9 @@ void BinaryTree<Data>::FoldInOrderAux(const FoldFunctor fun, Node& node, const v
           node = stack->TopNPop();
         }
         else{
-          throw std::out_of_range("Out of range!");
+          node = nullptr;
         }
       }
-    }
-    else{
-      throw std::out_of_range("Out of range!");
     }
 
     return *this;
@@ -421,17 +418,14 @@ void BinaryTree<Data>::FoldInOrderAux(const FoldFunctor fun, Node& node, const v
     //Terminated
     template <typename Data>
     bool BTPostOrderIterator<Data>::Terminated() const noexcept{
-      return (node == nullptr);
+      return (node == nullptr && stack->Empty());
     }
 
     //Operator ++
     template <typename Data>
     BTPostOrderIterator<Data>& BTPostOrderIterator<Data>::operator++(){
-      if(node!=nullptr){
-        if(stack->Empty()){
-          throw std::out_of_range("Out of range!");
-        }
-        else{
+      if(!Terminated()){
+        if(!stack->Empty()){
           struct BinaryTree<Data>::Node* tmp = stack->Top();
           if(tmp->HasLeftChild()){
             if(node == &tmp->LeftChild() && tmp->HasRightChild()){
@@ -439,7 +433,7 @@ void BinaryTree<Data>::FoldInOrderAux(const FoldFunctor fun, Node& node, const v
             }
             else{
               if(stack->Empty()){
-                throw std::out_of_range("Out of range!");
+                node = nullptr;
               }
               else{
                 node = stack->TopNPop();
@@ -449,7 +443,9 @@ void BinaryTree<Data>::FoldInOrderAux(const FoldFunctor fun, Node& node, const v
           else{
             node = stack->TopNPop();
           }
-
+        }
+        else{
+          node = nullptr;
         }
       }
       return *this;
@@ -543,13 +539,13 @@ void BinaryTree<Data>::FoldInOrderAux(const FoldFunctor fun, Node& node, const v
     //Terminated
     template <typename Data>
     bool BTInOrderIterator<Data>::Terminated() const noexcept{
-      return (node == nullptr);
+      return (node == nullptr && stack->Empty());
     }
 
     //Operator ++
     template <typename Data>
     BTInOrderIterator<Data>& BTInOrderIterator<Data>::operator++() {
-      if(node!=nullptr){
+      if(!Terminated()){
         if(node->HasRightChild()){
           LeftMostChild(node->RightChild());
         }
@@ -558,13 +554,9 @@ void BinaryTree<Data>::FoldInOrderAux(const FoldFunctor fun, Node& node, const v
             node = stack->TopNPop();
           }
           else{
-            throw std::out_of_range("Out of range!");
+            node = nullptr;
           }
-
         }
-      }
-      else{
-        throw std::out_of_range("Out of range!");
       }
 
       return *this;
@@ -646,23 +638,23 @@ void BinaryTree<Data>::FoldInOrderAux(const FoldFunctor fun, Node& node, const v
   //Terminated
   template <typename Data>
   bool BTBreadthIterator<Data>::Terminated() const noexcept{
-    return (node == nullptr);
+    return (node == nullptr && queue->Empty());
   }
 
   //Operator ++
   template <typename Data>
   BTBreadthIterator<Data>& BTBreadthIterator<Data>::operator++() {
-    if(node!=nullptr){
+    if(!Terminated()){
       if(node->HasLeftChild()){
         queue->Enqueue(&node->LeftChild());
       }
       if(node->HasRightChild()){
         queue->Enqueue(&node->RightChild());
       }
-      node = queue->HeadNDequeue();
-    }
-    else{
-      throw std::out_of_range("Out of range!");
+      if(!queue->Empty())
+        node = queue->HeadNDequeue();
+      else
+        node = nullptr;
     }
 
     return *this;

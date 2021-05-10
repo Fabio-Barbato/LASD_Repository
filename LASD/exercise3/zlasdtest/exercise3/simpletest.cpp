@@ -88,8 +88,8 @@ void stestBinaryTreeFloat(lasd::BinaryTree<double>& bt, uint& testnum, uint& tes
     GetItrValue(loctestnum, loctesterr, itr1, true, 2.1);
     ++itr1;
     GetItrValue(loctestnum, loctesterr, itr1, true, 3.0);
-    //++itr1;
-    //Terminated(loctestnum, loctesterr, itr1, true);
+    ++itr1;
+    Terminated(loctestnum, loctesterr, itr1, true);
 
     lasd::BTBreadthIterator<double> itr2(bt);
     GetItrValue(loctestnum, loctesterr, itr2, true, 1.2);
@@ -99,8 +99,8 @@ void stestBinaryTreeFloat(lasd::BinaryTree<double>& bt, uint& testnum, uint& tes
     GetItrValue(loctestnum, loctesterr, itr2, true, 3.0);
     ++itr2;
     GetItrValue(loctestnum, loctesterr, itr2, true, 2.1);
-    //++itr2;
-    //Terminated(loctestnum, loctesterr, itr2, true);
+    ++itr2;
+    Terminated(loctestnum, loctesterr, itr2, true);
 
     lasd::BTInOrderIterator<double> itr3(bt);
     GetItrValue(loctestnum, loctesterr, itr3, true, 2.1);
@@ -110,8 +110,8 @@ void stestBinaryTreeFloat(lasd::BinaryTree<double>& bt, uint& testnum, uint& tes
     GetItrValue(loctestnum, loctesterr, itr3, true, 1.2);
     ++itr3;
     GetItrValue(loctestnum, loctesterr, itr3, true, 3.0);
-    //++itr3;
-    //Terminated(loctestnum, loctesterr, itr3, true);
+    ++itr3;
+    Terminated(loctestnum, loctesterr, itr3, true);
 
     lasd::BTPostOrderIterator<double> itr4(bt);
     GetItrValue(loctestnum, loctesterr, itr4, true, 2.1);
@@ -121,8 +121,8 @@ void stestBinaryTreeFloat(lasd::BinaryTree<double>& bt, uint& testnum, uint& tes
     GetItrValue(loctestnum, loctesterr, itr4, true, 3.0);
     ++itr4;
     GetItrValue(loctestnum, loctesterr, itr4, true, 1.2);
-    //++itr4;
-    //Terminated(loctestnum, loctesterr, itr4, true);
+    ++itr4;
+    Terminated(loctestnum, loctesterr, itr4, true);
   } catch(...) {
     loctestnum++; loctesterr++;
     cout << endl << "Unmanaged error! " << endl;
