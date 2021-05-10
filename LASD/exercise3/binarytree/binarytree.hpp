@@ -195,7 +195,7 @@ private:
 protected:
 
   struct BinaryTree<Data>::Node* node = nullptr;
-  StackLst<struct BinaryTree<Data>::Node*> stack;
+  StackLst<struct BinaryTree<Data>::Node*>* stack;
 
 public:
 
@@ -233,15 +233,15 @@ public:
 
   // Specific member functions (inherited from Iterator)
 
-  Data& operator*() const; // (throw std::out_of_range when terminated)
+  Data& operator*() const override; // (throw std::out_of_range when terminated)
 
-  bool Terminated() const noexcept; // (should not throw exceptions)
+  bool Terminated() const noexcept override; // (should not throw exceptions)
 
   /* ************************************************************************ */
 
   // Specific member functions (inherited from ForwardIterator)
 
-  struct BinaryTree<Data>::Node& operator++(); // (throw std::out_of_range when terminated)
+  BTPreOrderIterator<Data>& operator++() override; // (throw std::out_of_range when terminated)
 
 };
 
@@ -257,9 +257,9 @@ private:
 protected:
 
   struct BinaryTree<Data>::Node* node = nullptr;
-  StackLst<struct BinaryTree<Data>::Node*> stack;
+  StackLst<struct BinaryTree<Data>::Node*>* stack;
 
-  struct BinaryTree<Data>::Node& LeftMostLeaf(struct BinaryTree<Data>::Node&) const noexcept;
+  void LeftMostLeaf(struct BinaryTree<Data>::Node&);
 
 public:
 
@@ -297,15 +297,15 @@ public:
 
   // Specific member functions (inherited from Iterator)
 
-  Data& operator*() const; // (throw std::out_of_range when terminated)
+  Data& operator*() const override; // (throw std::out_of_range when terminated)
 
-  bool Terminated() const noexcept; // (should not throw exceptions)
+  bool Terminated() const noexcept override; // (should not throw exceptions)
 
   /* ************************************************************************ */
 
   // Specific member functions (inherited from ForwardIterator)
 
-  struct BinaryTree<Data>::Node& operator++(); // (throw std::out_of_range when terminated)
+  BTPostOrderIterator<Data>& operator++() override; // (throw std::out_of_range when terminated)
 
 };
 
@@ -321,9 +321,9 @@ private:
 protected:
 
   struct BinaryTree<Data>::Node* node = nullptr;
-  StackLst<struct BinaryTree<Data>::Node*> stack;
+  StackLst<struct BinaryTree<Data>::Node*>* stack;
 
-  struct BinaryTree<Data>::Node& LeftMostChild(struct BinaryTree<Data>::Node&) const noexcept;
+  void LeftMostChild(struct BinaryTree<Data>::Node&);
 
 public:
 
@@ -361,15 +361,15 @@ public:
 
   // Specific member functions (inherited from Iterator)
 
-  Data& operator*() const; // (throw std::out_of_range when terminated)
+  Data& operator*() const override; // (throw std::out_of_range when terminated)
 
-  bool Terminated() const noexcept; // (should not throw exceptions)
+  bool Terminated() const noexcept override; // (should not throw exceptions)
 
   /* ************************************************************************ */
 
   // Specific member functions (inherited from ForwardIterator)
 
-  struct BinaryTree<Data>::Node& operator++(); // (throw std::out_of_range when terminated)
+  BTInOrderIterator<Data>& operator++() override; // (throw std::out_of_range when terminated)
 
 };
 
@@ -385,7 +385,7 @@ private:
 protected:
 
   struct BinaryTree<Data>::Node* node = nullptr;
-  QueueLst<struct BinaryTree<Data>::Node*> queue;
+  QueueLst<struct BinaryTree<Data>::Node*>* queue;
 
 public:
 
@@ -423,15 +423,15 @@ public:
 
   // Specific member functions (inherited from Iterator)
 
-  Data& operator*() const; // (throw std::out_of_range when terminated)
+  Data& operator*() const override; // (throw std::out_of_range when terminated)
 
-  bool Terminated() const noexcept; // (should not throw exceptions)
+  bool Terminated() const noexcept override; // (should not throw exceptions)
 
   /* ************************************************************************ */
 
   // Specific member functions (inherited from ForwardIterator)
 
-  struct BinaryTree<Data>::Node& operator++(); // (throw std::out_of_range when terminated)
+  BTBreadthIterator<Data>& operator++() override; // (throw std::out_of_range when terminated)
 
 };
 

@@ -52,9 +52,12 @@ namespace lasd {
   // Move assignment
   template <typename Data>
   struct BinaryTreeLnk<Data>::NodeLnk& BinaryTreeLnk<Data>::NodeLnk::operator=(NodeLnk&& node) noexcept{
-    std::swap(info,node.info);
-    std::swap(left,node.left);
-    std::swap(right,node.right);
+    std::swap(info,node.Element());
+    if(node.HasLeftChild())
+      std::swap(left,node.LeftChild());
+
+    if(node.HasRightChild())
+      std::swap(right,node.RightChild());
 
     return *this;
   }
