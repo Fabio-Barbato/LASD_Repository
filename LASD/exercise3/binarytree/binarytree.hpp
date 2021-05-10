@@ -8,9 +8,9 @@
 
 #include "../iterator/iterator.hpp"
 
-#include "../queue/vec/queuevec.hpp"
+#include "../queue/lst/queuelst.hpp"
 
-#include "../stack/vec/stackvec.hpp"
+#include "../stack/lst/stacklst.hpp"
 
 /* ************************************************************************** */
 
@@ -195,7 +195,7 @@ private:
 protected:
 
   struct BinaryTree<Data>::Node* node = nullptr;
-  StackVec<struct BinaryTree<Data>::Node*> stack;
+  StackLst<struct BinaryTree<Data>::Node*> stack;
 
 public:
 
@@ -257,7 +257,7 @@ private:
 protected:
 
   struct BinaryTree<Data>::Node* node = nullptr;
-  StackVec<struct BinaryTree<Data>::Node*> stack;
+  StackLst<struct BinaryTree<Data>::Node*> stack;
 
   struct BinaryTree<Data>::Node& LeftMostLeaf(struct BinaryTree<Data>::Node&) const noexcept;
 
@@ -321,7 +321,7 @@ private:
 protected:
 
   struct BinaryTree<Data>::Node* node = nullptr;
-  StackVec<struct BinaryTree<Data>::Node*> stack;
+  StackLst<struct BinaryTree<Data>::Node*> stack;
 
   struct BinaryTree<Data>::Node& LeftMostChild(struct BinaryTree<Data>::Node&) const noexcept;
 
@@ -385,7 +385,7 @@ private:
 protected:
 
   struct BinaryTree<Data>::Node* node = nullptr;
-  QueueVec<struct BinaryTree<Data>::Node*> queue;
+  QueueLst<struct BinaryTree<Data>::Node*> queue;
 
 public:
 

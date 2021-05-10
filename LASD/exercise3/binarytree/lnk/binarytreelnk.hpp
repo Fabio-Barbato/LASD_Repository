@@ -42,6 +42,9 @@ protected:
     //Specific constructor
     NodeLnk(const LinearContainer<Data>&, ulong);
 
+    //Copy constructor
+    NodeLnk(const NodeLnk&);
+
     // Destructor
     ~NodeLnk();
 

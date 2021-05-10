@@ -25,14 +25,26 @@ namespace lasd {
     delete right;
   }
 
+  //Copy constructor
+  template <typename Data>
+  BinaryTreeLnk<Data>::NodeLnk::NodeLnk(const NodeLnk& node){
+    info = node.info;
+    if(node.HasLeftChild()){
+      left = new NodeLnk(node.LeftChild());
+    }
+    if(node.HasRightChild()){
+      right = new NodeLnk(node.RightChild());
+    }
+  }
+
   /* ********************************************************************** */
 
   // Copy assignment
   template <typename Data>
   struct BinaryTreeLnk<Data>::NodeLnk& BinaryTreeLnk<Data>::NodeLnk::operator=(const NodeLnk& node){
-    info = node.info;
-    left = node.left;
-    right = node.right;
+    NodeLnk* tmp = new NodeLnk(node);
+    std::swap(*this, *tmp);
+    delete tmp;
 
     return *this;
   }
@@ -122,13 +134,15 @@ BinaryTreeLnk<Data>::BinaryTreeLnk(const LinearContainer<Data>& con){
 // Copy constructor
 template <typename Data>
 BinaryTreeLnk<Data>::BinaryTreeLnk(const BinaryTreeLnk<Data>& bt){
-  root = bt.root;
+  root = new NodeLnk(bt.Root());
+  size = bt.size;
 }
 
 // Move constructor
 template <typename Data>
 BinaryTreeLnk<Data>::BinaryTreeLnk(BinaryTreeLnk<Data>&& bt) noexcept{
   std::swap(root, bt.root);
+  std::swap(size, bt.size);
 }
 
 /* ************************************************************************ */
@@ -155,6 +169,7 @@ BinaryTreeLnk<Data>& BinaryTreeLnk<Data>::operator=(const BinaryTreeLnk<Data>& b
 template <typename Data>
 BinaryTreeLnk<Data>& BinaryTreeLnk<Data>::operator=(BinaryTreeLnk<Data>&& bt) noexcept{
   std::swap(root, bt.root);
+  std::swap(size, bt.size);
 
   return *this;
 }
@@ -188,7 +203,9 @@ struct BinaryTreeLnk<Data>::NodeLnk& BinaryTreeLnk<Data>::Root() const{
 //Clear
 template <typename Data>
 void BinaryTreeLnk<Data>::Clear(){
-  delete root;
+    delete root;
+    size = 0;
+    root = nullptr;
   }
 
 }

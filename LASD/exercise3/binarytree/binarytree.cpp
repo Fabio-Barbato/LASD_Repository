@@ -1,7 +1,7 @@
 
-#include "../queue/vec/queuevec.hpp"
+#include "../queue/lst/queuelst.hpp"
 
-#include "../stack/vec/stackvec.hpp"
+#include "../stack/lst/stacklst.hpp"
 
 namespace lasd {
 
@@ -51,7 +51,7 @@ bool BinaryTree<Data>::Node::operator!=(const Node& node) const noexcept{
 //Comparison operator
 template <typename Data>
 bool BinaryTree<Data>::operator==(const BinaryTree<Data>& bt) const noexcept{
-  return Root() == bt.Root();
+  return (size == bt.size && Root() == bt.Root());
 }
 
 template <typename Data>
@@ -112,7 +112,7 @@ template <typename Data>
 void BinaryTree<Data>::MapBreadth(const MapFunctor fun, void* par){
   if(size!=0){
     Node* tmp = &Root();
-    QueueVec<Node*>* queue = new QueueVec<Node*>();
+    QueueLst<Node*>* queue = new QueueLst<Node*>();
     do {
       fun(tmp->Element(), par);
       if(tmp->HasLeftChild()){
@@ -132,7 +132,7 @@ template <typename Data>
 void BinaryTree<Data>::FoldBreadth(const FoldFunctor fun, const void* par, void* acc) const{
   if(size!=0){
     Node* tmp = &Root();
-    QueueVec<Node*>* queue = new QueueVec<Node*>();
+    QueueLst<Node*>* queue = new QueueLst<Node*>();
     do {
       fun(tmp->Element(), par, acc);
       if(tmp->HasLeftChild()){
@@ -226,7 +226,7 @@ void BinaryTree<Data>::FoldInOrderAux(const FoldFunctor fun, Node& node, const v
   template <typename Data>
   BTPreOrderIterator<Data>::BTPreOrderIterator(const BinaryTree<Data>& bt){
     node = bt.Root();
-    stack = new StackVec<struct BinaryTree<Data>::Node*>();
+    stack = new StackLst<struct BinaryTree<Data>::Node*>();
   }
 
 //Copy constructor
@@ -347,7 +347,7 @@ void BinaryTree<Data>::FoldInOrderAux(const FoldFunctor fun, Node& node, const v
   //Specific constructor
     template <typename Data>
     BTPostOrderIterator<Data>::BTPostOrderIterator(const BinaryTree<Data>& bt){
-      stack = new StackVec<struct BinaryTree<Data>::Node*>();
+      stack = new StackLst<struct BinaryTree<Data>::Node*>();
       node = LeftMostLeaf(bt.Root());
     }
 
@@ -469,7 +469,7 @@ void BinaryTree<Data>::FoldInOrderAux(const FoldFunctor fun, Node& node, const v
   //Specific constructor
     template <typename Data>
     BTInOrderIterator<Data>::BTInOrderIterator(const BinaryTree<Data>& bt){
-      stack = new StackVec<struct BinaryTree<Data>::Node*>();
+      stack = new StackLst<struct BinaryTree<Data>::Node*>();
       node = LeftMostChild(bt.Root());
     }
 
@@ -572,7 +572,7 @@ void BinaryTree<Data>::FoldInOrderAux(const FoldFunctor fun, Node& node, const v
 //Specific constructor
   template <typename Data>
   BTBreadthIterator<Data>::BTBreadthIterator(const BinaryTree<Data>& bt){
-    queue = new QueueVec<struct BinaryTree<Data>::Node*>();
+    queue = new QueueLst<struct BinaryTree<Data>::Node*>();
     node = bt.Root();
   }
 
