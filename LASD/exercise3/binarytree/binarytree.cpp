@@ -13,13 +13,13 @@ namespace lasd {
 //Comparison operator (Node)
 template <typename Data>
 bool BinaryTree<Data>::Node::operator==(const Node& node) const noexcept{
-    if(Element() != node.Element()){
+    if(Element() != node.Element()){  //se gli elementi dei nodi sono diversi
       return false;
     }
-    else{
-      if(HasLeftChild() == node.HasLeftChild()){
-        if(HasLeftChild()){
-          LeftChild() == node.LeftChild();
+    else{ //se gli elementi dei nodi sono uguali
+      if(HasLeftChild() == node.HasLeftChild()){ //hanno o non hanno entrambi figlio sinistro
+        if(HasLeftChild()){ //hanno figlio sinistro?
+          return LeftChild() == node.LeftChild(); //vero se i sottoalber sx sono uguali, false altrimenti
         }
       }
       else{
@@ -27,7 +27,7 @@ bool BinaryTree<Data>::Node::operator==(const Node& node) const noexcept{
       }
       if(HasRightChild() == node.HasRightChild()){
         if(HasRightChild()){
-          RightChild() == node.RightChild();
+          return RightChild() == node.RightChild();
         }
       }
       else{
@@ -62,7 +62,7 @@ bool BinaryTree<Data>::operator!=(const BinaryTree<Data>& bt) const noexcept{
 //MapPreOrder
 template <typename Data>
 void BinaryTree<Data>::MapPreOrder(const MapFunctor fun, void* par) {
-  if(size!=0){
+  if(size>0){
     MapPreOrderAux(fun, Root(), par);
   }
 }
@@ -70,7 +70,7 @@ void BinaryTree<Data>::MapPreOrder(const MapFunctor fun, void* par) {
 //MapPostOrder
 template <typename Data>
 void BinaryTree<Data>::MapPostOrder(const MapFunctor fun, void* par) {
-  if(size!=0){
+  if(size>0){
     MapPostOrderAux(fun, Root(), par);
   }
 }
@@ -78,7 +78,7 @@ void BinaryTree<Data>::MapPostOrder(const MapFunctor fun, void* par) {
 //MapInOrder
 template <typename Data>
 void BinaryTree<Data>::MapInOrder(const MapFunctor fun, void* par) {
-  if(size!=0){
+  if(size>0){
     MapInOrderAux(fun, Root(), par);
   }
 }
@@ -86,7 +86,7 @@ void BinaryTree<Data>::MapInOrder(const MapFunctor fun, void* par) {
 //FoldPreOrder
 template <typename Data>
 void BinaryTree<Data>::FoldPreOrder(const FoldFunctor fun, const void* par, void* acc) const{
-  if(size!=0){
+  if(size>0){
     FoldPreOrderAux(fun, Root(), par, acc);
   }
 }
@@ -94,7 +94,7 @@ void BinaryTree<Data>::FoldPreOrder(const FoldFunctor fun, const void* par, void
 //FoldInOrder
 template <typename Data>
 void BinaryTree<Data>::FoldInOrder(const FoldFunctor fun, const void* par, void* acc) const{
-  if(size!=0){
+  if(size>0){
     FoldInOrderAux(fun, Root(), par, acc);
   }
 }
@@ -102,7 +102,7 @@ void BinaryTree<Data>::FoldInOrder(const FoldFunctor fun, const void* par, void*
 //FoldPostOrder
 template <typename Data>
 void BinaryTree<Data>::FoldPostOrder(const FoldFunctor fun, const void* par, void* acc) const{
-  if(size!=0){
+  if(size>0){
     FoldPostOrderAux(fun, Root(), par, acc);
   }
 }
@@ -110,7 +110,7 @@ void BinaryTree<Data>::FoldPostOrder(const FoldFunctor fun, const void* par, voi
 //MapBreadth
 template <typename Data>
 void BinaryTree<Data>::MapBreadth(const MapFunctor fun, void* par){
-  if(size!=0){
+  if(size>0){
     Node* tmp = &Root();
     QueueLst<Node*>* queue = new QueueLst<Node*>();
     do {
@@ -130,7 +130,7 @@ void BinaryTree<Data>::MapBreadth(const MapFunctor fun, void* par){
 //FoldBreadth
 template <typename Data>
 void BinaryTree<Data>::FoldBreadth(const FoldFunctor fun, const void* par, void* acc) const{
-  if(size!=0){
+  if(size>0){
     Node* tmp = &Root();
     QueueLst<Node*>* queue = new QueueLst<Node*>();
     do {

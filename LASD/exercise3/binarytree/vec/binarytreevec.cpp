@@ -3,6 +3,8 @@ namespace lasd {
 
 /* ************************************************************************** */
 
+  //NodeVec
+
   //Specific constructor
   template <typename Data>
   BinaryTreeVec<Data>::NodeVec::NodeVec(const Data& dat, const ulong new_index, Vector<NodeVec*>* vec){
@@ -77,12 +79,18 @@ namespace lasd {
 
 //BinaryTreeVec
 
+  //Destructor
+  template <typename Data>
+  BinaryTreeVec<Data>::~BinaryTreeVec(){
+    Clear();
+  }
   //Specific constructor
   template <typename Data>
   BinaryTreeVec<Data>::BinaryTreeVec(const LinearContainer<Data>& con): vec_bt(con.Size()){
     for (ulong i = 0; i < con.Size(); i++) {
       vec_bt[i] = new NodeVec(con[i], i, &vec_bt);
     }
+    size = con.Size();
   }
 
   //Copy constructor

@@ -51,24 +51,24 @@ protected:
     /* ********************************************************************** */
 
     // Copy assignment
-    NodeLnk& operator=(const NodeLnk&); // Copy assignment of abstract types should not be possible.
+    NodeLnk& operator=(const NodeLnk&);
 
     // Move assignment
-    NodeLnk& operator=(NodeLnk&&) noexcept; // Move assignment of abstract types should not be possible.
+    NodeLnk& operator=(NodeLnk&&) noexcept;
 
     /* ********************************************************************** */
 
     // Specific member functions
 
-   Data& Element() noexcept; // Mutable access to the element (concrete function should not throw exceptions)
-   const Data& Element() const noexcept; // Immutable access to the element (concrete function should not throw exceptions)
+   Data& Element() noexcept;
+   const Data& Element() const noexcept;
 
-   bool IsLeaf() const noexcept; // (concrete function should not throw exceptions)
-   bool HasLeftChild() const noexcept; // (concrete function should not throw exceptions)
-   bool HasRightChild() const noexcept; // (concrete function should not throw exceptions)
+   bool IsLeaf() const noexcept;
+   bool HasLeftChild() const noexcept;
+   bool HasRightChild() const noexcept;
 
-   NodeLnk& LeftChild() const; // (concrete function must throw std::out_of_range when not existent)
-   NodeLnk& RightChild() const; // (concrete function must throw std::out_of_range when not existent)
+   NodeLnk& LeftChild() const;
+   NodeLnk& RightChild() const; 
 
   };
 
