@@ -233,15 +233,15 @@ void BinaryTree<Data>::FoldInOrderAux(const FoldFunctor fun, Node& node, const v
 //Copy constructor
   template <typename Data>
   BTPreOrderIterator<Data>::BTPreOrderIterator(const BTPreOrderIterator<Data>& it){
+    stack = new StackLst<struct BinaryTree<Data>::Node*>(*it.stack);
     node = it.node;
-    stack = it.stack;
   }
 
   //Move constructor
   template <typename Data>
   BTPreOrderIterator<Data>::BTPreOrderIterator(BTPreOrderIterator<Data>&& it) noexcept{
     std::swap(node, it.node);
-    std::swap(stack, it.stack);
+    stack = new StackLst<struct BinaryTree<Data>::Node*>(std::move(*it.stack));
   }
 
   //Destructor
@@ -272,7 +272,7 @@ void BinaryTree<Data>::FoldInOrderAux(const FoldFunctor fun, Node& node, const v
   //Comparison operators
   template <typename Data>
   bool BTPreOrderIterator<Data>::operator==(const BTPreOrderIterator<Data>& it) const noexcept{
-    return node == it.node && stack == it.stack;
+    return node == it.node && *stack == *it.stack;
   }
 
   template <typename Data>
@@ -358,14 +358,14 @@ void BinaryTree<Data>::FoldInOrderAux(const FoldFunctor fun, Node& node, const v
     template <typename Data>
     BTPostOrderIterator<Data>::BTPostOrderIterator(const BTPostOrderIterator<Data>& it){
       node = it.node;
-      stack = it.stack;
+      stack = new StackLst<struct BinaryTree<Data>::Node*>(*it.stack);
     }
 
     //Move constructor
     template <typename Data>
     BTPostOrderIterator<Data>::BTPostOrderIterator(BTPostOrderIterator<Data>&& it) noexcept{
       std::swap(node, it.node);
-      std::swap(stack, it.stack);
+      stack = new StackLst<struct BinaryTree<Data>::Node*>(std::move(*it.stack));
     }
 
     //Destructor
@@ -396,7 +396,7 @@ void BinaryTree<Data>::FoldInOrderAux(const FoldFunctor fun, Node& node, const v
     //Comparison operators
     template <typename Data>
     bool BTPostOrderIterator<Data>::operator==(const BTPostOrderIterator<Data>& it) const noexcept{
-      return node == it.node && stack == it.stack;
+      return node == it.node && *stack == *it.stack;
     }
 
     template <typename Data>
@@ -479,14 +479,14 @@ void BinaryTree<Data>::FoldInOrderAux(const FoldFunctor fun, Node& node, const v
     template <typename Data>
     BTInOrderIterator<Data>::BTInOrderIterator(const BTInOrderIterator<Data>& it){
       node = it.node;
-      stack = it.stack;
+      stack = new StackLst<struct BinaryTree<Data>::Node*>(*it.stack);
     }
 
     //Move constructor
     template <typename Data>
     BTInOrderIterator<Data>::BTInOrderIterator(BTInOrderIterator<Data>&& it) noexcept{
       std::swap(node, it.node);
-      std::swap(stack, it.stack);
+      stack = new StackLst<struct BinaryTree<Data>::Node*>(std::move(*it.stack));
     }
 
     //Destructor
@@ -517,7 +517,7 @@ void BinaryTree<Data>::FoldInOrderAux(const FoldFunctor fun, Node& node, const v
     //Comparison operators
     template <typename Data>
     bool BTInOrderIterator<Data>::operator==(const BTInOrderIterator<Data>& it) const noexcept{
-      return node == it.node && stack == it.stack;
+      return node == it.node && *stack == *it.stack;
     }
 
     template <typename Data>
@@ -578,14 +578,14 @@ void BinaryTree<Data>::FoldInOrderAux(const FoldFunctor fun, Node& node, const v
   template <typename Data>
   BTBreadthIterator<Data>::BTBreadthIterator(const BTBreadthIterator<Data>& it){
     node = it.node;
-    queue = it.queue;
+    queue = new QueueLst<struct BinaryTree<Data>::Node*>(*it.queue);
   }
 
   //Move constructor
   template <typename Data>
   BTBreadthIterator<Data>::BTBreadthIterator(BTBreadthIterator<Data>&& it) noexcept{
     std::swap(node, it.node);
-    std::swap(queue, it.queue);
+    queue = new QueueLst<struct BinaryTree<Data>::Node*>(std::move(*it.queue));
   }
 
   //Destructor
@@ -616,7 +616,7 @@ void BinaryTree<Data>::FoldInOrderAux(const FoldFunctor fun, Node& node, const v
   //Comparison operators
   template <typename Data>
   bool BTBreadthIterator<Data>::operator==(const BTBreadthIterator<Data>& it) const noexcept{
-    return node == it.node && queue == it.queue;
+    return node == it.node && *queue == *it.queue;
   }
 
   template <typename Data>
