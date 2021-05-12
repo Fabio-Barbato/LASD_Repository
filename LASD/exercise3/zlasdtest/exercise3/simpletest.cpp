@@ -206,14 +206,6 @@ void stestBinaryTreeString(uint& testnum, uint& testerr) {
 
     EqualTrees(loctestnum, loctesterr, btvec, btlnk, true);
     btvec.Root().LeftChild().LeftChild().Element() = string("S");
-  /*  lasd::BTBreadthIterator<string> it(btlnk);
-    std::cout << *it << '\n';
-    ++it;
-    std::cout << *it << '\n';
-    ++it;
-    std::cout << *it << '\n';
-    ++it;
-    std::cout << *it << '\n';*/
     EqualTrees(loctestnum, loctesterr, btlnk, btvec, false);
     btlnk.Root().RightChild().Element() = string("X");
     EqualTrees(loctestnum, loctesterr, btvec, btlnk, false);

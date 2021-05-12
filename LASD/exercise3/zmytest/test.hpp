@@ -14,22 +14,32 @@ void CreazioneBinaryTreeVec(ulong);
 void CreazioneBinaryTreeLnk(ulong);
 
 template <typename Data>
-void MenuBinaryTree(lasd::BinaryTree<Data>);
+void MenuBinaryTree(lasd::BinaryTreeVec<Data>);
 
 template <typename Data>
-void VisitaBinaryTree(lasd::BinaryTree<Data>);
+void VisitaBinaryTree(lasd::BinaryTreeVec<Data>);
 
 /*template <typename Data>
 void OpSpecialiBinaryTreeVecInt(lasd::BinaryTreeVec<int>);*/
 
-template <typename Data>
-void VisitaIterBT(lasd::BinaryTree<Data>);
 
 template <typename Data>
-void ViaggiaConIter(lasd::BinaryTree<Data>, lasd::ForwardIterator<Data>);
+void VisitaIterBT(lasd::BinaryTreeVec<Data>);
 
 template <typename Data>
-void ExistBinaryTree(lasd::BinaryTree<Data> );
+void ViaggiaConIter(lasd::BinaryTreeVec<Data>, lasd::BTPreOrderIterator<Data>);
+
+template <typename Data>
+void ViaggiaConIter(lasd::BinaryTreeVec<Data>, lasd::BTInOrderIterator<Data>);
+
+template <typename Data>
+void ViaggiaConIter(lasd::BinaryTreeVec<Data>, lasd::BTPostOrderIterator<Data>);
+
+template <typename Data>
+void ViaggiaConIter(lasd::BinaryTreeVec<Data>, lasd::BTBreadthIterator<Data>);
+
+template <typename Data>
+void ExistBinaryTree(lasd::BinaryTreeVec<Data> );
 
 template <typename Data>
 void MapPrint(const Data& dat, void* _);

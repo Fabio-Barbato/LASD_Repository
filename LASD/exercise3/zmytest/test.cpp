@@ -68,10 +68,10 @@ void myTest(){
     }
 
     template <typename Data>
-    void MenuBinaryTree(BinaryTree<Data> binarytree){
+    void MenuBinaryTree(BinaryTreeVec<Data> binarytree){
       int scelta;
        do{
-         std::cout << "Scegliere l'operazione da effettuare:\n 1)Visita;\n2)Esistenza di un valore;\n3)Naviga con gli iteratori\n\nScegli: ";
+         std::cout << "Scegliere l'operazione da effettuare:\n1)Visita;\n2)Esistenza di un valore;\n3)Naviga con gli iteratori\n4)Naviga tra i nodi\n\nScegli: ";
          std::cin>>scelta;
         if (scelta==1) {
           VisitaBinaryTree(binarytree);
@@ -79,13 +79,15 @@ void myTest(){
           ExistBinaryTree(binarytree);
         } else if(scelta==3){
           VisitaIterBT(binarytree);
+        }else if(scelta==4){
+          NavigaConNodi(binarytree);
         }
-      }while (scelta>0 && scelta<4);
+      }while (scelta>0 && scelta<5);
 
     }
 
     template <typename Data>
-    void VisitaIterBT(BinaryTree<Data> binarytree){
+    void VisitaIterBT(BinaryTreeVec<Data> binarytree){
       int scelta;
       do {
         std::cout << "Scegliere come visualizzare gli elementi:\n1)PreOrder;\n2)PostOrder;\n3)InOrder;\n4)BreadthOrder\n\nScegli: ";
@@ -105,9 +107,61 @@ void myTest(){
           ViaggiaConIter(binarytree, it);
         }
       } while(scelta>0 && scelta<5);
+    }
 
       template <typename Data>
-      void ViaggiaConIter(BinaryTree<Data> binarytree, ForwardIterator<Data> itr) {
+      void ViaggiaConIter(BinaryTreeVec<Data> binarytree, BTPreOrderIterator<Data> itr) {
+        int scelta;
+        do {
+          std::cout << "1)Vuoi visualizzare l'elemento puntato;\n2)Vuoi andare al nodo successivo;\nScegli: " << '\n';
+          std::cin >> scelta;
+
+          if (scelta==1) {
+            std::cout << *itr << '\n';
+          }
+          else{
+            ++itr;
+          }
+        } while(!itr.Terminated());
+        std::cout << "Albero terminato!" << '\n';
+      }
+
+      template <typename Data>
+      void ViaggiaConIter(BinaryTreeVec<Data> binarytree, BTPostOrderIterator<Data> itr) {
+        int scelta;
+        do {
+          std::cout << "1)Vuoi visualizzare l'elemento puntato;\n2)Vuoi andare al nodo successivo;\nScegli: " << '\n';
+          std::cin >> scelta;
+
+          if (scelta==1) {
+            std::cout << *itr << '\n';
+          }
+          else{
+            ++itr;
+          }
+        } while(!itr.Terminated());
+        std::cout << "Albero terminato!" << '\n';
+      }
+
+      template <typename Data>
+      void ViaggiaConIter(BinaryTreeVec<Data> binarytree, BTInOrderIterator<Data> itr) {
+        int scelta;
+        do {
+          std::cout << "1)Vuoi visualizzare l'elemento puntato;\n2)Vuoi andare al nodo successivo;\nScegli: " << '\n';
+          std::cin >> scelta;
+
+          if (scelta==1) {
+            std::cout << *itr << '\n';
+          }
+          else{
+            ++itr;
+          }
+        } while(!itr.Terminated());
+        std::cout << "Albero terminato!" << '\n';
+      }
+
+      template <typename Data>
+      void ViaggiaConIter(BinaryTreeVec<Data> binarytree, BTBreadthIterator<Data> itr) {
         int scelta;
         do {
           std::cout << "1)Vuoi visualizzare l'elemento puntato;\n2)Vuoi andare al nodo successivo;\nScegli: " << '\n';
@@ -124,10 +178,8 @@ void myTest(){
       }
 
 
-    }
-
     template <typename Data>
-    void ExistBinaryTree(BinaryTree<Data> binarytree){
+    void ExistBinaryTree(BinaryTreeVec<Data> binarytree){
       Data scelta;
       std::cout << "Inserisci: ";
       std::cin>>scelta;
@@ -142,7 +194,7 @@ void myTest(){
 
 
     template <typename Data>
-    void VisitaBinaryTree(BinaryTree<Data> binarytree){
+    void VisitaBinaryTree(BinaryTreeVec<Data> binarytree){
       int scelta;
       std::cout<<"Scegliere come visualizzare gli elementi:\n1)PreOrder;\n2)PostOrder;\n3)InOrder;\n4)BreadthOrder\n\nScegli: ";
       std::cin>>scelta;
