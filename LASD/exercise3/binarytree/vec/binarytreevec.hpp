@@ -36,7 +36,7 @@ protected:
 
     Data info;
     ulong index = 0;
-    Vector<NodeVec*> vec_node;
+    Vector<NodeVec*>* vec_node;
 
   public:
 
@@ -44,6 +44,9 @@ protected:
     ~NodeVec() = default;
 
     /* ********************************************************************** */
+
+    //Specific constructor
+    NodeVec(const Data&, const ulong, Vector<NodeVec*>*);
 
     // Copy assignment
     NodeVec& operator=(const NodeVec&);
@@ -67,7 +70,7 @@ protected:
 
   };
 
-  Vector<NodeVec*> vec_bt;;
+  Vector<NodeVec*> vec_bt;
 
 public:
 
@@ -90,7 +93,7 @@ public:
   /* ************************************************************************ */
 
   // Destructor
-    ~BinaryTreeVec();
+    ~BinaryTreeVec() = default;
 
   /* ************************************************************************ */
 
@@ -100,7 +103,7 @@ public:
   // Move assignment
   BinaryTreeVec<Data>& operator=(BinaryTreeVec<Data>&&) noexcept;
 
-  /* ************************************************************************ */
+  /* ************************************************************************ *
 
   // Comparison operators
   bool operator==(const BinaryTreeVec<Data>&) const noexcept;
