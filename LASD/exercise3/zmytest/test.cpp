@@ -36,6 +36,7 @@ void myTest(){
 
   void CreazioneBinaryTreeVec(ulong dimensioneStruttura){
       int sceltaDati;
+      int scelta_menu;
       std::cout<<"Scegliere su quali dati lavorare:\n1)Interi;\n2)Decimali;\n3)Stringhe\n\nScegli: ";
       std::cin>>sceltaDati;
 
@@ -46,7 +47,17 @@ void myTest(){
               vec[i]=(rand()%50);
           }
           BinaryTreeVec<int> bt(vec);
-          MenuBinaryTree(bt);
+
+          do{
+            std::cout << "1)Operazioni generiche;\n2)Operazioni map/fold\nScegli: ";
+            std::cin >> scelta_menu;
+            if (scelta_menu==1) {
+              MenuBinaryTree(bt);
+            } else if (scelta_menu==2) {
+              OpSpecialiBinaryTree(bt);
+            }
+          }while(scelta_menu<3 && scelta_menu>0);
+
       }
       else if(sceltaDati==2){
           Vector<float> vec(dimensioneStruttura);   //costruzione vec di float
@@ -55,7 +66,15 @@ void myTest(){
               vec[i] = (float(rand())/float(RAND_MAX));
             }
           BinaryTreeVec<float> bt(vec);
-          MenuBinaryTree(bt);
+          do{
+            std::cout << "1)Operazioni generiche;\n2)Operazioni map/fold\nScegli: ";
+            std::cin >> scelta_menu;
+            if (scelta_menu==1) {
+              MenuBinaryTree(bt);
+            } else if (scelta_menu==2) {
+              OpSpecialiBinaryTree(bt);
+            }
+          }while(scelta_menu<3 && scelta_menu>0);
       }
       else if(sceltaDati==3){
           Vector<std::string> vec(dimensioneStruttura);  //costruzione vec di stringhe
@@ -63,7 +82,15 @@ void myTest(){
               vec[i] = (GenerateString());
 
           BinaryTreeVec<std::string> bt(vec);
-          MenuBinaryTree(bt);
+          do{
+            std::cout << "1)Operazioni generiche;\n2)Operazioni map/fold\nScegli: ";
+            std::cin >> scelta_menu;
+            if (scelta_menu==1) {
+              MenuBinaryTree(bt);
+            } else if (scelta_menu==2) {
+              OpSpecialiBinaryTree(bt);
+            }
+          }while(scelta_menu<3 && scelta_menu>0);
       }
     }
 
@@ -84,6 +111,27 @@ void myTest(){
         }
       }while (scelta>0 && scelta<5);
 
+    }
+
+
+    template <typename Data>
+    void NavigaConNodi(BinaryTreeVec<Data> binarytree) {
+      int scelta;
+      struct lasd::BinaryTreeVec<Data>::NodeVec::NodeVec* node = &binarytree.Root();
+      do {
+        std::cout << "1)Vuoi visualizzare il nodo corrente;\n2)Vuoi andare a destra;\n3)Vuoi andare a sinistra;\nScegli: " << '\n';
+        std::cin >> scelta;
+
+        if (scelta==1) {
+          std::cout <<"Elemento: "<<node->Element() << '\n';
+        }
+        else if(scelta==2 && node->HasLeftChild()){
+          node = &node->LeftChild();
+        }else if(scelta==3 && node->HasRightChild()){
+          node = &node->RightChild();
+        }
+      } while(!node->IsLeaf());
+      std::cout << "Albero terminato!" << '\n';
     }
 
     template <typename Data>
@@ -212,24 +260,63 @@ void myTest(){
       }
     }
 
-    template <typename Data>
-    void OpSpecialiBinaryTreeVecInt(BinaryTreeVec<int> binarytree){
+
+    void OpSpecialiBinaryTree(BinaryTreeVec<int> binarytree){
       int scelta;
-      std::cout << "1)Prodotto per numeri minori di n;\n2)Potenza di 3\n\nScegli: " << '\n';
+      std::cout << "1)Prodotto per numeri minori di n;\n2)Moltiplica gli elementi per 3\n\nScegli: " << '\n';
       std::cin>>scelta;
 
       if (scelta == 1) {
         int n;
-        int sum = 0;
+        int prod = 1;
         std::cout << "Inserisci numero: " << '\n';
-        binarytree.FoldPreOrder(&FoldProdotto, &n, &sum);
-        std::cout << "Somma: "<<sum << '\n';
+        std::cin >> n;
+        binarytree.FoldPreOrder(&FoldProdotto, &n, &prod);
+        std::cout << "Prodotto: "<<prod << '\n';
       } else if (scelta == 2) {
         binarytree.MapPostOrder(&MapRedouble, nullptr);
         std::cout << "Albero modificato: " << '\n';
-        binarytree.MapBreadth(&MapPrint<Data>, nullptr);
+        binarytree.MapBreadth(&MapPrint<int>, nullptr);
       }
 
+    }
+
+    void OpSpecialiBinaryTree(BinaryTreeVec<float> binarytree){
+      int scelta;
+      std::cout << "1)Somma per numeri maggiori di n;\n2)Eleva gli elementi al cubo\n\nScegli: " << '\n';
+      std::cin>>scelta;
+
+      if (scelta == 1) {
+        int n;
+        float sum = 0;
+        std::cout << "Inserisci numero: " << '\n';
+        std::cin >> n;
+        binarytree.FoldPreOrder(&FoldSomma, &n, &sum);
+        std::cout << "Somma: "<<sum << '\n';
+      } else if (scelta == 2) {
+        binarytree.MapPostOrder(&MapPotenza, nullptr);
+        std::cout << "Albero modificato: " << '\n';
+        binarytree.MapBreadth(&MapPrint<float>, nullptr);
+      }
+    }
+
+    void OpSpecialiBinaryTree(BinaryTreeVec<std::string> binarytree){
+      int scelta;
+      std::cout << "1)Concatenazione per le stringhe con lunghezza minore o uguale a n;\n2)Concatenazione in testa di una specifica stringa\n\nScegli: " << '\n';
+      std::cin>>scelta;
+
+      if (scelta == 1) {
+        int n;
+        std::string string_concat = 0;
+        std::cout << "Inserisci numero: " << '\n';
+        std::cin >> n;
+        binarytree.FoldPreOrder(&FoldConcat, &n, &string_concat);
+        std::cout << "Stringa concatenata: "<<string_concat << '\n';
+      } else if (scelta == 2) {
+        binarytree.MapPostOrder(&MapConcat, nullptr);
+        std::cout << "Albero modificato: " << '\n';
+        binarytree.MapBreadth(&MapPrint<std::string>, nullptr);
+      }
     }
 
 
@@ -238,7 +325,7 @@ void myTest(){
       std::cout << dat << " ";
     }
 
-    void FoldSomma(const int& dat, const void* n, void* somma)  noexcept {
+    void FoldSomma(const float& dat, const void* n, void* somma)  noexcept {
         if(dat>*(int*)n)
             *(float*)somma= *(float*)somma+dat;
     }

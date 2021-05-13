@@ -40,6 +40,7 @@ protected:
 
   public:
 
+
     // Destructor
     ~NodeVec() = default;
 

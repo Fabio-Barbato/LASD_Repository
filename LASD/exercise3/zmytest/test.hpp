@@ -19,8 +19,12 @@ void MenuBinaryTree(lasd::BinaryTreeVec<Data>);
 template <typename Data>
 void VisitaBinaryTree(lasd::BinaryTreeVec<Data>);
 
-/*template <typename Data>
-void OpSpecialiBinaryTreeVecInt(lasd::BinaryTreeVec<int>);*/
+template <typename Data>
+void NavigaConNodi(lasd::BinaryTreeVec<Data>);
+
+void OpSpecialiBinaryTree(lasd::BinaryTreeVec<int>);
+void OpSpecialiBinaryTree(lasd::BinaryTreeVec<float>);
+void OpSpecialiBinaryTree(lasd::BinaryTreeVec<std::string>);
 
 
 template <typename Data>
@@ -44,17 +48,16 @@ void ExistBinaryTree(lasd::BinaryTreeVec<Data> );
 template <typename Data>
 void MapPrint(const Data& dat, void* _);
 
-void FoldSomma(const int& dat, const void* n, void* somma)  noexcept ;
+void FoldSomma(const float& dat, const void* n, void* somma)  noexcept ;
 
-void FoldProdotto(const float& dat, const void* n, void* prodotto)  noexcept;
+void FoldProdotto(const int& dat, const void* n, void* prodotto)  noexcept;
 void FoldConcat(const std::string& dat, const void* n, void* stringaConcat)  noexcept;
 
 void MapRedouble(int& value, void* par);
 
 void MapPotenza(float& value, void* par);
 
-void MapUppercase(std::string& value, void* par);
-
+void MapConcat(std::string& value, void* stringaConcat);
 /* ************************************************************************** */
 
 #endif
