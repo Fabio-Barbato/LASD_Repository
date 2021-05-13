@@ -124,6 +124,7 @@ void BinaryTree<Data>::MapBreadth(const MapFunctor fun, void* par){
       tmp = queue->HeadNDequeue();
     } while (!queue->Empty());
     fun(tmp->Element(), par);
+    delete queue;
   }
 }
 
