@@ -152,7 +152,7 @@ void BinaryTree<Data>::FoldBreadth(const FoldFunctor fun, const void* par, void*
 //MapPreOrderAux
 template <typename Data>
 void BinaryTree<Data>::MapPreOrderAux(const MapFunctor fun, Node& node, void* par) {
-  fun(node.Element(), &par);
+  fun(node.Element(), par);
   if(node.HasLeftChild()){
     MapPreOrderAux(fun, node.LeftChild(), par);
   }

@@ -179,7 +179,7 @@ void myTest(){
       if(!binarytree.Empty()){
         struct lasd::BinaryTree<Data>::Node* node = &binarytree.Root();
         do {
-          std::cout << "1)Vuoi visualizzare il nodo corrente;\n2)Vuoi andare a destra;\n3)Vuoi andare a sinistra;\nScegli: " << '\n';
+          std::cout << "1)Vuoi visualizzare il nodo corrente;\n2)Vuoi andare a sinistra;\n3)Vuoi andare a destra;\n4)Vuoi assegnare un nuovo valore al nodo corrente;\nScegli: ";
           std::cin >> scelta;
 
           if (scelta==1) {
@@ -189,8 +189,15 @@ void myTest(){
             node = &node->LeftChild();
           }else if(scelta==3 && node->HasRightChild()){
             node = &node->RightChild();
+          }else if((scelta==2 || scelta==3) && node->IsLeaf()){
+            break;
+          }else if(scelta==4){
+            Data new_value;
+            std::cout << "Inserisci nuovo valore da assegnare: ";
+            std::cin >> new_value;
+            node->Element() = new_value;
           }
-        } while(!node->IsLeaf());
+        } while(scelta>0 && scelta<5);
         std::cout << "Albero terminato!" << '\n';
     }
     else
@@ -228,7 +235,7 @@ void myTest(){
       void ViaggiaConIter(BinaryTree<Data>& binarytree, ForwardIterator<Data>& itr) {
         int scelta;
         do {
-          std::cout << "1)Vuoi visualizzare l'elemento puntato;\n2)Vuoi andare al nodo successivo;\nScegli: " << '\n';
+          std::cout << "1)Vuoi visualizzare l'elemento puntato;\n2)Vuoi andare al nodo successivo;\nScegli: ";
           std::cin >> scelta;
 
           if (scelta==1) {
@@ -265,27 +272,31 @@ void myTest(){
 
       if (scelta == 1) {
         binarytree.MapPreOrder(&MapPrint<Data>, nullptr);
+        std::cout << '\n';
       } else if (scelta == 2) {
         binarytree.MapPostOrder(&MapPrint<Data>, nullptr);
+        std::cout << '\n';
       }
       else if (scelta == 3) {
         binarytree.MapInOrder(&MapPrint<Data>, nullptr);
+        std::cout << '\n';
       }
       else if (scelta == 4) {
         binarytree.MapBreadth(&MapPrint<Data>, nullptr);
+        std::cout << '\n';
       }
     }
 
 
     void OpSpecialiBinaryTree(BinaryTree<int>& binarytree){
       int scelta;
-      std::cout << "1)Prodotto per numeri minori di n;\n2)Moltiplica gli elementi per 3\n\nScegli: " << '\n';
+      std::cout << "1)Prodotto per numeri minori di n;\n2)Moltiplica gli elementi per 3\n\nScegli: ";
       std::cin>>scelta;
 
       if (scelta == 1) {
         int n;
         int prod = 1;
-        std::cout << "Inserisci numero: " << '\n';
+        std::cout << "Inserisci numero: ";
         std::cin >> n;
         binarytree.FoldPreOrder(&FoldProdotto, &n, &prod);
         std::cout << "Prodotto: "<<prod << '\n';
@@ -299,13 +310,13 @@ void myTest(){
 
     void OpSpecialiBinaryTree(BinaryTree<float>& binarytree){
       int scelta;
-      std::cout << "1)Somma per numeri maggiori di n;\n2)Eleva gli elementi al cubo\n\nScegli: " << '\n';
+      std::cout << "1)Somma per numeri maggiori di n;\n2)Eleva gli elementi al cubo\n\nScegli: ";
       std::cin>>scelta;
 
       if (scelta == 1) {
         int n;
         float sum = 0;
-        std::cout << "Inserisci numero: " << '\n';
+        std::cout << "Inserisci numero: ";
         std::cin >> n;
         binarytree.FoldPreOrder(&FoldSomma, &n, &sum);
         std::cout << "Somma: "<<sum << '\n';
@@ -319,12 +330,12 @@ void myTest(){
     void OpSpecialiBinaryTree(BinaryTree<std::string>& binarytree){
       int scelta;
       std::string string_concat;
-      std::cout << "1)Concatenazione per le stringhe con lunghezza minore o uguale a n;\n2)Concatenazione in testa di una specifica stringa\n\nScegli: " << '\n';
+      std::cout << "1)Concatenazione per le stringhe con lunghezza minore o uguale a n;\n2)Concatenazione in testa di una specifica stringa\n\nScegli: ";
       std::cin>>scelta;
 
       if (scelta == 1) {
         int n;
-        std::cout << "Inserisci numero: " << '\n';
+        std::cout << "Inserisci numero: ";
         std::cin >> n;
         binarytree.FoldPreOrder(&FoldConcat, &n, &string_concat);
         std::cout << "Stringa concatenata: "<<string_concat << '\n';
@@ -334,6 +345,7 @@ void myTest(){
         binarytree.MapPreOrder(&MapConcat, &string_concat);
         std::cout << "Albero modificato: ";
         binarytree.MapBreadth(&MapPrint<std::string>, nullptr);
+        std::cout << '\n';
       }
     }
 
@@ -368,5 +380,5 @@ void myTest(){
     }
 
     void MapConcat(std::string& value, void* stringaConcat){
-    *(std::string*)stringaConcat= *(std::string*)stringaConcat+value;
+      value= *(std::string*)stringaConcat+value;
     }
