@@ -320,6 +320,7 @@ void BinaryTree<Data>::FoldInOrderAux(const FoldFunctor fun, Node& node, const v
         }
       }
     }
+    else throw std::out_of_range("terminated");
 
     return *this;
   }
@@ -449,6 +450,8 @@ void BinaryTree<Data>::FoldInOrderAux(const FoldFunctor fun, Node& node, const v
           node = nullptr;
         }
       }
+      else throw std::out_of_range("terminated");
+
       return *this;
     }
 
@@ -559,6 +562,7 @@ void BinaryTree<Data>::FoldInOrderAux(const FoldFunctor fun, Node& node, const v
           }
         }
       }
+      else throw std::out_of_range("terminated");
 
       return *this;
     }
@@ -657,6 +661,7 @@ void BinaryTree<Data>::FoldInOrderAux(const FoldFunctor fun, Node& node, const v
       else
         node = nullptr;
     }
+    else throw std::out_of_range("terminated");
 
     return *this;
   }

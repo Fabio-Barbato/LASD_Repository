@@ -21,11 +21,14 @@ void myTest(){
     std::cout<<"Test della libreria in esecuzione..."<<std::endl;
     std::cout<<"Scegliere una struttura dati:\n1)BinaryTreeVec;\n2)BinaryTreeLnk;\n\nScegli: ";
     std::cin>>sceltaStrutturaDati;
-    std::cout<<"Inserire dimensione iniziale della struttura: ";
-    std::cin>>dimensioneStruttura;
-    if(sceltaStrutturaDati==1)
-        CreazioneBinaryTreeVec(dimensioneStruttura);
+    if(sceltaStrutturaDati==1){
+      std::cout<<"Inserire dimensione iniziale della struttura: ";
+      std::cin>>dimensioneStruttura;
+      CreazioneBinaryTreeVec(dimensioneStruttura);
+    }
     else if(sceltaStrutturaDati==2){
+      std::cout<<"Inserire dimensione iniziale della struttura: ";
+      std::cin>>dimensioneStruttura;
         CreazioneBinaryTreeLnk(dimensioneStruttura);
     }
     std::cout << "Test terminato!" << '\n';
