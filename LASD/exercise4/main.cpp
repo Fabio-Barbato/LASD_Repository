@@ -39,6 +39,12 @@ int main() {
   ++it;
   std::cout << *it << '\n';
   ++it;
+  try{
+    std::cout << "Minimo: "<<bst.Max() << '\n';
+  }catch(std::length_error e){
+    std::cout << "empty" << '\n';
+  }
+
 
 
   return 0;

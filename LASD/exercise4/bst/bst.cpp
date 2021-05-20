@@ -88,12 +88,31 @@ namespace lasd {
    delete Detach(FindPointerTo(root, dat));
  }
 
- /*
- Data& Min(); // (concrete function must throw std::length_error when empty)
- Data MinNRemove(); // (concrete function must throw std::length_error when empty)
- void RemoveMin(); // (concrete function must throw std::length_error when empty)
+ //Min
+ template <typename Data>
+ const Data& BST<Data>::Min() const{
+   if(root==nullptr){
+     throw std::length_error("Empty!");
+   }else{
+     return FindPointerToMin(root)->info;
+   }
+ }
 
- Data& Max(); // (concrete function must throw std::length_error when empty)
+ /*
+ Data MinNRemove(); // (concrete function must throw std::length_error when empty)
+ void RemoveMin(); // (concrete function must throw std::length_error when empty)*/
+
+ //Max
+ template <typename Data>
+ const Data& BST<Data>::Max() const{
+   if(root==nullptr){
+     throw std::length_error("Empty!");
+   }else{
+     return FindPointerToMax(root)->info;
+   }
+ }
+
+ /*
  Data MaxNRemove(); // (concrete function must throw std::length_error when empty)
  void RemoveMax(); // (concrete function must throw std::length_error when empty)
 
@@ -105,22 +124,87 @@ namespace lasd {
  Data SuccessorNRemove(const Data&); // (concrete function must throw std::length_error when not found)
  void RemoveSuccessor(const Data&); // (concrete function must throw std::length_error when not found)*/
 
+//Detach
+template <typename Data>
+typename BST<Data>::NodeLnk* Detach(NodeLnk*& pt) noexcept{
+  if(pt->HasLeftChild() && pt->HasRightChild()){
+
+  }
+  else if(pt->HasLeftChild()){
+    NodeLnk*& tmp = pt;
+    pt = pt->left;
+    pt->left = nullptr;
+    return tmp;
+  }
+  else if(pt->HasRightChild()){
+    NodeLnk*& tmp = pt;
+    pt = pt->right;
+    pt->right = nullptr;
+    return tmp;
+  }
+  else
+    return pt;
+}
+
+//DetachMin
+template <typename Data>
+typename BST<Data>::NodeLnk* DetachMin(NodeLnk*& pt) noexcept{
+  
+}
+
+//FindPointerTo(const)
+template <typename Data>
+typename BST<Data>::NodeLnk* const& BST<Data>::FindPointerTo(NodeLnk* const& pt, const Data& dat) const noexcept{
+  if(pt!=nullptr && pt->info<dat && !pt->HasRightChild())
+   return pt->right;
+   else if(pt!=nullptr && pt->info>dat && !pt->HasLeftChild())
+    return pt->left;
+    else if(pt!=nullptr && pt->info<dat && pt->HasRightChild())
+     return FindPointerTo(pt->right, dat);
+     else if(pt!=nullptr && pt->info>dat && pt->HasLeftChild())
+      return FindPointerTo(pt->left, dat);
+     else
+       return pt;
+}
+
+
 //FindPointerTo
 template <typename Data>
  typename BST<Data>::NodeLnk*& BST<Data>::FindPointerTo(NodeLnk*& pt, const Data& dat) noexcept{
-
-   if(pt!=nullptr && pt->info<dat && !pt->HasRightChild())
-    return pt->right;
-    else if(pt!=nullptr && pt->info>dat && !pt->HasLeftChild())
-     return pt->left;
-     else if(pt!=nullptr && pt->info<dat && pt->HasRightChild())
-      return FindPointerTo(pt->right, dat);
-      else if(pt!=nullptr && pt->info>dat && pt->HasLeftChild())
-       return FindPointerTo(pt->left, dat);
-      else
-        return pt;
+    return const_cast<NodeLnk*&>(static_cast<const BST<Data>*>(this)->FindPointerTo(pt, dat));
+ }
 
 
+
+ //FindPointerToMin
+ template <typename Data>
+ typename BST<Data>::NodeLnk*& BST<Data>::FindPointerToMin(NodeLnk*& pt) noexcept{
+   return const_cast<NodeLnk*&>(static_cast<const BST<Data>*>(this)->FindPointerToMin(pt));
+ }
+
+
+ //FindPointerToMin(const)
+ template <typename Data>
+ typename BST<Data>::NodeLnk* const& BST<Data>::FindPointerToMin(NodeLnk* const& pt) const noexcept{
+   if(pt==nullptr || !pt->HasLeftChild())
+     return pt;
+   else
+    return FindPointerToMin(pt->left);
+ }
+
+ //FindPointerToMax
+ template <typename Data>
+ typename BST<Data>::NodeLnk*& BST<Data>::FindPointerToMax(NodeLnk*& pt) noexcept{
+   return const_cast<NodeLnk*&>(static_cast<const BST<Data>*>(this)->FindPointerToMax(pt));
+ }
+
+//FindPointerToMax(const)
+template <typename Data>
+ typename BST<Data>::NodeLnk* const& BST<Data>::FindPointerToMax(NodeLnk* const& pt) const noexcept{
+   if(pt==nullptr || !pt->HasRightChild())
+     return pt;
+   else
+    return FindPointerToMax(pt->right);
  }
 
 /* ************************************************************************** */

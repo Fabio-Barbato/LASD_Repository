@@ -105,8 +105,8 @@ protected:
   NodeLnk* DetachMin(NodeLnk*&) noexcept;
   NodeLnk* DetachMax(NodeLnk*&) noexcept;
 
-  NodeLnk* SkipOnLeft(NodeLnk*&) noexcept;
-  NodeLnk* SkipOnRight(NodeLnk*&) noexcept;
+  //NodeLnk* SkipOnLeft(NodeLnk*&) noexcept;
+  //NodeLnk* SkipOnRight(NodeLnk*&) noexcept;
 
   NodeLnk*& FindPointerToMin(NodeLnk*&) noexcept;
   NodeLnk* const& FindPointerToMin(NodeLnk* const&) const noexcept;
