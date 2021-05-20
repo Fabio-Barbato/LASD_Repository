@@ -18,6 +18,20 @@ namespace lasd {
     }
   }
 
+  template <typename Data>
+  BinaryTreeLnk<Data>::NodeLnk::NodeLnk(const Data& dat){
+    info = dat;
+    left = nullptr;
+    right = nullptr;
+  }
+
+  template <typename Data>
+  BinaryTreeLnk<Data>::NodeLnk::NodeLnk(Data&& dat) noexcept{
+    std::swap(info, dat);
+    left = nullptr;
+    right = nullptr;
+  }
+
   // Destructor
   template <typename Data>
   BinaryTreeLnk<Data>::NodeLnk::~NodeLnk(){

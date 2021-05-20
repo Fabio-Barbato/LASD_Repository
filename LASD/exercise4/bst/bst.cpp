@@ -67,11 +67,7 @@ namespace lasd {
  void BST<Data>::Insert(const Data& dat){
    NodeLnk*& pt = FindPointerTo(root, dat);
    if(pt == nullptr){
-     NodeLnk node;
-     node.info = dat;
-     node.left = nullptr;
-     node.right = nullptr;
-     pt = &node;
+     pt = new NodeLnk(dat);
      size++;
    }
  }
@@ -81,11 +77,7 @@ namespace lasd {
  void BST<Data>::Insert(Data&& dat) noexcept{
    NodeLnk*& pt = FindPointerTo(root, dat);
    if(pt == nullptr){
-     NodeLnk node;
-     std::swap(node.info, dat);
-     node.left = nullptr;
-     node.right = nullptr;
-     pt = &node;
+     pt = new NodeLnk(std::move(dat));
      size++;
    }
  }
@@ -111,7 +103,25 @@ namespace lasd {
 
  Data& Successor(const Data&); // (concrete function must throw std::length_error when not found)
  Data SuccessorNRemove(const Data&); // (concrete function must throw std::length_error when not found)
- void RemoveSuccessor(const Data&); // (concrete function must throw std::length_error when not found)
+ void RemoveSuccessor(const Data&); // (concrete function must throw std::length_error when not found)*/
+
+//FindPointerTo
+template <typename Data>
+ typename BST<Data>::NodeLnk*& BST<Data>::FindPointerTo(NodeLnk*& pt, const Data& dat) noexcept{
+
+   if(pt!=nullptr && pt->info<dat && !pt->HasRightChild())
+    return pt->right;
+    else if(pt!=nullptr && pt->info>dat && !pt->HasLeftChild())
+     return pt->left;
+     else if(pt!=nullptr && pt->info<dat && pt->HasRightChild())
+      return FindPointerTo(pt->right, dat);
+      else if(pt!=nullptr && pt->info>dat && pt->HasLeftChild())
+       return FindPointerTo(pt->left, dat);
+      else
+        return pt;
+
+
+ }
 
 /* ************************************************************************** */
 

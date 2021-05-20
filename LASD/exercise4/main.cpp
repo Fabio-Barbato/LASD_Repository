@@ -1,16 +1,45 @@
 
-#include "zlasdtest/test.hpp"
+//#include "zlasdtest/test.hpp"
 
-#include "zmytest/test.hpp"
+//#include "zmytest/test.hpp"
+#include "bst/bst.hpp"
+#include "vector/vector.hpp"
+#include "binarytree/binarytree.hpp"
 
 /* ************************************************************************** */
-
+using namespace lasd;
 #include <iostream>
 
 /* ************************************************************************** */
 
 int main() {
   std::cout << "Lasd Libraries 2020" << std::endl;
-  lasdtest(); // To call in the menu of your library test!
+  //lasdtest(); // To call in the menu of your library test!
+  Vector<int> vec(7);
+  vec[0] = 2;
+  vec[1] = 3;
+  vec[2] = 1;
+  vec[3] = 0;
+  vec[4] = 4;
+  vec[5] = 6;
+  vec[6] = 5;
+  BST<int> bst(vec);
+  BTInOrderIterator<int> it(bst);
+  std::cout << *it << '\n';
+  ++it;
+  std::cout << *it << '\n';
+  ++it;
+  std::cout << *it << '\n';
+  ++it;
+  std::cout << *it << '\n';
+  ++it;
+  std::cout << *it << '\n';
+  ++it;
+  std::cout << *it << '\n';
+  ++it;
+  std::cout << *it << '\n';
+  ++it;
+
+
   return 0;
 }
