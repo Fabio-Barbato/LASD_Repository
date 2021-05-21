@@ -96,14 +96,33 @@ void stestBSTInt(uint& testnum, uint& testerr) {
     PredecessorNRemove(loctestnum, loctesterr, bst, true, 7, 6);
     SuccessorNRemove(loctestnum, loctesterr, bst, true, 0, 1);
 
-    FoldPreOrder(loctestnum, loctesterr, bst, true, &FoldAdd<int>, 0, 0, 6);
+  /*  FoldPreOrder(loctestnum, loctesterr, bst, true, &FoldAdd<int>, 0, 0, 6);
     FoldInOrder(loctestnum, loctesterr, bst, true, &FoldAdd<int>, 0, 0, 6);
     FoldPostOrder(loctestnum, loctesterr, bst, true, &FoldAdd<int>, 0, 0, 6);
-    FoldBreadth(loctestnum, loctesterr, bst, true, &FoldAdd<int>, 0, 0, 6);
+    FoldBreadth(loctestnum, loctesterr, bst, true, &FoldAdd<int>, 0, 0, 6);*/
 
     lasd::BST<int> bst1(bst);
 
-    EqualBST(loctestnum, loctesterr, bst, bst1);
+    lasd::BTBreadthIterator<int> it(bst);
+    try{
+    std::cout << *it << '\n';
+    ++it;
+    std::cout << *it << '\n';
+    ++it;
+    std::cout << *it << '\n';
+    ++it;
+    std::cout << *it << '\n';
+    ++it;
+    std::cout << *it << '\n';
+    ++it;
+    std::cout << *it << '\n';
+    ++it;
+    std::cout << *it << '\n';
+    ++it;
+  }catch(std::out_of_range e){
+    std::cout << "empty" << '\n';}
+
+    /*EqualBST(loctestnum, loctesterr, bst, bst1);
 
     Remove(loctestnum, loctesterr, bst1, 4);
 
@@ -149,7 +168,7 @@ void stestBSTInt(uint& testnum, uint& testerr) {
     bst.Clear();
 
     Empty(loctestnum, loctesterr, bst, true);
-    Size(loctestnum, loctesterr, bst, true, 0);
+    Size(loctestnum, loctesterr, bst, true, 0);*/
   } catch(...) {
     loctestnum++; loctesterr++;
     cout << endl << "Unmanaged error! " << endl;

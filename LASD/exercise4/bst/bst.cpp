@@ -15,41 +15,42 @@ namespace lasd {
   //Copy constructor
   template <typename Data>
   BST<Data>::BST(const BST<Data>& bt){
-    BinaryTreeLnk<Data>::BinaryTreeLnk(bt);
+    root = new typename BST<Data>::NodeLnk(bt.Root());
+    size = bt.size;
   }
 
   //Move constructor
   template <typename Data>
   BST<Data>::BST(BST<Data>&& bt) noexcept{
-    BinaryTreeLnk<Data>::BinaryTreeLnk(std::move(bt));
+    std::swap(root, bt.root);
+    std::swap(size, bt.size);
   }
 
   //Copy assignment
   template <typename Data>
   BST<Data>& BST<Data>::operator=(const BST<Data>& bt){
-    return BinaryTreeLnk<Data>::operator=(bt);
+    BinaryTreeLnk<Data>::operator=(bt);
+    return *this;
   }
 
   //Move assignment
   template <typename Data>
   BST<Data>& BST<Data>::operator=(BST<Data>&& bt) noexcept{
-    return BinaryTreeLnk<Data>::operator=(std::move(bt));
+    BinaryTreeLnk<Data>::operator=(std::move(bt));
+    return *this;
   }
 
   //Comparison operators
   template <typename Data>
   bool BST<Data>::operator==(const BST<Data>& bt) const noexcept{
-    if(*this.size == bt.size){
+    if(size == bt.size){
       BTInOrderIterator<Data> it1(*this);
       BTInOrderIterator<Data> it2(bt);
       while (*it1==*it2 && !it1.Terminated()) {
         ++it1;
         ++it2;
       }
-      if(it1.Terminated())
-        return true;
-      else
-        return false;
+      return it1.Terminated();
     }
     else
       return false;
@@ -162,7 +163,7 @@ namespace lasd {
 //Predecessor
  template <typename Data>
  const Data& BST<Data>::Predecessor(const Data& dat) const{
-   typename BST<Data>::NodeLnk* const& tmp = FindPointerToPredecessor(root, dat, nullptr);
+   typename BST<Data>::NodeLnk* tmp = FindPointerToPredecessor(root, dat, nullptr);
    if(tmp != nullptr)
     return tmp->info;
     else
@@ -172,7 +173,7 @@ namespace lasd {
  //PredecessorNRemove
  template <typename Data>
  Data BST<Data>::PredecessorNRemove(const Data& dat){
-   typename BST<Data>::NodeLnk* const& tmp = FindPointerToPredecessor(root, dat, nullptr);
+   typename BST<Data>::NodeLnk* tmp = FindPointerToPredecessor(root, dat, nullptr);
    if(tmp!= nullptr){
      Data pre = tmp->info;
      delete Detach(tmp);
@@ -186,7 +187,7 @@ namespace lasd {
  //RemovePredecessor
  template <typename Data>
  void BST<Data>::RemovePredecessor(const Data& dat){
-   typename BST<Data>::NodeLnk* const& tmp = FindPointerToPredecessor(root, dat, nullptr);
+   typename BST<Data>::NodeLnk* tmp = FindPointerToPredecessor(root, dat, nullptr);
    if(tmp!=nullptr){
      delete Detach(tmp);
      size--;
@@ -198,7 +199,7 @@ namespace lasd {
  //Successor
  template <typename Data>
  const Data& BST<Data>::Successor(const Data& dat) const{
-   typename BST<Data>::NodeLnk* const& tmp = FindPointerToSuccessor(root, dat, nullptr);
+   typename BST<Data>::NodeLnk* tmp = FindPointerToSuccessor(root, dat, nullptr);
    if(tmp != nullptr)
     return tmp->info;
     else
@@ -208,7 +209,7 @@ namespace lasd {
  //SuccessorNRemove
  template <typename Data>
  Data BST<Data>::SuccessorNRemove(const Data& dat){
-   typename BST<Data>::NodeLnk* const& tmp = FindPointerToSuccessor(root, dat, nullptr);
+   typename BST<Data>::NodeLnk* tmp = FindPointerToSuccessor(root, dat, nullptr);
    if(tmp!= nullptr){
      Data pre = tmp->info;
      delete Detach(tmp);
@@ -222,7 +223,7 @@ namespace lasd {
  //RemoveSuccessor
  template <typename Data>
  void BST<Data>::RemoveSuccessor(const Data& dat){
-   typename BST<Data>::NodeLnk* const& tmp = FindPointerToSuccessor(root, dat, nullptr);
+   typename BST<Data>::NodeLnk* tmp = FindPointerToSuccessor(root, dat, nullptr);
    if(tmp!=nullptr){
      delete Detach(tmp);
      size--;
