@@ -99,9 +99,29 @@ namespace lasd {
    }
  }
 
- /*
- Data MinNRemove(); // (concrete function must throw std::length_error when empty)
- void RemoveMin(); // (concrete function must throw std::length_error when empty)*/
+ //MinNRemove
+ template <typename Data>
+ Data BST<Data>::MinNRemove(){
+   if(root!=nullptr){
+     NodeLnk*& tmp = FindPointerToMin(root);
+     Data dat = tmp->info;
+     delete Detach(tmp);
+     size--;
+     return dat;
+   }else
+    throw std::length_error("Empty");
+
+ }
+
+ //RemoveMin
+ template <typename Data>
+ void BST<Data>::RemoveMin(){
+   if(root!=nullptr){
+     delete Detach(FindPointerToMin(root));
+     size--;
+   }else
+    throw std::length_error("Empty");
+ }
 
  //Max
  template <typename Data>
@@ -113,10 +133,32 @@ namespace lasd {
    }
  }
 
- /*
- Data MaxNRemove(); // (concrete function must throw std::length_error when empty)
- void RemoveMax(); // (concrete function must throw std::length_error when empty)
 
+ //MaxNRemove
+ template <typename Data>
+ Data BST<Data>::MaxNRemove(){
+   if(root!=nullptr){
+     NodeLnk*& tmp = FindPointerToMax(root);
+     Data dat = tmp->info;
+     delete Detach(tmp);
+     size--;
+     return dat;
+   }else
+    throw std::length_error("Empty");
+
+ }
+
+
+ //RemoveMax
+ template <typename Data>
+ void BST<Data>::RemoveMax(){
+   if(root!=nullptr){
+     delete Detach(FindPointerToMax(root));
+     size--;
+   }else
+    throw std::length_error("Empty");
+ }
+/*
  Data& Predecessor(const Data&); // (concrete function must throw std::length_error when not found)
  Data PredecessorNRemove(const Data&); // (concrete function must throw std::length_error when not found)
  void RemovePredecessor(const Data&); // (concrete function must throw std::length_error when not found)
@@ -124,6 +166,13 @@ namespace lasd {
  Data& Successor(const Data&); // (concrete function must throw std::length_error when not found)
  Data SuccessorNRemove(const Data&); // (concrete function must throw std::length_error when not found)
  void RemoveSuccessor(const Data&); // (concrete function must throw std::length_error when not found)*/
+
+
+ //Exists
+ template <typename Data>
+ bool BST<Data>::Exists(const Data& dat) const noexcept{
+   return (FindPointerTo(root,dat)!=nullptr);
+ }
 
 //Detach
 template <typename Data>
@@ -135,19 +184,17 @@ typename BST<Data>::NodeLnk* BST<Data>::Detach(NodeLnk*& pt) noexcept{
       return tmp;
     }
     else if(pt->HasLeftChild()){
-      NodeLnk* tmp = pt->left;
-      std::swap(pt, tmp);
-      tmp->left = nullptr;
-      return tmp;
+      return SkipOnLeft(pt);
     }
     else if(pt->HasRightChild()){
-      NodeLnk* tmp = pt->right;
-      std::swap(pt, tmp);
-      tmp->right = nullptr;
+      return SkipOnRight(pt);
+    }
+    else{
+      NodeLnk* tmp = pt;
+      pt = nullptr;
       return tmp;
     }
-    else
-      return pt;
+
   }else
     return nullptr;
 
@@ -168,9 +215,9 @@ typename BST<Data>::NodeLnk* BST<Data>::DetachMax(NodeLnk*& pt) noexcept{
 //SkipOnLeft
 template <typename Data>
 typename BST<Data>::NodeLnk* BST<Data>::SkipOnLeft(NodeLnk*& pt) noexcept{
-  NodeLnk* tmp = nullptr;
-  std::swap(tmp, pt->right);
-  std::swap(tmp, pt);
+  NodeLnk* tmp = pt;
+  pt = tmp->left;
+  tmp->left = nullptr;
 
   return tmp;
 }
@@ -178,9 +225,9 @@ typename BST<Data>::NodeLnk* BST<Data>::SkipOnLeft(NodeLnk*& pt) noexcept{
 //SkipOnRight
 template <typename Data>
 typename BST<Data>::NodeLnk* BST<Data>::SkipOnRight(NodeLnk*& pt) noexcept{
-  NodeLnk* tmp = nullptr;
-  std::swap(tmp, pt->left);
-  std::swap(tmp, pt);
+  NodeLnk* tmp = pt;
+  pt = tmp->right;
+  tmp->right = nullptr;
 
   return tmp;
 }

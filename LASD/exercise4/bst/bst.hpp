@@ -92,13 +92,13 @@ public:
 
   // Specific member functions (inherited from TestableContainer)
 
-  //bool Exists(const Data&) const noexcept override; // Override TestableContainer member
+  bool Exists(const Data&) const noexcept override; // Override TestableContainer member
 
 protected:
 
   // Auxiliary member functions
 
-  Data DataNDelete(NodeLnk*);
+  //Data DataNDelete(NodeLnk*);
 
   NodeLnk* Detach(NodeLnk*&) noexcept;
 

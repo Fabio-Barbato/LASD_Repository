@@ -16,15 +16,16 @@ int main() {
   std::cout << "Lasd Libraries 2020" << std::endl;
   //lasdtest(); // To call in the menu of your library test!
   Vector<int> vec(7);
-  vec[0] = 8;
-  vec[1] = 15;
-  vec[2] = 7;
-  vec[3] = 14;
-  vec[4] = 13;
-  vec[5] = 10;
-  vec[6] = 12;
+  vec[0] = 10;
+  vec[1] = 8;
+  vec[2] = 15;
+  vec[3] = 6;
+  vec[4] = 4;
+  vec[5] = 5;
+  vec[6] = 14;
   BST<int> bst(vec);
-  bst.Remove(9);
+  bst.Remove(5);
+  //std::cout << "Minimo: "<<bst.MinNRemove() << '\n';
   BTBreadthIterator<int> it(bst);
   try{
   std::cout << *it << '\n';
