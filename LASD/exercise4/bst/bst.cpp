@@ -86,6 +86,7 @@ namespace lasd {
  template <typename Data>
  void BST<Data>::Remove(const Data& dat) noexcept{
    delete Detach(FindPointerTo(root, dat));
+   size--;
  }
 
  //Min
@@ -126,30 +127,62 @@ namespace lasd {
 
 //Detach
 template <typename Data>
-typename BST<Data>::NodeLnk* Detach(NodeLnk*& pt) noexcept{
-  if(pt->HasLeftChild() && pt->HasRightChild()){
+typename BST<Data>::NodeLnk* BST<Data>::Detach(NodeLnk*& pt) noexcept{
+  if (pt!=nullptr){
+    if(pt->HasLeftChild() && pt->HasRightChild()){
+      NodeLnk* tmp = DetachMin(pt->right);
+      std::swap(tmp->info, pt->info);
+      return tmp;
+    }
+    else if(pt->HasLeftChild()){
+      NodeLnk* tmp = pt->left;
+      std::swap(pt, tmp);
+      tmp->left = nullptr;
+      return tmp;
+    }
+    else if(pt->HasRightChild()){
+      NodeLnk* tmp = pt->right;
+      std::swap(pt, tmp);
+      tmp->right = nullptr;
+      return tmp;
+    }
+    else
+      return pt;
+  }else
+    return nullptr;
 
-  }
-  else if(pt->HasLeftChild()){
-    NodeLnk*& tmp = pt;
-    pt = pt->left;
-    pt->left = nullptr;
-    return tmp;
-  }
-  else if(pt->HasRightChild()){
-    NodeLnk*& tmp = pt;
-    pt = pt->right;
-    pt->right = nullptr;
-    return tmp;
-  }
-  else
-    return pt;
 }
 
 //DetachMin
 template <typename Data>
-typename BST<Data>::NodeLnk* DetachMin(NodeLnk*& pt) noexcept{
-  
+typename BST<Data>::NodeLnk* BST<Data>::DetachMin(NodeLnk*& pt) noexcept{
+  return SkipOnLeft(FindPointerToMin(pt));
+}
+
+//DetachMax
+template <typename Data>
+typename BST<Data>::NodeLnk* BST<Data>::DetachMax(NodeLnk*& pt) noexcept{
+  return SkipOnRight(FindPointerToMax(pt));
+}
+
+//SkipOnLeft
+template <typename Data>
+typename BST<Data>::NodeLnk* BST<Data>::SkipOnLeft(NodeLnk*& pt) noexcept{
+  NodeLnk* tmp = nullptr;
+  std::swap(tmp, pt->right);
+  std::swap(tmp, pt);
+
+  return tmp;
+}
+
+//SkipOnRight
+template <typename Data>
+typename BST<Data>::NodeLnk* BST<Data>::SkipOnRight(NodeLnk*& pt) noexcept{
+  NodeLnk* tmp = nullptr;
+  std::swap(tmp, pt->left);
+  std::swap(tmp, pt);
+
+  return tmp;
 }
 
 //FindPointerTo(const)

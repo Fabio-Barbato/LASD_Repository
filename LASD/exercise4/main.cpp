@@ -16,34 +16,34 @@ int main() {
   std::cout << "Lasd Libraries 2020" << std::endl;
   //lasdtest(); // To call in the menu of your library test!
   Vector<int> vec(7);
-  vec[0] = 2;
-  vec[1] = 3;
-  vec[2] = 1;
-  vec[3] = 0;
-  vec[4] = 4;
-  vec[5] = 6;
-  vec[6] = 5;
+  vec[0] = 8;
+  vec[1] = 15;
+  vec[2] = 7;
+  vec[3] = 14;
+  vec[4] = 13;
+  vec[5] = 10;
+  vec[6] = 12;
   BST<int> bst(vec);
-  BTInOrderIterator<int> it(bst);
-  std::cout << *it << '\n';
-  ++it;
-  std::cout << *it << '\n';
-  ++it;
-  std::cout << *it << '\n';
-  ++it;
-  std::cout << *it << '\n';
-  ++it;
-  std::cout << *it << '\n';
-  ++it;
-  std::cout << *it << '\n';
-  ++it;
-  std::cout << *it << '\n';
-  ++it;
+  bst.Remove(9);
+  BTBreadthIterator<int> it(bst);
   try{
-    std::cout << "Minimo: "<<bst.Max() << '\n';
-  }catch(std::length_error e){
-    std::cout << "empty" << '\n';
-  }
+  std::cout << *it << '\n';
+  ++it;
+  std::cout << *it << '\n';
+  ++it;
+  std::cout << *it << '\n';
+  ++it;
+  std::cout << *it << '\n';
+  ++it;
+  std::cout << *it << '\n';
+  ++it;
+  std::cout << *it << '\n';
+  ++it;
+  std::cout << *it << '\n';
+  ++it;
+}catch(std::out_of_range e){
+  std::cout << "empty" << '\n';
+}
 
 
 
