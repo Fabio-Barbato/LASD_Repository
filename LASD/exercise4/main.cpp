@@ -24,8 +24,8 @@ int main() {
   vec[5] = 5;
   vec[6] = 14;
   BST<int> bst(vec);
-  bst.Remove(5);
-  //std::cout << "Minimo: "<<bst.MinNRemove() << '\n';
+  //bst.Remove(5);
+  std::cout << "Predecessore: "<<bst.Predecessor(15) << '\n';
   BTBreadthIterator<int> it(bst);
   try{
   std::cout << *it << '\n';

@@ -158,8 +158,17 @@ namespace lasd {
    }else
     throw std::length_error("Empty");
  }
-/*
- Data& Predecessor(const Data&); // (concrete function must throw std::length_error when not found)
+
+ template <typename Data>
+ const Data& BST<Data>::Predecessor(const Data& dat) const{
+   typename BST<Data>::NodeLnk* const& tmp = FindPointerToPredecessor(root, dat, nullptr);
+   if(tmp != nullptr)
+    return tmp->info;
+    else
+      throw std::length_error("Not found");
+ }
+
+ /*
  Data PredecessorNRemove(const Data&); // (concrete function must throw std::length_error when not found)
  void RemovePredecessor(const Data&); // (concrete function must throw std::length_error when not found)
 
@@ -286,6 +295,32 @@ template <typename Data>
    else
     return FindPointerToMax(pt->right);
  }
+
+template <typename Data>
+ typename BST<Data>::NodeLnk*& BST<Data>::FindPointerToPredecessor(NodeLnk*& pt, const Data& dat, NodeLnk*& stima) noexcept{
+   return const_cast<NodeLnk*&>(static_cast<const BST<Data>*>(this)->FindPointerToPredecessor(pt,dat,stima));
+ }
+
+ template <typename Data>
+ typename BST<Data>::NodeLnk* const& BST<Data>::FindPointerToPredecessor(NodeLnk* const& pt, const Data& dat, NodeLnk* const& stima) const noexcept{
+   if (pt != nullptr){
+     if(pt->info < dat)
+      return FindPointerToPredecessor(pt->right, dat, pt);
+     else if(pt->info > dat)
+      return FindPointerToPredecessor(pt->left, dat, stima);
+     else{
+       if(pt->HasLeftChild()){
+         return FindPointerToMax(pt->left);
+       }
+     }
+   }
+    return stima;
+
+
+ }
+/*
+ NodeLnk*& FindPointerToSuccessor(NodeLnk*& pt, const Data& dat) noexcept;
+ NodeLnk* const& FindPointerToSuccessor(NodeLnk* const& pt, const Data& dat) const noexcept;
 
 /* ************************************************************************** */
 
