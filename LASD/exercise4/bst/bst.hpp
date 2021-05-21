@@ -120,8 +120,8 @@ protected:
   NodeLnk*& FindPointerToPredecessor(NodeLnk*&, const Data&, NodeLnk*&) noexcept;
   NodeLnk* const& FindPointerToPredecessor(NodeLnk* const&, const Data&, NodeLnk* const&) const noexcept;
 
-  NodeLnk*& FindPointerToSuccessor(NodeLnk*&, const Data&) noexcept;
-  NodeLnk* const& FindPointerToSuccessor(NodeLnk* const&, const Data&) const noexcept;
+  NodeLnk*& FindPointerToSuccessor(NodeLnk*&, const Data& , NodeLnk*& ) noexcept;
+  NodeLnk* const& FindPointerToSuccessor(NodeLnk* const&, const Data&, NodeLnk* const&) const noexcept;
 
 };
 

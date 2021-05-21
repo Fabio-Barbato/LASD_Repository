@@ -15,9 +15,9 @@ using namespace lasd;
 int main() {
   std::cout << "Lasd Libraries 2020" << std::endl;
   //lasdtest(); // To call in the menu of your library test!
-  Vector<int> vec(7);
-  vec[0] = 10;
-  vec[1] = 8;
+  /*Vector<int> vec(7);
+  vec[0] = 13;
+  vec[1] = 9;
   vec[2] = 15;
   vec[3] = 6;
   vec[4] = 4;
@@ -25,7 +25,7 @@ int main() {
   vec[6] = 14;
   BST<int> bst(vec);
   //bst.Remove(5);
-  std::cout << "Predecessore: "<<bst.Predecessor(15) << '\n';
+  std::cout << "Predecessore: "<<bst.Successor(9) << '\n';
   BTBreadthIterator<int> it(bst);
   try{
   std::cout << *it << '\n';
@@ -44,7 +44,7 @@ int main() {
   ++it;
 }catch(std::out_of_range e){
   std::cout << "empty" << '\n';
-}
+}*/
 
 
 
