@@ -15,7 +15,7 @@ namespace lasd {
   //Copy constructor
   template <typename Data>
   BST<Data>::BST(const BST<Data>& bt){
-    root = new typename BST<Data>::NodeLnk(bt.Root());
+    root = new NodeLnk(bt.Root());
     size = bt.size;
   }
 
@@ -29,14 +29,19 @@ namespace lasd {
   //Copy assignment
   template <typename Data>
   BST<Data>& BST<Data>::operator=(const BST<Data>& bt){
-    BinaryTreeLnk<Data>::operator=(bt);
+    BST<Data>* tmp = new BinaryTreeLnk<Data>(bt);
+    std::swap(*this, *tmp);
+    delete tmp;
+
     return *this;
   }
 
   //Move assignment
   template <typename Data>
   BST<Data>& BST<Data>::operator=(BST<Data>&& bt) noexcept{
-    BinaryTreeLnk<Data>::operator=(std::move(bt));
+    std::swap(root, bt.root);
+    std::swap(size, bt.size);
+
     return *this;
   }
 
@@ -46,7 +51,7 @@ namespace lasd {
     if(size == bt.size){
       BTInOrderIterator<Data> it1(*this);
       BTInOrderIterator<Data> it2(bt);
-      while (*it1==*it2 && !it1.Terminated()) {
+      while (!it1.Terminated() && *it1==*it2) {
         ++it1;
         ++it2;
       }
@@ -86,8 +91,11 @@ namespace lasd {
  //Remove
  template <typename Data>
  void BST<Data>::Remove(const Data& dat) noexcept{
-   delete Detach(FindPointerTo(root, dat));
-   size--;
+   NodeLnk* tmp = Detach(FindPointerTo(root, dat));
+   if(tmp!=nullptr){
+     delete Detach(FindPointerTo(root, dat));
+     size--;
+   }
  }
 
  //Min
@@ -173,7 +181,7 @@ namespace lasd {
  //PredecessorNRemove
  template <typename Data>
  Data BST<Data>::PredecessorNRemove(const Data& dat){
-   typename BST<Data>::NodeLnk* tmp = FindPointerToPredecessor(root, dat, nullptr);
+   NodeLnk* tmp = FindPointerToPredecessor(root, dat, nullptr);
    if(tmp!= nullptr){
      Data pre = tmp->info;
      delete Detach(tmp);
@@ -300,13 +308,9 @@ typename BST<Data>::NodeLnk* BST<Data>::SkipOnRight(NodeLnk*& pt) noexcept{
 //FindPointerTo(const)
 template <typename Data>
 typename BST<Data>::NodeLnk* const& BST<Data>::FindPointerTo(NodeLnk* const& pt, const Data& dat) const noexcept{
-  if(pt!=nullptr && pt->info<dat && !pt->HasRightChild())
-   return pt->right;
-   else if(pt!=nullptr && pt->info>dat && !pt->HasLeftChild())
-    return pt->left;
-    else if(pt!=nullptr && pt->info<dat && pt->HasRightChild())
+  if(pt!=nullptr && pt->info<dat)
      return FindPointerTo(pt->right, dat);
-     else if(pt!=nullptr && pt->info>dat && pt->HasLeftChild())
+     else if(pt!=nullptr && pt->info>dat)
       return FindPointerTo(pt->left, dat);
      else
        return pt;
