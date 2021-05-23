@@ -182,11 +182,9 @@ namespace lasd {
  template <typename Data>
  Data BST<Data>::PredecessorNRemove(const Data& dat){
    NodeLnk* tmp = FindPointerToPredecessor(root, dat, nullptr);
-   std::cout << "valore: "<<tmp->info << '\n';
    if(tmp!= nullptr){
      Data pre = tmp->info;
-     delete Detach(tmp);
-     size--;
+     Remove(tmp->info);
      return pre;
    }
    else
@@ -198,8 +196,7 @@ namespace lasd {
  void BST<Data>::RemovePredecessor(const Data& dat){
    typename BST<Data>::NodeLnk* tmp = FindPointerToPredecessor(root, dat, nullptr);
    if(tmp!=nullptr){
-     delete Detach(tmp);
-     size--;
+     Remove(tmp->info);
    }else
     throw std::length_error("Not found");
 
@@ -221,8 +218,7 @@ namespace lasd {
    typename BST<Data>::NodeLnk* tmp = FindPointerToSuccessor(root, dat, nullptr);
    if(tmp!= nullptr){
      Data pre = tmp->info;
-     delete Detach(tmp);
-     size--;
+     Remove(tmp->info);
      return pre;
    }
    else
@@ -234,8 +230,7 @@ namespace lasd {
  void BST<Data>::RemoveSuccessor(const Data& dat){
    typename BST<Data>::NodeLnk* tmp = FindPointerToSuccessor(root, dat, nullptr);
    if(tmp!=nullptr){
-     delete Detach(tmp);
-     size--;
+     Remove(tmp->info);
    }else
     throw std::length_error("Not found");
 

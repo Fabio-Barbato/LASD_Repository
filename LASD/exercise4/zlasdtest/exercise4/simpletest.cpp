@@ -93,10 +93,8 @@ void stestBSTInt(uint& testnum, uint& testerr) {
     Successor(loctestnum, loctesterr, bst, true, 2, 3);
     Successor(loctestnum, loctesterr, bst, true, 4, 6);
 
-    //PredecessorNRemove(loctestnum, loctesterr, bst, true, 7, 6);
-  //  SuccessorNRemove(loctestnum, loctesterr, bst, true, 0, 1);
-  Remove(loctestnum, loctesterr, bst, 6);
-  Remove(loctestnum, loctesterr, bst, 1);
+    PredecessorNRemove(loctestnum, loctesterr, bst, true, 7, 6);
+    SuccessorNRemove(loctestnum, loctesterr, bst, true, 0, 1);
 
     FoldPreOrder(loctestnum, loctesterr, bst, true, &FoldAdd<int>, 0, 0, 6);
     FoldInOrder(loctestnum, loctesterr, bst, true, &FoldAdd<int>, 0, 0, 6);
@@ -119,8 +117,7 @@ void stestBSTInt(uint& testnum, uint& testerr) {
 
     EqualBST(loctestnum, loctesterr, bst1, bst2);
 
-  //  RemovePredecessor(loctestnum, loctesterr, bst1, true, 9);
-  Remove(loctestnum, loctesterr, bst1, 4);
+    RemovePredecessor(loctestnum, loctesterr, bst1, true, 9);
 
 
     NonEqualBST(loctestnum, loctesterr, bst1, bst2);
