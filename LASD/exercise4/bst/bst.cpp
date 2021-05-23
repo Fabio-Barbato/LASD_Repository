@@ -93,7 +93,7 @@ namespace lasd {
  void BST<Data>::Remove(const Data& dat) noexcept{
    NodeLnk* tmp = Detach(FindPointerTo(root, dat));
    if(tmp!=nullptr){
-     delete Detach(FindPointerTo(root, dat));
+     delete tmp;
      size--;
    }
  }
@@ -272,13 +272,13 @@ typename BST<Data>::NodeLnk* BST<Data>::Detach(NodeLnk*& pt) noexcept{
 //DetachMin
 template <typename Data>
 typename BST<Data>::NodeLnk* BST<Data>::DetachMin(NodeLnk*& pt) noexcept{
-  return SkipOnLeft(FindPointerToMin(pt));
+  return SkipOnRight(FindPointerToMin(pt));
 }
 
 //DetachMax
 template <typename Data>
 typename BST<Data>::NodeLnk* BST<Data>::DetachMax(NodeLnk*& pt) noexcept{
-  return SkipOnRight(FindPointerToMax(pt));
+  return SkipOnLeft(FindPointerToMax(pt));
 }
 
 //SkipOnLeft
@@ -365,9 +365,9 @@ template <typename Data>
      else if(pt->info > dat)
       return FindPointerToPredecessor(pt->left, dat, stima);
      else{
-       if(pt->HasLeftChild()){
-         return FindPointerToMax(pt->left);
-       }
+       if(pt->HasLeftChild())
+      return FindPointerToMax(pt->left);
+
      }
    }
     return stima;
@@ -386,9 +386,8 @@ template <typename Data>
       else if(pt->info > dat)
        return FindPointerToSuccessor(pt->left, dat, pt);
       else{
-        if(pt->HasRightChild()){
-          return FindPointerToMin(pt->right);
-        }
+        if(pt->HasRightChild())
+        return FindPointerToMin(pt->right);
       }
     }
      return stima;
