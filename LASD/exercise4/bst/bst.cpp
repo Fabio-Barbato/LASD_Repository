@@ -182,6 +182,7 @@ namespace lasd {
  template <typename Data>
  Data BST<Data>::PredecessorNRemove(const Data& dat){
    NodeLnk* tmp = FindPointerToPredecessor(root, dat, nullptr);
+   std::cout << "valore: "<<tmp->info << '\n';
    if(tmp!= nullptr){
      Data pre = tmp->info;
      delete Detach(tmp);

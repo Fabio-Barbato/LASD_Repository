@@ -122,7 +122,7 @@ void BinaryTree<Data>::MapBreadth(const MapFunctor fun, void* par){
         queue->Enqueue(&tmp->RightChild());
       }
       tmp = queue->HeadNDequeue();
-    } while (!queue->Empty());
+    } while (!queue->Empty() || !tmp->IsLeaf());
     fun(tmp->Element(), par);
     delete queue;
   }
@@ -143,7 +143,7 @@ void BinaryTree<Data>::FoldBreadth(const FoldFunctor fun, const void* par, void*
         queue->Enqueue(&tmp->RightChild());
       }
       tmp = queue->HeadNDequeue();
-    } while (!queue->Empty());
+    } while (!queue->Empty() || !tmp->IsLeaf());
     fun(tmp->Element(), par, acc);
     delete queue;
   }

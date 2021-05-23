@@ -71,135 +71,64 @@ void stestBSTInt(uint& testnum, uint& testerr) {
     Size(loctestnum, loctesterr, bst, true, 7);
 
     Exists(loctestnum, loctesterr, bst, true, 6);
-    std::cout << "size bst: "<<bst.size << '\n';
     Exists(loctestnum, loctesterr, bst, false, 8);
-    std::cout << "size bst: "<<bst.size << '\n';
-
     Exists(loctestnum, loctesterr, bst, false, 0);
-    std::cout << "size bst: "<<bst.size << '\n';
-
     Exists(loctestnum, loctesterr, bst, true, -1);
-    std::cout << "size bst: "<<bst.size << '\n';
-
     Exists(loctestnum, loctesterr, bst, true, 2);
-    std::cout << "size bst: "<<bst.size << '\n';
-
 
     Remove(loctestnum, loctesterr, bst, 5);
-    std::cout << "size bst: "<<bst.size << '\n';
-
     Remove(loctestnum, loctesterr, bst, 2);
-    std::cout << "size bst: "<<bst.size << '\n';
-
 
     Exists(loctestnum, loctesterr, bst, false, 5);
-    std::cout << "size bst: "<<bst.size << '\n';
-
     Exists(loctestnum, loctesterr, bst, false, 2);
-    std::cout << "size bst: "<<bst.size << '\n';
-
 
     RemoveMax(loctestnum, loctesterr, bst, true);
-    std::cout << "size bst: "<<bst.size << '\n';
-
     Max(loctestnum, loctesterr, bst, true, 6);
-    std::cout << "size bst: "<<bst.size << '\n';
-
 
     MapInOrder(loctestnum, loctesterr, bst, true, &MapPrint<int>, 0);
-    std::cout << "size bst: "<<bst.size << '\n';
-
 
     Predecessor(loctestnum, loctesterr, bst, true, 4, 3);
-    std::cout << "size bst: "<<bst.size << '\n';
-
     Predecessor(loctestnum, loctesterr, bst, true, 5, 4);
-    std::cout << "size bst: "<<bst.size << '\n';
-
 
     Successor(loctestnum, loctesterr, bst, true, 2, 3);
-    std::cout << "size bst: "<<bst.size << '\n';
-
     Successor(loctestnum, loctesterr, bst, true, 4, 6);
-    std::cout << "size bst: "<<bst.size << '\n';
 
-
-   Remove(loctestnum, loctesterr, bst, 6);//sostituti di PredecessorNRemove e SuccessorNRemove
-   std::cout << "size bst: "<<bst.size << '\n';
-
-   Remove(loctestnum, loctesterr, bst, 1);
-   std::cout << "size bst: "<<bst.size << '\n';
-
-
-    /*PredecessorNRemove(loctestnum, loctesterr, bst, true, 7, 6);
-    SuccessorNRemove(loctestnum, loctesterr, bst, true, 0, 1);*/
+    //PredecessorNRemove(loctestnum, loctesterr, bst, true, 7, 6);
+  //  SuccessorNRemove(loctestnum, loctesterr, bst, true, 0, 1);
+  Remove(loctestnum, loctesterr, bst, 6);
+  Remove(loctestnum, loctesterr, bst, 1);
 
     FoldPreOrder(loctestnum, loctesterr, bst, true, &FoldAdd<int>, 0, 0, 6);
-    std::cout << "size bst: "<<bst.size << '\n';
-
     FoldInOrder(loctestnum, loctesterr, bst, true, &FoldAdd<int>, 0, 0, 6);
-    std::cout << "size bst: "<<bst.size << '\n';
-
     FoldPostOrder(loctestnum, loctesterr, bst, true, &FoldAdd<int>, 0, 0, 6);
-    std::cout << "size bst: "<<bst.size << '\n';
-
     FoldBreadth(loctestnum, loctesterr, bst, true, &FoldAdd<int>, 0, 0, 6);
-    std::cout << "size bst: "<<bst.size << '\n';
-
 
     lasd::BST<int> bst1(bst);
-    std::cout << "size bst1: "<<bst1.size << '\n';
 
     EqualBST(loctestnum, loctesterr, bst, bst1);
 
     Remove(loctestnum, loctesterr, bst1, 4);
-    std::cout << "size bst1: "<<bst1.size << '\n';
 
     NonEqualBST(loctestnum, loctesterr, bst, bst1);
 
     InsertC(loctestnum, loctesterr, bst1, 4);
-    std::cout << "size bst1: "<<bst1.size << '\n';
 
     EqualBST(loctestnum, loctesterr, bst, bst1);
 
     lasd::BST<int> bst2 = bst1;
 
     EqualBST(loctestnum, loctesterr, bst1, bst2);
-    std::cout << "size bst2: "<<bst2.size << '\n';
-    std::cout << "size bst1: "<<bst1.size << '\n';
 
-    Remove(loctestnum, loctesterr, bst1, 4); //Sostituto di RemovePredecessor di 9
-    std::cout << "size bst2: "<<bst2.size << '\n';
-    std::cout << "size bst1: "<<bst1.size << '\n';
+  //  RemovePredecessor(loctestnum, loctesterr, bst1, true, 9);
+  Remove(loctestnum, loctesterr, bst1, 4);
+
 
     NonEqualBST(loctestnum, loctesterr, bst1, bst2);
-    std::cout << "size bst2: "<<bst2.size << '\n';
 
     lasd::BST<int> bst3(std::move(bst2));
-    std::cout << "size bst2: "<<bst2.size << '\n';
-    std::cout << "size bst3: "<<bst3.size << '\n';
 
     Empty(loctestnum, loctesterr, bst2, true);
     Size(loctestnum, loctesterr, bst2, true, 0);
-    lasd::BTBreadthIterator<int> it(bst3);
-    try{
-    std::cout << *it << '\n';
-    ++it;
-    std::cout << *it << '\n';
-    ++it;
-    std::cout << *it << '\n';
-    ++it;
-    std::cout << *it << '\n';
-    ++it;
-    std::cout << *it << '\n';
-    ++it;
-    std::cout << *it << '\n';
-    ++it;
-    std::cout << *it << '\n';
-    ++it;
-  }catch(std::out_of_range e){
-    std::cout << "empty" << '\n';
-  }
 
     Empty(loctestnum, loctesterr, bst3, false);
     Size(loctestnum, loctesterr, bst3, true, 3);
@@ -211,25 +140,6 @@ void stestBSTInt(uint& testnum, uint& testerr) {
 
     Empty(loctestnum, loctesterr, bst2, false);
     Size(loctestnum, loctesterr, bst2, true, 2);
-    lasd::BTBreadthIterator<int> it2(bst3);
-    try{
-    std::cout << *it2 << '\n';
-    ++it2;
-    std::cout << *it2 << '\n';
-    ++it2;
-    std::cout << *it2 << '\n';
-    ++it2;
-    std::cout << *it2 << '\n';
-    ++it2;
-    std::cout << *it2 << '\n';
-    ++it2;
-    std::cout << *it2 << '\n';
-    ++it2;
-    std::cout << *it2 << '\n';
-    ++it2;
-  }catch(std::out_of_range e){
-    std::cout << "empty" << '\n';
-  }
 
     NonEqualBST(loctestnum, loctesterr, bst3, bst2);
 
@@ -329,53 +239,53 @@ void stestBSTString(uint& testnum, uint& testerr) {
     lasd::BST<string> bst(vec);
     Size(loctestnum, loctesterr, bst, true, 5);
 
-    // MapPreOrder(loctestnum, loctesterr, bst, true, &MapPrint<string>, 0);
-    //
-    // lasd::BTPreOrderIterator<string> itr1(bst);
-    // GetItrValue(loctestnum, loctesterr, itr1, true, string("B"));
-    // ++itr1;
-    // GetItrValue(loctestnum, loctesterr, itr1, true, string("A"));
-    // ++itr1;
-    // GetItrValue(loctestnum, loctesterr, itr1, true, string("C"));
-    // ++itr1;
-    // GetItrValue(loctestnum, loctesterr, itr1, true, string("D"));
-    // ++itr1;
-    // GetItrValue(loctestnum, loctesterr, itr1, true, string("E"));
-    // Terminated(loctestnum, loctesterr, itr1, false);
-    // ++itr1;
-    // Terminated(loctestnum, loctesterr, itr1, true);
-    //
-    // MapPostOrder(loctestnum, loctesterr, bst, true, &MapPrint<string>, 0);
-    //
-    // lasd::BTPostOrderIterator<string> itr2(bst);
-    // GetItrValue(loctestnum, loctesterr, itr2, true, string("A"));
-    // ++itr2;
-    // GetItrValue(loctestnum, loctesterr, itr2, true, string("E"));
-    // ++itr2;
-    // GetItrValue(loctestnum, loctesterr, itr2, true, string("D"));
-    // ++itr2;
-    // GetItrValue(loctestnum, loctesterr, itr2, true, string("C"));
-    // ++itr2;
-    // GetItrValue(loctestnum, loctesterr, itr2, true, string("B"));
-    // Terminated(loctestnum, loctesterr, itr2, false);
-    // ++itr2;
-    // Terminated(loctestnum, loctesterr, itr2, true);
-    //
-    // MapBreadth(loctestnum, loctesterr, bst, true, &MapPrint<string>, 0);
-    //
-    // lasd::BTBreadthIterator<string> itr3(bst);
-    // GetItrValue(loctestnum, loctesterr, itr3, true, string("B"));
-    // ++itr3;
-    // GetItrValue(loctestnum, loctesterr, itr3, true, string("A"));
-    // ++itr3;
-    // GetItrValue(loctestnum, loctesterr, itr3, true, string("C"));
-    // ++itr3;
-    // GetItrValue(loctestnum, loctesterr, itr3, true, string("D"));
-    // ++itr3;
-    // GetItrValue(loctestnum, loctesterr, itr3, true, string("E"));
-    // Terminated(loctestnum, loctesterr, itr3, false);
-    // ++itr3;
-    // Terminated(loctestnum, loctesterr, itr3, true);
+     MapPreOrder(loctestnum, loctesterr, bst, true, &MapPrint<string>, 0);
+
+     lasd::BTPreOrderIterator<string> itr1(bst);
+     GetItrValue(loctestnum, loctesterr, itr1, true, string("B"));
+     ++itr1;
+     GetItrValue(loctestnum, loctesterr, itr1, true, string("A"));
+     ++itr1;
+     GetItrValue(loctestnum, loctesterr, itr1, true, string("C"));
+     ++itr1;
+     GetItrValue(loctestnum, loctesterr, itr1, true, string("D"));
+     ++itr1;
+     GetItrValue(loctestnum, loctesterr, itr1, true, string("E"));
+     Terminated(loctestnum, loctesterr, itr1, false);
+     ++itr1;
+     Terminated(loctestnum, loctesterr, itr1, true);
+
+     MapPostOrder(loctestnum, loctesterr, bst, true, &MapPrint<string>, 0);
+
+     lasd::BTPostOrderIterator<string> itr2(bst);
+     GetItrValue(loctestnum, loctesterr, itr2, true, string("A"));
+     ++itr2;
+     GetItrValue(loctestnum, loctesterr, itr2, true, string("E"));
+     ++itr2;
+     GetItrValue(loctestnum, loctesterr, itr2, true, string("D"));
+     ++itr2;
+     GetItrValue(loctestnum, loctesterr, itr2, true, string("C"));
+     ++itr2;
+     GetItrValue(loctestnum, loctesterr, itr2, true, string("B"));
+     Terminated(loctestnum, loctesterr, itr2, false);
+     ++itr2;
+     Terminated(loctestnum, loctesterr, itr2, true);
+
+     MapBreadth(loctestnum, loctesterr, bst, true, &MapPrint<string>, 0);
+
+     lasd::BTBreadthIterator<string> itr3(bst);
+     GetItrValue(loctestnum, loctesterr, itr3, true, string("B"));
+     ++itr3;
+     GetItrValue(loctestnum, loctesterr, itr3, true, string("A"));
+     ++itr3;
+     GetItrValue(loctestnum, loctesterr, itr3, true, string("C"));
+     ++itr3;
+     GetItrValue(loctestnum, loctesterr, itr3, true, string("D"));
+     ++itr3;
+     GetItrValue(loctestnum, loctesterr, itr3, true, string("E"));
+     Terminated(loctestnum, loctesterr, itr3, false);
+     ++itr3;
+     Terminated(loctestnum, loctesterr, itr3, true);
 
     MapInOrder(loctestnum, loctesterr, bst, true, &MapPrint<string>, 0);
 
@@ -393,9 +303,9 @@ void stestBSTString(uint& testnum, uint& testerr) {
     ++itr4;
     Terminated(loctestnum, loctesterr, itr4, true);
 
-    // FoldPreOrder(loctestnum, loctesterr, bst, true, &FoldStringConcatenate, string(""), string("?"), string("?BACDE"));
-    // FoldPostOrder(loctestnum, loctesterr, bst, true, &FoldStringConcatenate, string(""), string("?"), string("?AEDCB"));
-    // FoldBreadth(loctestnum, loctesterr, bst, true, &FoldStringConcatenate, string(""), string("?"), string("?BACDE"));
+     FoldPreOrder(loctestnum, loctesterr, bst, true, &FoldStringConcatenate, string(""), string("?"), string("?BACDE"));
+     FoldPostOrder(loctestnum, loctesterr, bst, true, &FoldStringConcatenate, string(""), string("?"), string("?AEDCB"));
+     FoldBreadth(loctestnum, loctesterr, bst, true, &FoldStringConcatenate, string(""), string("?"), string("?BACDE"));
     FoldInOrder(loctestnum, loctesterr, bst, true, &FoldStringConcatenate, string(""), string("?"), string("?ABCDE"));
   } catch(...) {
     loctestnum++; loctesterr++;
@@ -411,7 +321,7 @@ void stestBSTString(uint& testnum, uint& testerr) {
 void testSimpleExercise4() {
   uint testnum = 0, testerr = 0;
   stestBSTInt(testnum, testerr);
-  //stestBSTFloat(testnum, testerr);
-  //stestBSTString(testnum, testerr);
+  stestBSTFloat(testnum, testerr);
+  stestBSTString(testnum, testerr);
   cout << endl << "Exercise 4 (Simple Test) (Errors/Tests: " << testerr << "/" << testnum << ")" << endl;
 }
