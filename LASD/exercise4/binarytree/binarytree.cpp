@@ -51,7 +51,14 @@ bool BinaryTree<Data>::Node::operator!=(const Node& node) const noexcept{
 //Comparison operator
 template <typename Data>
 bool BinaryTree<Data>::operator==(const BinaryTree<Data>& bt) const noexcept{
-  return (size == bt.size && Root() == bt.Root());
+  if (size == bt.size){
+    if(size>0)
+      return Root()== bt.Root();
+    else
+      return true;
+  }
+  else
+    return false;
 }
 
 template <typename Data>
@@ -122,7 +129,7 @@ void BinaryTree<Data>::MapBreadth(const MapFunctor fun, void* par){
         queue->Enqueue(&tmp->RightChild());
       }
       tmp = queue->HeadNDequeue();
-    } while (!queue->Empty() || !tmp->IsLeaf());
+    } while (!queue->Empty());
     fun(tmp->Element(), par);
     delete queue;
   }
@@ -143,7 +150,7 @@ void BinaryTree<Data>::FoldBreadth(const FoldFunctor fun, const void* par, void*
         queue->Enqueue(&tmp->RightChild());
       }
       tmp = queue->HeadNDequeue();
-    } while (!queue->Empty() || !tmp->IsLeaf());
+    } while (!queue->Empty());
     fun(tmp->Element(), par, acc);
     delete queue;
   }
