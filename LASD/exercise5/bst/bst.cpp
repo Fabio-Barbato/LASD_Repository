@@ -12,11 +12,24 @@ namespace lasd {
    }
  }
 
+  //Copy constructor
+  template <typename Data>
+  BST<Data>::BST(const BST<Data>& bt){
+    root = new NodeLnk(bt.Root());
+    size = bt.size;
+  }
+
+  //Move constructor
+  template <typename Data>
+  BST<Data>::BST(BST<Data>&& bt) noexcept{
+    std::swap(root, bt.root);
+    std::swap(size, bt.size);
+  }
 
   //Copy assignment
   template <typename Data>
   BST<Data>& BST<Data>::operator=(const BST<Data>& bt){
-    BST<Data>* tmp = new BST<Data>(bt);
+    BST<Data>* tmp = new BinaryTreeLnk<Data>(bt);
     std::swap(*this, *tmp);
     delete tmp;
 

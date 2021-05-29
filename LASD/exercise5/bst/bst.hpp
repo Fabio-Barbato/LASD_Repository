@@ -38,10 +38,10 @@ public:
   /* ************************************************************************ */
 
   // Copy constructor
-  BST(const BST<Data>& bst): BinaryTreeLnk<Data>(bst){}
+  BST(const BST<Data>&);
 
   // Move constructor
-  BST(BST<Data>&& bst) noexcept: BinaryTreeLnk<Data>(std::move(bst)){}
+  BST(BST<Data>&&) noexcept;
 
 
   /* ************************************************************************ */
