@@ -118,7 +118,7 @@ void MatrixVec<Data>::ColumnResize(const ulong new_col) {
 
 template <typename Data>
 bool MatrixVec<Data>::ExistsCell(const ulong row, const ulong col) const noexcept{
-  return (size>0 && row<=rows && col<=columns);
+  return (size>0 && row<rows && col<columns);
 }
 
 
