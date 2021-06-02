@@ -78,15 +78,11 @@ MatrixCSR<Data>::MatrixCSR(const ulong row, const ulong col): vec(row+1){
   template <typename Data>
   bool MatrixCSR<Data>::ExistsCell(const ulong row, const ulong col) const noexcept{
     if(row<rows && col<columns){
-      if (vec[row]==vec[row+1]) {
-        return false;
-      } else {
-        Node* tmp = vec[row];
-        while (tmp!=vec[row+1] && tmp->info.second<col) {
-          tmp = tmp->next;
+        Node** tmp = vec[row];
+        while (tmp!=vec[row+1] && (*tmp)->info.second<col) {
+          tmp = (*tmp)->next;
         }
-        return tmp!=vec[row+1] && tmp->info.second==col;
-      }
+        return tmp!=vec[row+1] && (*tmp)->info.second==col;
     }
     else
       return false;
@@ -95,31 +91,32 @@ MatrixCSR<Data>::MatrixCSR(const ulong row, const ulong col): vec(row+1){
   //Operator ()
   template <typename Data>
   Data& MatrixCSR<Data>::operator()(const ulong row, const ulong col){
-    if(row<rows && col<columns){
-      Node* tmp = vec[row];
-      if(ExistsCell(row,col)){
-        while (tmp->info.second<col) {
-          tmp = tmp->next;
+    if(row<rows && col<columns){ //cella nel range
+      Node** tmp = vec[row];
+      if (ExistsCell(row,col)) { //la cella esiste
+        while ((*tmp)->info.second<col) {
+          tmp = (*tmp)->next;
         }
-        return tmp->info.first;
-      }
-      else{
-        Node new_node;
-        if(vec[row]!=vec[row+1]){
-          while (tmp->next!=vec[row+1] && tmp->info.second<col) {
-            tmp = tmp->next;
-          }
-          new_node->next = tmp->next->next;
-          tmp->next = &new_node;
+        return (*tmp)->info.first;
+      } else { //la cella non esiste
+        Node* new_node = new Node();
+        new_node->info.second = col;
+        while (tmp!=vec[row+1] && (*tmp)->info.second<col) {
+          tmp = (*tmp)->next;
         }
-        else{
-          ulong index = row;
+        new_node->next = (*tmp)->next;
+        (*tmp)->next = new_node;
+
+        if (tmp==vec[row+1]) {//riga vuota o cella tra due righe
+          
+          ulong index = row+1;
           while (vec[index]==vec[index+1]) {
+            vec[index] = &new_node->next;
             index++;
           }
+          vec[index] = &new_node->next;
         }
       }
-
     }
     else
       throw std::out_of_range("Out of range!");
@@ -130,11 +127,11 @@ MatrixCSR<Data>::MatrixCSR(const ulong row, const ulong col): vec(row+1){
   const Data& MatrixCSR<Data>::operator()(const ulong row, const ulong col) const{
     if(row<rows && col<columns){
       if(ExistsCell(row,col)){
-        Node* tmp = vec[row];
-        while (tmp->info.second<col) {
-          tmp = tmp->next;
+        Node** tmp = vec[row];
+        while ((*tmp)->info.second<col) {
+          tmp = (*tmp)->next;
         }
-        return tmp->info.first;
+        return (*tmp)->info.first;
       }
       else{
         throw std::length_error("Element not present!");
@@ -152,11 +149,7 @@ MatrixCSR<Data>::MatrixCSR(const ulong row, const ulong col): vec(row+1){
       vec[i] = nullptr;
     }
     vec.Clear();
-    while (head!=nullptr) {
-      Node* tmp = head;
-      head = tmp->next;
-      delete tmp;
-    }
+    List<std::pair<Data,ulong>>::Clear();
     size=0;
     columns=0;
     rows=0;
