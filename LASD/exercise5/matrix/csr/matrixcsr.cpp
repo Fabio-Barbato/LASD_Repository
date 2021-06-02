@@ -108,7 +108,6 @@ MatrixCSR<Data>::MatrixCSR(const ulong row, const ulong col): vec(row+1){
         (*tmp)->next = new_node;
 
         if (tmp==vec[row+1]) {//riga vuota o cella tra due righe
-          
           ulong index = row+1;
           while (vec[index]==vec[index+1]) {
             vec[index] = &new_node->next;
