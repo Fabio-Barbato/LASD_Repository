@@ -20,11 +20,18 @@ MatrixCSR<Data>::MatrixCSR(const ulong row, const ulong col): vec(row+1){
   }
 }
 
-  /*// Copy constructor
+  // Copy constructor
   template <typename Data>
-  MatrixCSR<Data>::MatrixCSR(const MatrixCSR<Data>& mat){
+  MatrixCSR<Data>::MatrixCSR(const MatrixCSR<Data>& mat): MatrixCSR(mat.rows, mat.columns){
+    Node** tmp = mat.vec[0];
+    for (ulong i = 0; i < mat.rows; i++) {
+      while (tmp!=vec[i+1]) {
+        (*this)(i,(*tmp)->info.second) = (*tmp)->info.first;
+        tmp = (*tmp)->next;
+      }
+    }
 
-  }*/
+  }
 
   // Move constructor
   template <typename Data>
@@ -88,6 +95,31 @@ MatrixCSR<Data>::MatrixCSR(const ulong row, const ulong col): vec(row+1){
       return false;
   }
 
+  //RowResize
+  template <typename Data>
+  void MatrixCSR<Data>::RowResize(const ulong new_row){
+    if (new_row>rows) {
+      vec.Resize(new_row+1);
+      for (ulong i = rows+1; i < new_row+1; i++) {
+        vec[i] = vec[rows];
+      }
+    }else if(new_row<rows){
+      Node** tmp = vec[new_row];
+      tmp = (*tmp)->next;
+      while ((*tmp)->next!=nullptr) {
+        /* code */
+      }
+    }
+    rows = new_row;
+    size = new_row*columns;
+  }
+
+  //ColumnResize
+  template <typename Data>
+  void MatrixCSR<Data>::ColumnResize(const ulong new_column){
+
+  }
+
   //Operator ()
   template <typename Data>
   Data& MatrixCSR<Data>::operator()(const ulong row, const ulong col){
@@ -115,6 +147,7 @@ MatrixCSR<Data>::MatrixCSR(const ulong row, const ulong col): vec(row+1){
           }
           vec[index] = &new_node->next;
         }
+        return new_node->info.first;
       }
     }
     else
