@@ -75,7 +75,7 @@ bool MatrixVec<Data>::operator!=(const MatrixVec<Data>& mat) const noexcept{
 
 // Specific member functions (inherited from Matrix)
 
-
+//RowResize
 template <typename Data>
 void MatrixVec<Data>::RowResize(const ulong new_rows) {
   rows = new_rows;
@@ -83,6 +83,7 @@ void MatrixVec<Data>::RowResize(const ulong new_rows) {
   vec.Resize(size);
 }
 
+//ColumnResize
 template <typename Data>
 void MatrixVec<Data>::ColumnResize(const ulong new_col) {
 
@@ -115,19 +116,19 @@ void MatrixVec<Data>::ColumnResize(const ulong new_col) {
 
 }
 
-
+//ExistsCell
 template <typename Data>
 bool MatrixVec<Data>::ExistsCell(const ulong row, const ulong col) const noexcept{
-  return (size>0 && row<rows && col<columns);
+  return (row<rows && col<columns);
 }
 
-
+//Operator ()
 template <typename Data>
 Data& MatrixVec<Data>::operator()(const ulong row, const ulong col){
   return const_cast<Data&>(static_cast<const MatrixVec<Data>*>(this)->operator()(row, col));
 }
 
-
+//Operator () (const)
 template <typename Data>
 const Data& MatrixVec<Data>::operator()(const ulong row, const ulong col) const{
   if(ExistsCell(row,col))
@@ -139,6 +140,7 @@ const Data& MatrixVec<Data>::operator()(const ulong row, const ulong col) const{
 
 // Specific member functions (inherited from Container)
 
+//Clear
 template <typename Data>
 void MatrixVec<Data>::Clear(){
   vec.Clear();
@@ -150,10 +152,14 @@ void MatrixVec<Data>::Clear(){
 /* ************************************************************************ */
 
 // Specific member functions (inherited from MappableContainer)
+
+//MapPreOrder
 template <typename Data>
 void MatrixVec<Data>::MapPreOrder(const MapFunctor fun, void* par) {
   vec.MapPreOrder(fun, par);
 }
+
+//MapPostOrder
 template <typename Data>
 void MatrixVec<Data>::MapPostOrder(const MapFunctor fun, void* par) {
   vec.MapPostOrder(fun, par);
@@ -163,11 +169,13 @@ void MatrixVec<Data>::MapPostOrder(const MapFunctor fun, void* par) {
 
 // Specific member functions (inherited from FoldableContainer)
 
+//FoldPreOrder
 template <typename Data>
 void MatrixVec<Data>::FoldPreOrder(const FoldFunctor fun, const void* par, void* acc) const{
   vec.FoldPreOrder(fun, par, acc);
 }
 
+//FoldPostOrder
 template <typename Data>
 void MatrixVec<Data>::FoldPostOrder(const FoldFunctor fun, const void* par, void* acc) const{
   vec.FoldPostOrder(fun, par, acc);
