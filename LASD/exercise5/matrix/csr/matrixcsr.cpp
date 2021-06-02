@@ -105,10 +105,14 @@ MatrixCSR<Data>::MatrixCSR(const ulong row, const ulong col): vec(row+1){
       }
     }else if(new_row<rows){
       Node** tmp = vec[new_row];
-      tmp = (*tmp)->next;
-      while ((*tmp)->next!=nullptr) {
-        /* code */
+      Node* head_tmp = (*tmp)->next;
+      while (head_tmp!=nullptr) {
+        (*tmp)->next = head_tmp->next;
+        head_tmp->next = nullptr;
+        delete head_tmp;
+        head_tmp = (*tmp)->next;
       }
+      vec.Resize(new_row+1);
     }
     rows = new_row;
     size = new_row*columns;
@@ -117,7 +121,28 @@ MatrixCSR<Data>::MatrixCSR(const ulong row, const ulong col): vec(row+1){
   //ColumnResize
   template <typename Data>
   void MatrixCSR<Data>::ColumnResize(const ulong new_column){
+    if(new_column==0)
+      List<std::pair<Data,ulong>>::Clear();
+    else if(new_column<columns){
+      Node** tmp = vec[0];
+      Node* tmp_del = nullptr;
+      for (ulong i = 0; i < rows+1; i++) {
+        if((*tmp)->info.second>=new_column){
+          if ((*tmp)->next==vec[i+1]) {
+            /* code */
+          }
+          tmp_del = *tmp;
+          (*tmp)->next = tmp_del->next;
+          tmp_del->next=nullptr;
+          delete tmp_del;
+        }else{
+          tmp = (*tmp)->next;
+        }
+      }
 
+    }
+    columns = new_column;
+    size = rows*new_column;
   }
 
   //Operator ()
