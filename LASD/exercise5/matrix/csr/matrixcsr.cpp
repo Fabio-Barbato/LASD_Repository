@@ -27,7 +27,7 @@ MatrixCSR<Data>::MatrixCSR(const ulong row, const ulong col): vec(row+1){
     for (ulong i = 0; i < mat.rows; i++) {
       while (tmp!=vec[i+1]) {
         (*this)(i,(*tmp)->info.second) = (*tmp)->info.first;
-        tmp = (*tmp)->next;
+        tmp = &((*tmp)->next);
       }
     }
 
@@ -87,7 +87,7 @@ MatrixCSR<Data>::MatrixCSR(const ulong row, const ulong col): vec(row+1){
     if(row<rows && col<columns){
         Node** tmp = vec[row];
         while (tmp!=vec[row+1] && (*tmp)->info.second<col) {
-          tmp = (*tmp)->next;
+          tmp = &((*tmp)->next);
         }
         return tmp!=vec[row+1] && (*tmp)->info.second==col;
     }
@@ -125,21 +125,31 @@ MatrixCSR<Data>::MatrixCSR(const ulong row, const ulong col): vec(row+1){
       List<std::pair<Data,ulong>>::Clear();
     else if(new_column<columns){
       Node** tmp = vec[0];
-      Node* tmp_del = nullptr;
-      for (ulong i = 0; i < rows+1; i++) {
-        if((*tmp)->info.second>=new_column){
-          if ((*tmp)->next==vec[i+1]) {
-            /* code */
+      Node* tmp_del;
+      ulong index;
+      ulong i=0;
+      while (i<=rows) {
+        if((*tmp)->next!=nullptr){
+          if((*tmp)->info.second>=new_column){
+            tmp_del = (*tmp)->next;
+            index=i+1;
+            while (index<=rows && &tmp_del->next==vec[index]) {
+              vec[index] = tmp;
+              index++;
+            }
+            (*tmp)->next = tmp_del->next;
+            tmp_del->next=nullptr;
+            delete tmp_del;
+            if (tmp==vec[i+1]) {
+              i++;
+            }
+          }else{
+            tmp = &((*tmp)->next);
           }
-          tmp_del = *tmp;
-          (*tmp)->next = tmp_del->next;
-          tmp_del->next=nullptr;
-          delete tmp_del;
-        }else{
-          tmp = (*tmp)->next;
-        }
-      }
+        }else
+          break;
 
+      }
     }
     columns = new_column;
     size = rows*new_column;
@@ -152,14 +162,14 @@ MatrixCSR<Data>::MatrixCSR(const ulong row, const ulong col): vec(row+1){
       Node** tmp = vec[row];
       if (ExistsCell(row,col)) { //la cella esiste
         while ((*tmp)->info.second<col) {
-          tmp = (*tmp)->next;
+          tmp = &((*tmp)->next);
         }
         return (*tmp)->info.first;
       } else { //la cella non esiste
         Node* new_node = new Node();
         new_node->info.second = col;
         while (tmp!=vec[row+1] && (*tmp)->info.second<col) {
-          tmp = (*tmp)->next;
+          tmp = &((*tmp)->next);
         }
         new_node->next = (*tmp)->next;
         (*tmp)->next = new_node;
@@ -186,7 +196,7 @@ MatrixCSR<Data>::MatrixCSR(const ulong row, const ulong col): vec(row+1){
       if(ExistsCell(row,col)){
         Node** tmp = vec[row];
         while ((*tmp)->info.second<col) {
-          tmp = (*tmp)->next;
+          tmp = &((*tmp)->next);
         }
         return (*tmp)->info.first;
       }
@@ -202,14 +212,13 @@ MatrixCSR<Data>::MatrixCSR(const ulong row, const ulong col): vec(row+1){
   //Clear
   template <typename Data>
   void MatrixCSR<Data>::Clear(){
-    for (ulong i = 0; i < vec.Size(); i++) {
-      vec[i] = nullptr;
-    }
+    /*
     vec.Clear();
     List<std::pair<Data,ulong>>::Clear();
     size=0;
     columns=0;
     rows=0;
+    */
   }
 
   //MapPreOrder
@@ -227,13 +236,13 @@ MatrixCSR<Data>::MatrixCSR(const ulong row, const ulong col): vec(row+1){
   //FoldPreOrder
   template <typename Data>
   void MatrixCSR<Data>::FoldPreOrder(const FoldFunctor fun, const void* par, void* acc) const{
-    List<std::pair<Data,ulong>>::FoldPreOrder([&fun](std::pair<Data,ulong>& dat,const void* parx, void* accx){fun(dat.first, parx, accx);},par, acc);
+    List<std::pair<Data,ulong>>::FoldPreOrder([&fun](const std::pair<Data,ulong>& dat,const void* parx, void* accx){fun(dat.first, parx, accx);},par, acc);
   }
 
   //FoldPostOrder
   template <typename Data>
   void MatrixCSR<Data>::FoldPostOrder(const FoldFunctor fun, const void* par, void* acc) const{
-    List<std::pair<Data,ulong>>::FoldPostOrder([&fun](std::pair<Data,ulong>& dat,const void* parx, void* accx){fun(dat.first, parx, accx);},par, acc);
+    List<std::pair<Data,ulong>>::FoldPostOrder([&fun](const std::pair<Data,ulong>& dat,const void* parx, void* accx){fun(dat.first, parx, accx);},par, acc);
   }
 
 }

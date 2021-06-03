@@ -9,7 +9,7 @@
 
 #include "../matrix/matrix.hpp"
 #include "../../matrix/vec/matrixvec.hpp"
-//#include "../../matrix/csr/matrixcsr.hpp"
+#include "../../matrix/csr/matrixcsr.hpp"
 
 /* ************************************************************************** */
 
@@ -203,10 +203,10 @@ void stestMatrixInt(uint& testnum, uint& testerr) {
     lasd::MatrixVec<long> matvec;
     cout << endl << "Begin of MatrixVec<long> Test:" << endl;
     stestMatrixInt(matvec, loctestnum, loctesterr);
-    /*lasd::MatrixCSR<long> matcsr;
+    lasd::MatrixCSR<long> matcsr;
     cout << endl << "Begin of MatrixCSR<long> Test:" << endl;
     stestMatrixInt(matcsr, loctestnum, loctesterr);
-    cout << "\n";*/
+    cout << "\n";
   } catch(...) {
     loctestnum++; loctesterr++;
     cout << endl << "Unmanaged error! " << endl;
@@ -269,10 +269,10 @@ void stestMatrixFloat(uint& testnum, uint& testerr) {
     lasd::MatrixVec<double> matvec(4, 3);
     cout << endl << "Begin of MatrixVec<double> Test:" << endl;
     stestMatrixFloat(matvec, loctestnum, loctesterr);
-    /*lasd::MatrixCSR<double> matcsr(4, 3);
+    lasd::MatrixCSR<double> matcsr(4, 3);
     cout << endl << "Begin of MatrixCSR<double> Test:" << endl;
     stestMatrixFloat(matcsr, loctestnum, loctesterr);
-    cout << "\n";*/
+    cout << "\n";
   } catch(...) {
     loctestnum++; loctesterr++;
     cout << endl << "Unmanaged error! " << endl;
@@ -330,10 +330,10 @@ void stestMatrixString(uint& testnum, uint& testerr) {
     lasd::MatrixVec<string> matvec(3, 3);
     cout << endl << "Begin of MatrixVec<string> Test:" << endl;
     stestMatrixString(matvec, loctestnum, loctesterr);
-    /*lasd::MatrixCSR<string> matcsr(3, 3);
+    lasd::MatrixCSR<string> matcsr(3, 3);
     cout << endl << "Begin of MatrixCSR<string> Test:" << endl;
     stestMatrixString(matcsr, loctestnum, loctesterr);
-    cout << "\n";*/
+    cout << "\n";
   } catch(...) {
     loctestnum++; loctesterr++;
     cout << endl << "Unmanaged error! " << endl;
