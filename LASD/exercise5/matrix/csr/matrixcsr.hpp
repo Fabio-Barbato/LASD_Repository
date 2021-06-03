@@ -24,7 +24,7 @@ private:
 
 protected:
 
-   using Matrix<Data>::size;
+   using List<std::pair<Data,ulong>>::size;
    using Matrix<Data>::rows;
    using Matrix<Data>::columns;
    using List<std::pair<Data,ulong>>::head;

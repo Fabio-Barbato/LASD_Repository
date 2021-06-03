@@ -5,7 +5,8 @@ namespace lasd {
 
 //Default constructor
 template <typename Data>
-MatrixCSR<Data>::MatrixCSR(): vec(1){
+MatrixCSR<Data>::MatrixCSR(){
+  vec.Resize(1);
   vec[0] = &head;
 }
 
@@ -33,7 +34,7 @@ MatrixCSR<Data>::MatrixCSR(const ulong row, const ulong col): vec(row+1){
 
   }
 
-  // Move constructor
+  // Move constructor (da rivedere)
   template <typename Data>
    MatrixCSR<Data>::MatrixCSR(MatrixCSR<Data>&& mat) noexcept: vec(std::move(mat.vec)){
      std::swap(size, mat.size);
@@ -115,21 +116,27 @@ MatrixCSR<Data>::MatrixCSR(const ulong row, const ulong col): vec(row+1){
       vec.Resize(new_row+1);
     }
     rows = new_row;
-    size = new_row*columns;
+    size = rows*columns;
+
   }
 
   //ColumnResize
   template <typename Data>
   void MatrixCSR<Data>::ColumnResize(const ulong new_column){
-    if(new_column==0)
-      List<std::pair<Data,ulong>>::Clear();
+    if(new_column==0){
+      Node* tmp = head;
+      while (tmp!=nullptr) {
+        head = tmp->next;
+        delete tmp;
+        tmp = head;
+      }
+    }
     else if(new_column<columns){
       Node** tmp = vec[0];
       Node* tmp_del;
       ulong index;
       ulong i=0;
       while (i<=rows) {
-        if((*tmp)->next!=nullptr){
           if((*tmp)->info.second>=new_column){
             tmp_del = (*tmp)->next;
             index=i+1;
@@ -144,11 +151,11 @@ MatrixCSR<Data>::MatrixCSR(const ulong row, const ulong col): vec(row+1){
               i++;
             }
           }else{
-            tmp = &((*tmp)->next);
+            if((*tmp)->next)
+              tmp = &((*tmp)->next);
+            else
+              break;
           }
-        }else
-          break;
-
       }
     }
     columns = new_column;
@@ -171,7 +178,10 @@ MatrixCSR<Data>::MatrixCSR(const ulong row, const ulong col): vec(row+1){
         while (tmp!=vec[row+1] && (*tmp)->info.second<col) {
           tmp = &((*tmp)->next);
         }
-        new_node->next = (*tmp)->next;
+
+        if((*tmp)->next!=nullptr)
+          new_node->next = (*tmp)->next;
+          
         (*tmp)->next = new_node;
 
         if (tmp==vec[row+1]) {//riga vuota o cella tra due righe
@@ -212,13 +222,20 @@ MatrixCSR<Data>::MatrixCSR(const ulong row, const ulong col): vec(row+1){
   //Clear
   template <typename Data>
   void MatrixCSR<Data>::Clear(){
-    /*
-    vec.Clear();
-    List<std::pair<Data,ulong>>::Clear();
+
+    Node* tmp = head;
+    while (tmp!=nullptr) {
+      head = tmp->next;
+      delete tmp;
+      tmp = head;
+    }
+    head = nullptr;
+    vec.Resize(1);
+    vec[0] = &head;
     size=0;
     columns=0;
     rows=0;
-    */
+
   }
 
   //MapPreOrder
