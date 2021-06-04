@@ -15,7 +15,6 @@ template <typename Data>
 MatrixCSR<Data>::MatrixCSR(const ulong row, const ulong col): vec(row+1){
   rows = row;
   columns = col;
-  size = rows*columns;
   for (ulong i = 0; i < row+1; i++) {
     vec[i] = &head;
   }
@@ -34,7 +33,7 @@ MatrixCSR<Data>::MatrixCSR(const ulong row, const ulong col): vec(row+1){
 
   }
 
-  // Move constructor (da rivedere)
+  // Move constructor
   template <typename Data>
    MatrixCSR<Data>::MatrixCSR(MatrixCSR<Data>&& mat) noexcept: vec(std::move(mat.vec)){
      std::swap(size, mat.size);
@@ -130,13 +129,14 @@ MatrixCSR<Data>::MatrixCSR(const ulong row, const ulong col): vec(row+1){
         delete tmp;
         tmp = head;
       }
+      size = 0;
     }
     else if(new_column<columns){
       Node** tmp = vec[0];
       Node* tmp_del;
       ulong index;
       ulong i=0;
-      while (i<=rows) {
+      while (i<=rows && size>0) {
           if((*tmp)->info.second>=new_column){
             tmp_del = (*tmp)->next;
             index=i+1;
@@ -147,24 +147,20 @@ MatrixCSR<Data>::MatrixCSR(const ulong row, const ulong col): vec(row+1){
             (*tmp)->next = tmp_del->next;
             tmp_del->next=nullptr;
             delete tmp_del;
+            size--;
             if (tmp==vec[i+1]) {
               i++;
             }
-          }else{
-            if((*tmp)->next)
-              tmp = &((*tmp)->next);
-            else
-              break;
           }
       }
     }
     columns = new_column;
-    size = rows*new_column;
   }
 
   //Operator ()
   template <typename Data>
   Data& MatrixCSR<Data>::operator()(const ulong row, const ulong col){
+
     if(row<rows && col<columns){ //cella nel range
       Node** tmp = vec[row];
       if (ExistsCell(row,col)) { //la cella esiste
@@ -178,10 +174,14 @@ MatrixCSR<Data>::MatrixCSR(const ulong row, const ulong col): vec(row+1){
         while (tmp!=vec[row+1] && (*tmp)->info.second<col) {
           tmp = &((*tmp)->next);
         }
-
+        std::cout << "head: "<<&head << '\n';
+        std::cout << "vec: "<<vec[0] << '\n';
+        std::cout << "tmp: "<<(tmp) << '\n';
+        std::cout << "head->next: "<<head->next << '\n';
+        std::cout << "*tmp->next: "<<(*tmp)->next << '\n';
         if((*tmp)->next!=nullptr)
           new_node->next = (*tmp)->next;
-          
+
         (*tmp)->next = new_node;
 
         if (tmp==vec[row+1]) {//riga vuota o cella tra due righe
@@ -192,6 +192,7 @@ MatrixCSR<Data>::MatrixCSR(const ulong row, const ulong col): vec(row+1){
           }
           vec[index] = &new_node->next;
         }
+        size++;
         return new_node->info.first;
       }
     }
@@ -222,14 +223,14 @@ MatrixCSR<Data>::MatrixCSR(const ulong row, const ulong col): vec(row+1){
   //Clear
   template <typename Data>
   void MatrixCSR<Data>::Clear(){
-
+    vec.Clear();
     Node* tmp = head;
     while (tmp!=nullptr) {
       head = tmp->next;
       delete tmp;
       tmp = head;
     }
-    head = nullptr;
+
     vec.Resize(1);
     vec[0] = &head;
     size=0;
