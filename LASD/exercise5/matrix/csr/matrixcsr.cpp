@@ -79,7 +79,6 @@ MatrixCSR<Data>::MatrixCSR(const ulong row, const ulong col): vec(row+1){
     return !(*this==mat);
   }
 
-
   //ExistsCell
   template <typename Data>
   bool MatrixCSR<Data>::ExistsCell(const ulong row, const ulong col) const noexcept{
@@ -122,7 +121,10 @@ MatrixCSR<Data>::MatrixCSR(const ulong row, const ulong col): vec(row+1){
   template <typename Data>
   void MatrixCSR<Data>::ColumnResize(const ulong new_column){
     if(new_column==0){
+      vec.Clear();
       List<std::pair<Data,ulong>>::Clear();
+      vec.Resize(1);
+      vec[0] = &head;
     }
     else if(new_column<columns){
       /*Node** tmp = vec[0];
@@ -158,32 +160,29 @@ MatrixCSR<Data>::MatrixCSR(const ulong row, const ulong col): vec(row+1){
 
     if(row<rows && col<columns){ //cella nel range
       Node** tmp = vec[row];
-      if (ExistsCell(row,col)) { //la cella esiste
-        while ((*tmp)->info.second<col) {
-          tmp = &((*tmp)->next);
-        }
-        return (*tmp)->info.first;
-      } else { //la cella non esiste
-        Node* new_node = new Node();
-        new_node->info.second = col;
-        while (tmp!=vec[row+1] && (*tmp)->info.second<col) {
-          tmp = &((*tmp)->next);
-        }
+     while (tmp!=vec[row+1] && (*tmp)->info.second <= col) {
+       if((*tmp)->info.second == col)
+           return (*tmp)->info.first;
 
-        new_node->next = (*tmp)->next;
-        (*tmp)->next = new_node;
+       tmp = &(*tmp)->next;
+     }
 
-        if (tmp==vec[row+1]) {//riga vuota o cella tra due righe
-          ulong index = row+1;
-          while (vec[index]==vec[index+1]) {
-            vec[index] = &new_node->next;
-            index++;
-          }
-          vec[index] = &new_node->next;
-        }
-        size++;
-        return new_node->info.first;
-      }
+     Node* new_node = new Node();
+     new_node->info.second = col;
+     new_node->next = *tmp;
+     *tmp = new_node;
+     size++;
+
+     if(tmp==vec[row+1]) {
+         ulong index = row+1;
+         while (index < rows && vec[index] == vec[index+1]) {
+             vec[index] = &new_node->next;
+             index++;
+         }
+         vec[index] = &new_node->next;
+     }
+
+    return new_node->info.first;
     }
     else
       throw std::out_of_range("Out of range!");
