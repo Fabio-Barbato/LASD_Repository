@@ -103,13 +103,12 @@ MatrixCSR<Data>::MatrixCSR(const ulong row, const ulong col): vec(row+1){
       }
     }else if(new_row<rows){
       Node** tmp = vec[new_row];
-      Node* head_tmp = (*tmp)->next;
-      while (head_tmp!=nullptr) {
-        (*tmp)->next = head_tmp->next;
-        head_tmp->next = nullptr;
-        delete head_tmp;
+      Node* tmp_del = *tmp;
+      while (tmp_del!=nullptr) {
+        *tmp = tmp_del->next;
+        delete tmp_del;
         size--;
-        head_tmp = (*tmp)->next;
+        tmp_del = *tmp;
       }
       vec.Resize(new_row+1);
     }
@@ -127,29 +126,35 @@ MatrixCSR<Data>::MatrixCSR(const ulong row, const ulong col): vec(row+1){
       vec[0] = &head;
     }
     else if(new_column<columns){
-      /*Node** tmp = vec[0];
+      Node** tmp = vec[0];
       Node* tmp_del;
+      ulong curr_row=0;
       ulong index;
-      ulong i=0;
-      while (i<=rows && (*tmp)!=nullptr) { //da rivedere controllo
-          if((*tmp)->info.second>=new_column){
-            tmp_del=(*tmp)->next;
-            index=i+1;
-            while (index<=rows && &tmp_del->next==vec[index]) {
-              vec[index] = tmp;
-              index++;
-            }
-            (*tmp)->next = tmp_del->next;
-            tmp_del->next=nullptr;
-            delete tmp_del;
-            size--;
-            if (tmp==vec[i+1]) {
-              i++;
-            }
+      while (*tmp!=nullptr && curr_row<rows) {
+        index=curr_row+1;
+        if((*tmp)->info.second>=new_column){
+          tmp_del = *tmp;
+          *tmp = tmp_del->next;
+          while (index<=rows && &tmp_del->next==vec[index]) {
+            vec[index] = &(*tmp)->next;
+            index++;
           }
-          else
-            tmp = &(*tmp)->next;
-      }*/
+          delete tmp_del;
+          size--;
+          if (tmp==vec[curr_row+1]) {
+            curr_row++;
+          }
+        }
+        else{
+          tmp = &(*tmp)->next;
+          if (tmp==vec[curr_row+1]) {
+            curr_row++;
+          }
+        }
+
+      }
+
+
     }
     columns = new_column;
   }
@@ -158,7 +163,7 @@ MatrixCSR<Data>::MatrixCSR(const ulong row, const ulong col): vec(row+1){
   template <typename Data>
   Data& MatrixCSR<Data>::operator()(const ulong row, const ulong col){
 
-    if(row<rows && col<columns){ //cella nel range
+    if(row<rows && col<columns){
       Node** tmp = vec[row];
      while (tmp!=vec[row+1] && (*tmp)->info.second <= col) {
        if((*tmp)->info.second == col)
@@ -192,17 +197,15 @@ MatrixCSR<Data>::MatrixCSR(const ulong row, const ulong col): vec(row+1){
   template <typename Data>
   const Data& MatrixCSR<Data>::operator()(const ulong row, const ulong col) const{
     if(row<rows && col<columns){
-      if(ExistsCell(row,col)){
-        Node** tmp = vec[row];
-        while ((*tmp)->info.second<col) {
-          tmp = &((*tmp)->next);
-        }
-        return (*tmp)->info.first;
+      Node** tmp = vec[row];
+      while (tmp!=vec[row+1] && (*tmp)->info.second <= col) {
+       if((*tmp)->info.second == col)
+           return (*tmp)->info.first;
+
+       tmp = &(*tmp)->next;
+     }
+      throw std::length_error("Element not present!");
       }
-      else{
-        throw std::length_error("Element not present!");
-      }
-    }
     else
       throw std::out_of_range("Out of range!");
   }
