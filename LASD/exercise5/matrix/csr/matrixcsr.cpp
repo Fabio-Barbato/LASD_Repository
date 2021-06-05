@@ -5,8 +5,7 @@ namespace lasd {
 
 //Default constructor
 template <typename Data>
-MatrixCSR<Data>::MatrixCSR(){
-  vec.Resize(1);
+MatrixCSR<Data>::MatrixCSR(): vec(1){
   vec[0] = &head;
 }
 
@@ -25,7 +24,7 @@ MatrixCSR<Data>::MatrixCSR(const ulong row, const ulong col): vec(row+1){
   MatrixCSR<Data>::MatrixCSR(const MatrixCSR<Data>& mat): MatrixCSR(mat.rows, mat.columns){
     Node** tmp = mat.vec[0];
     for (ulong i = 0; i < mat.rows; i++) {
-      while (tmp!=vec[i+1]) {
+      while (tmp!=mat.vec[i+1]) {
         (*this)(i,(*tmp)->info.second) = (*tmp)->info.first;
         tmp = &((*tmp)->next);
       }
@@ -34,7 +33,7 @@ MatrixCSR<Data>::MatrixCSR(const ulong row, const ulong col): vec(row+1){
   }
 
   // Move constructor
-  template <typename Data>
+  template <typename Data> //da rivedere
    MatrixCSR<Data>::MatrixCSR(MatrixCSR<Data>&& mat) noexcept: vec(std::move(mat.vec)){
      std::swap(size, mat.size);
      std::swap(rows, mat.rows);
@@ -58,7 +57,7 @@ MatrixCSR<Data>::MatrixCSR(const ulong row, const ulong col): vec(row+1){
   }
 
   //Move assignment
-  template <typename Data>
+  template <typename Data> //da rivedere
   MatrixCSR<Data>& MatrixCSR<Data>::operator=(MatrixCSR<Data>&& mat) noexcept{
     std::swap(size, mat.size);
     std::swap(rows, mat.rows);
@@ -71,7 +70,7 @@ MatrixCSR<Data>::MatrixCSR(const ulong row, const ulong col): vec(row+1){
 
   //Comparison operators
   template <typename Data>
-  bool MatrixCSR<Data>::operator==(const MatrixCSR<Data>& mat) const noexcept{
+  bool MatrixCSR<Data>::operator==(const MatrixCSR<Data>& mat) const noexcept{ //da rivedere
     return (rows == mat.rows && columns == mat.columns && size == mat.size && List<std::pair<Data,ulong>>::operator==(mat));
   }
 
@@ -110,12 +109,12 @@ MatrixCSR<Data>::MatrixCSR(const ulong row, const ulong col): vec(row+1){
         (*tmp)->next = head_tmp->next;
         head_tmp->next = nullptr;
         delete head_tmp;
+        size--;
         head_tmp = (*tmp)->next;
       }
       vec.Resize(new_row+1);
     }
     rows = new_row;
-    size = rows*columns;
 
   }
 
@@ -123,22 +122,16 @@ MatrixCSR<Data>::MatrixCSR(const ulong row, const ulong col): vec(row+1){
   template <typename Data>
   void MatrixCSR<Data>::ColumnResize(const ulong new_column){
     if(new_column==0){
-      Node* tmp = head;
-      while (tmp!=nullptr) {
-        head = tmp->next;
-        delete tmp;
-        tmp = head;
-      }
-      size = 0;
+      List<std::pair<Data,ulong>>::Clear();
     }
     else if(new_column<columns){
-      Node** tmp = vec[0];
+      /*Node** tmp = vec[0];
       Node* tmp_del;
       ulong index;
       ulong i=0;
-      while (i<=rows && size>0) {
+      while (i<=rows && (*tmp)!=nullptr) { //da rivedere controllo
           if((*tmp)->info.second>=new_column){
-            tmp_del = (*tmp)->next;
+            tmp_del=(*tmp)->next;
             index=i+1;
             while (index<=rows && &tmp_del->next==vec[index]) {
               vec[index] = tmp;
@@ -152,7 +145,9 @@ MatrixCSR<Data>::MatrixCSR(const ulong row, const ulong col): vec(row+1){
               i++;
             }
           }
-      }
+          else
+            tmp = &(*tmp)->next;
+      }*/
     }
     columns = new_column;
   }
@@ -174,14 +169,8 @@ MatrixCSR<Data>::MatrixCSR(const ulong row, const ulong col): vec(row+1){
         while (tmp!=vec[row+1] && (*tmp)->info.second<col) {
           tmp = &((*tmp)->next);
         }
-        std::cout << "head: "<<&head << '\n';
-        std::cout << "vec: "<<vec[0] << '\n';
-        std::cout << "tmp: "<<(tmp) << '\n';
-        std::cout << "head->next: "<<head->next << '\n';
-        std::cout << "*tmp->next: "<<(*tmp)->next << '\n';
-        if((*tmp)->next!=nullptr)
-          new_node->next = (*tmp)->next;
 
+        new_node->next = (*tmp)->next;
         (*tmp)->next = new_node;
 
         if (tmp==vec[row+1]) {//riga vuota o cella tra due righe
@@ -224,16 +213,9 @@ MatrixCSR<Data>::MatrixCSR(const ulong row, const ulong col): vec(row+1){
   template <typename Data>
   void MatrixCSR<Data>::Clear(){
     vec.Clear();
-    Node* tmp = head;
-    while (tmp!=nullptr) {
-      head = tmp->next;
-      delete tmp;
-      tmp = head;
-    }
-
+    List<std::pair<Data,ulong>>::Clear();
     vec.Resize(1);
     vec[0] = &head;
-    size=0;
     columns=0;
     rows=0;
 
