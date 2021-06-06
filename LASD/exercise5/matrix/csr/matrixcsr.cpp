@@ -136,7 +136,7 @@ MatrixCSR<Data>::MatrixCSR(const ulong row, const ulong col): vec(row+1){
           tmp_del = *tmp;
           *tmp = tmp_del->next;
           while (index<=rows && &tmp_del->next==vec[index]) {
-            vec[index] = &(*tmp)->next;
+            vec[index] = tmp;
             index++;
           }
           delete tmp_del;
