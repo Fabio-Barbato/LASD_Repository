@@ -53,6 +53,7 @@ MatrixCSR<Data>::MatrixCSR(const ulong row, const ulong col): vec(row+1){
     MatrixCSR<Data>* tmp = new MatrixCSR<Data>(mat);
     std::swap(*this, *tmp);
     delete tmp;
+    vec[0]=&head;
     return *this;
   }
 
@@ -130,6 +131,9 @@ MatrixCSR<Data>::MatrixCSR(const ulong row, const ulong col): vec(row+1){
       Node* tmp_del;
       ulong curr_row=0;
       ulong index;
+      if (*tmp==nullptr) {
+        std::cout << "ciao" << '\n';
+      }
       while (*tmp!=nullptr && curr_row<rows) {
         index=curr_row+1;
         if((*tmp)->info.second>=new_column){
@@ -153,6 +157,7 @@ MatrixCSR<Data>::MatrixCSR(const ulong row, const ulong col): vec(row+1){
         }
 
       }
+
 
 
     }

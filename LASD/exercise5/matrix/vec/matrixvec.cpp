@@ -89,7 +89,7 @@ void MatrixVec<Data>::ColumnResize(const ulong new_col) {
 
   if(vec.Size()>0){
     Vector<Data> tmp(new_col*rows);
-    if(new_col<columns){
+    if(new_col<=columns){
       for (ulong i = 0; i < rows; i++) {
         for (ulong j = 0; j < new_col; j++) {
           tmp[i*new_col+j] = vec[i*columns+j];
