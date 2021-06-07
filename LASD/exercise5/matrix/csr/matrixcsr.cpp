@@ -72,7 +72,33 @@ MatrixCSR<Data>::MatrixCSR(const ulong row, const ulong col): vec(row+1){
   //Comparison operators
   template <typename Data>
   bool MatrixCSR<Data>::operator==(const MatrixCSR<Data>& mat) const noexcept{ //da rivedere
-    return (rows == mat.rows && columns == mat.columns && size == mat.size && List<std::pair<Data,ulong>>::operator==(mat));
+    if(size==mat.size && rows == mat.rows && columns == mat.columns){
+      if(size>0){
+        Node** riga1 = vec[0];
+        Node** riga2 = mat.vec[0];
+        ulong curr_row1 = 0;
+        ulong curr_row2 = 0;
+        while (curr_row1==curr_row2 && curr_row1<rows && *riga1!=nullptr && *riga2!=nullptr) {
+          if ((*riga1)->info.first!=(*riga2)->info.first || (*riga1)->info.second!=(*riga2)->info.second) {
+            return false;
+          }
+          riga1 = &(*riga1)->next;
+          riga2 = &(*riga2)->next;
+          if (riga1==vec[curr_row1+1]) {
+            curr_row1++;
+          }
+          if (riga2==mat.vec[curr_row2+1]) {
+            curr_row2++;
+          }
+        }
+        return curr_row1==curr_row2 && (*riga1==nullptr && *riga2==nullptr);
+      }
+      else
+        return false;
+    }
+    else
+      return false;
+
   }
 
   template <typename Data>
@@ -131,9 +157,6 @@ MatrixCSR<Data>::MatrixCSR(const ulong row, const ulong col): vec(row+1){
       Node* tmp_del;
       ulong curr_row=0;
       ulong index;
-      if (*tmp==nullptr) {
-        std::cout << "ciao" << '\n';
-      }
       while (*tmp!=nullptr && curr_row<rows) {
         index=curr_row+1;
         if((*tmp)->info.second>=new_column){
