@@ -36,13 +36,18 @@ namespace lasd {
   template <typename Data>
   bool BST<Data>::operator==(const BST<Data>& bt) const noexcept{
     if(size == bt.size){
-      BTInOrderIterator<Data> it1(*this);
-      BTInOrderIterator<Data> it2(bt);
-      while (!it1.Terminated() && *it1==*it2) {
-        ++it1;
-        ++it2;
+      if(size>0){
+        BTInOrderIterator<Data> it1(*this);
+        BTInOrderIterator<Data> it2(bt);
+        while (!it1.Terminated() && *it1==*it2) {
+          ++it1;
+          ++it2;
+        }
+        return it1.Terminated();
       }
-      return it1.Terminated();
+      else
+        return true;
+
     }
     else
       return false;
