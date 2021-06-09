@@ -8,13 +8,13 @@
 
 void myTest();
 
-template <typename Data>
-void PopolazioneRandom(lasd::Matrix<Data>& mat);
 
-template <typename Data>
+void PopolazioneRandom(lasd::Matrix<int>& mat);
+
+
 void PopolazioneRandom(lasd::Matrix<float>& mat);
 
-template <typename Data>
+
 void PopolazioneRandom(lasd::Matrix<std::string>& mat);
 
 template <typename Data>
@@ -46,6 +46,9 @@ void OpSpeciali(lasd::Matrix<float>& mat);
     void FoldConcat(const std::string& dat, const void* n, void* stringaConcat)  noexcept;
 
     std::string GenerateString();
+
+    template <typename Data>
+    const Data& ReadData(const lasd::Matrix<Data>& mat, ulong i, ulong j);
 
 /* ************************************************************************** */
 

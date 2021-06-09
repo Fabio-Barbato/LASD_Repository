@@ -13,9 +13,9 @@ void myTest(){
   int scelta_struttura;
   std::cout<<"Scegliere su quali dati lavorare:\n1)Interi;\n2)Decimali;\n3)Stringhe\n\nScegli: ";
   std::cin>>sceltaDati;
-  std::cout<<"Scegliere numero righe\nScegli: ";
+  std::cout<<"Scegliere numero righe: ";
   std::cin>>righe;
-  std::cout<<"Scegliere numero colonne\n\nScegli: ";
+  std::cout<<"Scegliere numero colonne: ";
   std::cin>>col;
 
   if(sceltaDati==1){
@@ -25,6 +25,8 @@ void myTest(){
       MatrixVec<int> matvec(righe,col);
       PopolazioneRandom(matvec);
       do {
+        std::cout << "Vuoi effettuare operazioni generiche o Map/Fold?\n\nScegli: ";
+        std::cin >> scelta_menu;
         if (scelta_menu==1) {
           Menu(matvec);
         }
@@ -36,6 +38,8 @@ void myTest(){
       MatrixCSR<int> matcsr(righe,col);
       PopolazioneRandom(matcsr);
       do {
+        std::cout << "Vuoi effettuare operazioni generiche o Map/Fold?\n\nScegli: ";
+        std::cin >> scelta_menu;
         if (scelta_menu=1)
           Menu(matcsr);
         else if(scelta_menu==2){
@@ -52,6 +56,8 @@ void myTest(){
       MatrixVec<float> matvec(righe,col);
       PopolazioneRandom(matvec);
       do {
+        std::cout << "Vuoi effettuare operazioni generiche o Map/Fold?\n\nScegli: ";
+        std::cin >> scelta_menu;
         if (scelta_menu==1) {
           Menu(matvec);
         }
@@ -63,6 +69,8 @@ void myTest(){
       MatrixCSR<float> matcsr(righe,col);
       PopolazioneRandom(matcsr);
       do {
+        std::cout << "Vuoi effettuare operazioni generiche o Map/Fold?\n\nScegli: ";
+        std::cin >> scelta_menu;
         if (scelta_menu==1) {
           Menu(matcsr);
         }
@@ -79,6 +87,8 @@ void myTest(){
       MatrixVec<std::string> matvec(righe,col);
       PopolazioneRandom(matvec);
       do {
+        std::cout << "Vuoi effettuare operazioni generiche o Map/Fold?\n\nScegli: ";
+        std::cin >> scelta_menu;
         if (scelta_menu==1) {
           Menu(matvec);
         }
@@ -90,6 +100,8 @@ void myTest(){
       MatrixCSR<std::string> matcsr(righe,col);
       PopolazioneRandom(matcsr);
       do {
+        std::cout << "Vuoi effettuare \n1)Operazioni generiche\n2)Map/Fold?\n\nScegli: ";
+        std::cin >> scelta_menu;
         if (scelta_menu==1) {
           Menu(matcsr);
         }
@@ -101,21 +113,26 @@ void myTest(){
   }
 }
 
-template <typename Data>
-void PopolazioneRandom(Matrix<Data>& mat){
+
+void PopolazioneRandom(Matrix<int>& mat){
   int scelta;
-  std::cout << "Vuoi riempire la tua matrice con inserimenti random?\n1)Si;\n2)no" << '\n';
-  std::cout << "Scegli";
+  ulong num_elem;
+  std::cout << "Vuoi riempire la tua matrice con inserimenti random?\n1)Si;\n2)No" << '\n';
+  std::cout << "Scegli: ";
   std::cin >> scelta;
   ulong inserimenti=0;
   ulong r;
   ulong c;
   if (scelta==1) {
-    while (inserimenti<mat.Size()/2) {
+    std::cout << "Quanti elementi vuoi inserire?: ";
+    std::cin >> num_elem;
+    while (inserimenti<num_elem) {
       try{
         r=(rand()%mat.RowNumber());
         c=(rand()%mat.ColumnNumber());
         mat(r,c) = rand()%100;
+        inserimenti++;
+        std::cout << "Inserito elemento "<< ReadData(mat,r,c)<<" nella cella ("<<r<<","<<c<<")." << '\n';
       }catch(std::out_of_range e){
         std::cout << "Non esiste la cella ("<<r<<","<<c<<")!" << '\n';
       }
@@ -123,21 +140,26 @@ void PopolazioneRandom(Matrix<Data>& mat){
   }
 }
 
-template <typename Data>
+
 void PopolazioneRandom(Matrix<float>& mat){
   int scelta;
-  std::cout << "Vuoi riempire la tua matrice con inserimenti random?\n1)Si;\n2)no" << '\n';
-  std::cout << "Scegli";
+  ulong num_elem;
+  std::cout << "Vuoi riempire la tua matrice con inserimenti random?\n1)Si;\n2)No" << '\n';
+  std::cout << "Scegli: ";
   std::cin >> scelta;
   ulong inserimenti=0;
   ulong r;
   ulong c;
   if (scelta==1) {
-    while (inserimenti<mat.Size()/2) {
+    std::cout << "Quanti elementi vuoi inserire?: ";
+    std::cin >> num_elem;
+    while (inserimenti<num_elem) {
       try{
         r=(rand()%mat.RowNumber());
         c=(rand()%mat.ColumnNumber());
         mat(r,c) = rand()%100;
+        inserimenti++;
+        std::cout << "Inserito elemento "<< ReadData(mat,r,c)<<" nella cella ("<<r<<","<<c<<")." << '\n';
       }catch(std::out_of_range e){
         std::cout << "Non esiste la cella ("<<r<<","<<c<<")!" << '\n';
       }
@@ -145,22 +167,26 @@ void PopolazioneRandom(Matrix<float>& mat){
   }
 }
 
-template <typename Data>
+
 void PopolazioneRandom(Matrix<std::string>& mat){
   int scelta;
-  std::cout << "Vuoi riempire la tua matrice con inserimenti random?\n1)Si;\n2)no" << '\n';
-  std::cout << "Scegli";
+  ulong num_elem;
+  std::cout << "Vuoi riempire la tua matrice con inserimenti random?\n1)Si;\n2)No" << '\n';
+  std::cout << "Scegli: ";
   std::cin >> scelta;
   ulong inserimenti=0;
   ulong r;
   ulong c;
   if (scelta==1) {
-    while (inserimenti<mat.Size()/2) {
+    std::cout << "Quanti elementi vuoi inserire?: ";
+    std::cin >> num_elem;
+    while (inserimenti<num_elem) {
       try{
         r=(rand()%mat.RowNumber());
         c=(rand()%mat.ColumnNumber());
         mat(r,c) = GenerateString();
-        Menu(mat);
+        inserimenti++;
+        std::cout << "Inserito elemento "<< ReadData(mat,r,c)<<" nella cella ("<<r<<","<<c<<")." << '\n';
       }catch(std::out_of_range e){
         std::cout << "Non esiste la cella ("<<r<<","<<c<<")!" << '\n';
       }
@@ -176,7 +202,7 @@ void Menu(Matrix<Data>& mat){
   ulong num;
   Data elem;
    do{
-     std::cout << "Scegliere l'operazione da effettuare:\n1)Visita PreOrder;\n2)Visita PostOrder;\n3)Esistenza di un valore;\n4)Visualizza cella;\n5)Ridimensiona righe;\n6)Ridimensiona colonne;\n7)Empty;\n8)Size;\n9)Clear;\n\nScegli: ";
+     std::cout << "Scegliere l'operazione da effettuare:\n1)Visita PreOrder;\n2)Visita PostOrder;\n3)Esistenza di una cella;\n4)Visualizza elemento in una cella;\n5)Ridimensiona righe;\n6)Ridimensiona colonne;\n7)Empty;\n8)Size;\n9)Clear;\n10)Inserimento;\n11)Esistenza di un valore;\n12)Numero righe;\n13)Numero colonne;\n\nScegli: ";
      std::cin>>scelta;
     if (scelta==1) {
       mat.MapPreOrder(&MapPrint<Data>, nullptr);
@@ -189,14 +215,22 @@ void Menu(Matrix<Data>& mat){
       std::cin >> col;
       std::cout << "La cella ";
       if (mat.ExistsCell(riga,col)) {
-        std::cout << "esiste!";
+        std::cout << "esiste!"<<'\n';
       }else
-        std::cout << "non esiste!";
+        std::cout << "non esiste!"<<'\n';
     }else if (scelta==4) {
-      /*std::cout << "Rimuovi elemento: ";
-      std::cin >> elem;
-      mat.Remove(elem);
-      std::cout << "Rimosso!" << '\n';*/
+      std::cout << "Inserisci riga: ";
+      std::cin >> riga;
+      std::cout << "Inserisci colonna: ";
+      std::cin >> col;
+      try{
+        std::cout << "Elemento: "<<ReadData(mat, riga, col) << '\n';
+      }catch(std::out_of_range e){
+        std::cout << "Fuori dal range!" << '\n';
+      }catch(std::length_error e){
+        std::cout << "Elemento non presente!" << '\n';
+      }
+
     }else if (scelta==5) {
       std::cout << "Inserisci nuova riga: ";
       std::cin >> num;
@@ -208,16 +242,41 @@ void Menu(Matrix<Data>& mat){
     }else if (scelta==7) {
       std::cout << "La matrice ";
       if (mat.Empty()) {
-        std::cout << "è vuota!";
+        std::cout << "è vuota!"<<'\n';
       }else
-        std::cout << "non è vuota!";
+        std::cout << "non è vuota!"<<'\n';
     }else if (scelta==8) {
       std::cout << "Size: "<<mat.Size() << '\n';
     }else if (scelta==9) {
       mat.Clear();
       std::cout << "Matrice pulita!"<< '\n';
+    }else if (scelta==10) {
+      try{
+        std::cout << "Scegli elemento da inserire: ";
+        std::cin >> elem;
+        std::cout << "In quale riga?: ";
+        std::cin >> riga;
+        std::cout << "In quale colonna?: ";
+        std::cin >> col;
+        mat(riga,col) = elem;
+        std::cout << "Elemento inserito!" << '\n';
+      }catch(std::out_of_range e){
+        std::cout << "La cella selezionata non esiste!" << '\n';
+      }
+    }else if(scelta==11){
+      std::cout << "Elemento da cercare: ";
+      std::cin >> elem;
+      std::cout << "L'elemento inserito ";
+      if (mat.Exists(elem)) {
+        std::cout << "esiste!"<<'\n';
+      }else
+        std::cout << "non esiste!"<<'\n';
+    }else if(scelta==12){
+      std::cout << "Numero righe: "<<mat.RowNumber() << '\n';
+    }else if(scelta==13){
+      std::cout << "Numero colonne: "<<mat.ColumnNumber() << '\n';
     }
-  }while (scelta>0 && scelta<10);
+  }while (scelta>0 && scelta<14);
 
 }
 
@@ -236,7 +295,7 @@ void OpSpeciali(Matrix<int>& mat){
     std::cout << "Prodotto: "<<prod << '\n';
   } else if (scelta == 2) {
     mat.MapPostOrder(&MapRedouble, nullptr);
-    std::cout << "Albero modificato: ";
+    std::cout << "Matrice modificata: ";
     mat.MapPreOrder(&MapPrint<int>, nullptr);
   }
 
@@ -256,7 +315,7 @@ void OpSpeciali(Matrix<float>& mat){
     std::cout << "Somma: "<<sum << '\n';
   } else if (scelta == 2) {
     mat.MapPostOrder(&MapPotenza, nullptr);
-    std::cout << "Albero modificato: ";
+    std::cout << "Matrice modificata: ";
     mat.MapPreOrder(&MapPrint<float>, nullptr);
   }
 }
@@ -278,7 +337,7 @@ void OpSpeciali(Matrix<float>& mat){
       std::cout << "Inserisci stringa: ";
       std::cin >> string_concat;
       mat.MapPreOrder(&MapConcat, &string_concat);
-      std::cout << "Albero modificato: ";
+      std::cout << "Matrice modificata: ";
       mat.MapPreOrder(&MapPrint<std::string>, nullptr);
       std::cout << '\n';
     }
@@ -327,4 +386,9 @@ void OpSpeciali(Matrix<float>& mat){
         }
 
         return string;
+    }
+
+    template <typename Data>
+    const Data& ReadData(const Matrix<Data>& mat, ulong i, ulong j){
+        return mat(i, j);
     }
