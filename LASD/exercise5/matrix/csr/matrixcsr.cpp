@@ -33,12 +33,22 @@ MatrixCSR<Data>::MatrixCSR(const ulong row, const ulong col): vec(row+1){
   }
 
   // Move constructor
-  template <typename Data> //da rivedere
+  template <typename Data>
    MatrixCSR<Data>::MatrixCSR(MatrixCSR<Data>&& mat) noexcept: vec(std::move(mat.vec)){
      std::swap(size, mat.size);
      std::swap(rows, mat.rows);
      std::swap(columns, mat.columns);
      std::swap(head, mat.head);
+     ulong i=0;
+     while (i<vec.Size() && vec[i]== &mat.head) {
+       vec[i] = &head;
+       i++;
+     }
+     i=0;
+     while (i<mat.vec.Size() && mat.vec[i]== &head) {
+       mat.vec[i] = &mat.head;
+       i++;
+     }
    }
 
   //Destructor
@@ -58,13 +68,24 @@ MatrixCSR<Data>::MatrixCSR(const ulong row, const ulong col): vec(row+1){
   }
 
   //Move assignment
-  template <typename Data> //da rivedere
+  template <typename Data>
   MatrixCSR<Data>& MatrixCSR<Data>::operator=(MatrixCSR<Data>&& mat) noexcept{
     std::swap(size, mat.size);
     std::swap(rows, mat.rows);
     std::swap(columns, mat.columns);
     std::swap(head, mat.head);
     vec = std::move(mat.vec);
+
+    ulong i=0;
+    while (i<vec.Size() && vec[i]== &mat.head) {
+      vec[i] = &head;
+      i++;
+    }
+    i=0;
+    while (i<mat.vec.Size() && mat.vec[i]== &head) {
+      mat.vec[i] = &mat.head;
+      i++;
+    }
 
     return *this;
   }
