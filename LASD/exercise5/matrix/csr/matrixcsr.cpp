@@ -73,7 +73,7 @@ MatrixCSR<Data>::MatrixCSR(const ulong row, const ulong col): vec(row+1){
   template <typename Data>
   bool MatrixCSR<Data>::operator==(const MatrixCSR<Data>& mat) const noexcept{ //da rivedere
     if(size==mat.size && rows == mat.rows && columns == mat.columns){
-      if(size>0){
+
         Node** riga1 = vec[0];
         Node** riga2 = mat.vec[0];
         ulong curr_row1 = 0;
@@ -92,9 +92,7 @@ MatrixCSR<Data>::MatrixCSR(const ulong row, const ulong col): vec(row+1){
           }
         }
         return curr_row1==curr_row2 && (*riga1==nullptr && *riga2==nullptr);
-      }
-      else
-        return false;
+
     }
     else
       return false;
@@ -242,10 +240,8 @@ MatrixCSR<Data>::MatrixCSR(const ulong row, const ulong col): vec(row+1){
   //Clear
   template <typename Data>
   void MatrixCSR<Data>::Clear(){
-    vec.Clear();
     List<std::pair<Data,ulong>>::Clear();
     vec.Resize(1);
-    vec[0] = &head;
     columns=0;
     rows=0;
 
