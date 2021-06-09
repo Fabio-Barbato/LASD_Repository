@@ -156,6 +156,9 @@ MatrixCSR<Data>::MatrixCSR(const ulong row, const ulong col): vec(row+1){
       ulong curr_row=0;
       ulong index;
       while (*tmp!=nullptr && curr_row<rows) {
+        while (tmp==vec[curr_row+1] && curr_row<rows) {
+          curr_row++;
+        }
         index=curr_row+1;
         if((*tmp)->info.second>=new_column){
           tmp_del = *tmp;

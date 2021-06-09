@@ -25,27 +25,104 @@ void myTest(){
       MatrixVec<int> matvec(righe,col);
       PopolazioneRandom(matvec);
       do {
-        std::cout << "Vuoi effettuare operazioni generiche o Map/Fold?\n\nScegli: ";
+        std::cout << "Vuoi effettuare:\n1)Operazioni generiche;\n2)Map/Fold;\n3)Copy constructor;\n4)Move constructor;\n5)Copy assignment;\n6)Move assignment?\n\nScegli: ";
         std::cin >> scelta_menu;
         if (scelta_menu==1) {
+          std::cout << "~~~Inizio menù generico~~~" << '\n';
           Menu(matvec);
         }
         else if(scelta_menu==2){
+          std::cout << "~~~Inizio Map/Fold~~~" << '\n';
           OpSpeciali(matvec);
+        }else if(scelta_menu==3){
+          std::cout << "~~~Inizio Copy constructor~~~" << '\n';
+          MatrixVec<int> copmatvec(matvec);
+          Menu(copmatvec);
+          if (matvec==copmatvec) {
+            std::cout << "Le matrici matvec e copmatvec sono uguali!" << '\n';
+          } else {
+            std::cout << "Le matrici matvec e copmatvec NON sono uguali!" << '\n';
+          }
+        }else if(scelta_menu==4){
+          std::cout << "~~~Inizio move constructor~~~" << '\n';
+          MatrixVec<int> movmatvec(std::move(matvec));
+          Menu(movmatvec);
+          if (matvec==movmatvec) {
+            std::cout << "Le matrici matvec e movmatvec sono uguali!" << '\n';
+          } else {
+            std::cout << "Le matrici matvec e movmatvec NON sono uguali!" << '\n';
+          }
+        }else if(scelta_menu==5){
+          std::cout << "~~~Inizio copy assignment~~~" << '\n';
+          MatrixVec<int> copmatvecass = matvec;
+          Menu(copmatvecass);
+          if (matvec==copmatvecass) {
+            std::cout << "Le matrici matvec e copmatvecass sono uguali!" << '\n';
+          } else {
+            std::cout << "Le matrici matvec e copmatvecass NON sono uguali!" << '\n';
+          }
+        }else if(scelta_menu==6){
+          std::cout << "~~~Inizio move assignment~~~" << '\n';
+          MatrixVec<int> movmatvecass = std::move(matvec);
+          Menu(movmatvecass);
+          if (matvec==movmatvecass) {
+            std::cout << "Le matrici matvec e movmatvecass sono uguali!" << '\n';
+          } else {
+            std::cout << "Le matrici matvec e movmatvecass NON sono uguali!" << '\n';
+          }
         }
-      } while(scelta_menu==1 || scelta_menu==2);
+      } while(scelta_menu>0 && scelta_menu<7);
     } else if (scelta_struttura==2) {
       MatrixCSR<int> matcsr(righe,col);
       PopolazioneRandom(matcsr);
       do {
-        std::cout << "Vuoi effettuare operazioni generiche o Map/Fold?\n\nScegli: ";
+        std::cout << "Vuoi effettuare:\n1)Operazioni generiche;\n2)Map/Fold;\n3)Copy constructor;\n4)Move constructor;\n5)Copy assignment;\n6)Move assignment?\n\nScegli: ";
         std::cin >> scelta_menu;
-        if (scelta_menu=1)
+        if (scelta_menu==1){
+          std::cout << "~~~Inizio menù generico~~~" << '\n';
           Menu(matcsr);
-        else if(scelta_menu==2){
-          OpSpeciali(matcsr);
         }
-      } while(scelta_menu==1 || scelta_menu==2);
+        else if(scelta_menu==2){
+          std::cout << "~~~Inizio Map/Fold~~~" << '\n';
+          OpSpeciali(matcsr);
+        }else if(scelta_menu==3){
+          std::cout << "~~~Inizio Copy constructor~~~" << '\n';
+          MatrixCSR<int> copmatcsr(matcsr);
+          Menu(copmatcsr);
+          if (matcsr==copmatcsr) {
+            std::cout << "Le matrici matcsr e copmatcsr sono uguali!" << '\n';
+          } else {
+            std::cout << "Le matrici matcsr e copmatcsr NON sono uguali!" << '\n';
+          }
+        }else if(scelta_menu==4){
+          std::cout << "~~~Inizio move constructor~~~" << '\n';
+          MatrixCSR<int> movmatcsr(std::move(matcsr));
+          Menu(movmatcsr);
+          if (matcsr==movmatcsr) {
+            std::cout << "Le matrici matcsr e movmatcsr sono uguali!" << '\n';
+          } else {
+            std::cout << "Le matrici matcsr e movmatcsr NON sono uguali!" << '\n';
+          }
+        }else if(scelta_menu==5){
+            std::cout << "~~~Inizio copy assignment~~~" << '\n';
+          MatrixCSR<int> copmatcsrass = matcsr;
+          Menu(copmatcsrass);
+          if (matcsr==copmatcsrass) {
+            std::cout << "Le matrici matcsr e copmatcsrass sono uguali!" << '\n';
+          } else {
+            std::cout << "Le matrici matcsr e copmatcsrass NON sono uguali!" << '\n';
+          }
+        }else if(scelta_menu==6){
+            std::cout << "~~~Inizio move assignment~~~" << '\n';
+          MatrixCSR<int> movmatcsrass = std::move(matcsr);
+          Menu(movmatcsrass);
+          if (matcsr==movmatcsrass) {
+            std::cout << "Le matrici matcsr e movmatcsrass sono uguali!" << '\n';
+          } else {
+            std::cout << "Le matrici matcsr e movmatcsrass NON sono uguali!" << '\n';
+          }
+        }
+      } while(scelta_menu>0 && scelta_menu<7);
     }
 
   }
@@ -56,28 +133,91 @@ void myTest(){
       MatrixVec<float> matvec(righe,col);
       PopolazioneRandom(matvec);
       do {
-        std::cout << "Vuoi effettuare operazioni generiche o Map/Fold?\n\nScegli: ";
+        std::cout << "Vuoi effettuare:\n1)Operazioni generiche;\n2)Map/Fold;\n3)Copy constructor;\n4)Move constructor;\n5)Copy assignment;\n6)Move assignment?\n\nScegli: ";
         std::cin >> scelta_menu;
         if (scelta_menu==1) {
           Menu(matvec);
         }
         else if(scelta_menu==2){
           OpSpeciali(matvec);
+        }else if(scelta_menu==3){
+          MatrixVec<float> copmatvec(matvec);
+          Menu(copmatvec);
+          if (matvec==copmatvec) {
+            std::cout << "Le matrici matvec e copmatvec sono uguali!" << '\n';
+          } else {
+            std::cout << "Le matrici matvec e copmatvec NON sono uguali!" << '\n';
+          }
+        }else if(scelta_menu==4){
+          MatrixVec<float> movmatvec(std::move(matvec));
+          Menu(movmatvec);
+          if (matvec==movmatvec) {
+            std::cout << "Le matrici matvec e movmatvec sono uguali!" << '\n';
+          } else {
+            std::cout << "Le matrici matvec e movmatvec NON sono uguali!" << '\n';
+          }
+        }else if(scelta_menu==5){
+          MatrixVec<float> copmatvecass = matvec;
+          Menu(copmatvecass);
+          if (matvec==copmatvecass) {
+            std::cout << "Le matrici matvec e copmatvecass sono uguali!" << '\n';
+          } else {
+            std::cout << "Le matrici matvec e copmatvecass NON sono uguali!" << '\n';
+          }
+        }else if(scelta_menu==6){
+          MatrixVec<float> movmatvecass = std::move(matvec);
+          Menu(movmatvecass);
+          if (matvec==movmatvecass) {
+            std::cout << "Le matrici matvec e movmatvecass sono uguali!" << '\n';
+          } else {
+            std::cout << "Le matrici matvec e movmatvecass NON sono uguali!" << '\n';
+          }
         }
-      } while(scelta_menu==1 || scelta_menu==2);
+      } while(scelta_menu>0 && scelta_menu<7);
     } else if (scelta_struttura==2) {
       MatrixCSR<float> matcsr(righe,col);
       PopolazioneRandom(matcsr);
       do {
-        std::cout << "Vuoi effettuare operazioni generiche o Map/Fold?\n\nScegli: ";
+        std::cout << "Vuoi effettuare:\n1)Operazioni generiche;\n2)Map/Fold;\n3)Copy constructor;\n4)Move constructor;\n5)Copy assignment;\n6)Move assignment?\n\nScegli: ";
         std::cin >> scelta_menu;
-        if (scelta_menu==1) {
+        if (scelta_menu=1)
           Menu(matcsr);
-        }
         else if(scelta_menu==2){
           OpSpeciali(matcsr);
+        }else if(scelta_menu==3){
+          MatrixCSR<float> copmatcsr(matcsr);
+          Menu(copmatcsr);
+          if (matcsr==copmatcsr) {
+            std::cout << "Le matrici matcsr e copmatcsr sono uguali!" << '\n';
+          } else {
+            std::cout << "Le matrici matcsr e copmatcsr NON sono uguali!" << '\n';
+          }
+        }else if(scelta_menu==4){
+          MatrixCSR<float> movmatcsr(std::move(matcsr));
+          Menu(movmatcsr);
+          if (matcsr==movmatcsr) {
+            std::cout << "Le matrici matcsr e movmatcsr sono uguali!" << '\n';
+          } else {
+            std::cout << "Le matrici matcsr e movmatcsr NON sono uguali!" << '\n';
+          }
+        }else if(scelta_menu==5){
+          MatrixCSR<float> copmatcsrass = matcsr;
+          Menu(copmatcsrass);
+          if (matcsr==copmatcsrass) {
+            std::cout << "Le matrici matcsr e copmatcsrass sono uguali!" << '\n';
+          } else {
+            std::cout << "Le matrici matcsr e copmatcsrass NON sono uguali!" << '\n';
+          }
+        }else if(scelta_menu==6){
+          MatrixCSR<float> movmatcsrass = std::move(matcsr);
+          Menu(movmatcsrass);
+          if (matcsr==movmatcsrass) {
+            std::cout << "Le matrici matcsr e movmatcsrass sono uguali!" << '\n';
+          } else {
+            std::cout << "Le matrici matcsr e movmatcsrass NON sono uguali!" << '\n';
+          }
         }
-      } while(scelta_menu==1 || scelta_menu==2);
+      } while(scelta_menu>0 && scelta_menu<7);
     }
   }
   else if(sceltaDati==3){
@@ -87,28 +227,91 @@ void myTest(){
       MatrixVec<std::string> matvec(righe,col);
       PopolazioneRandom(matvec);
       do {
-        std::cout << "Vuoi effettuare operazioni generiche o Map/Fold?\n\nScegli: ";
+        std::cout << "Vuoi effettuare:\n1)Operazioni generiche;\n2)Map/Fold;\n3)Copy constructor;\n4)Move constructor;\n5)Copy assignment;\n6)Move assignment?\n\nScegli: ";
         std::cin >> scelta_menu;
         if (scelta_menu==1) {
           Menu(matvec);
         }
         else if(scelta_menu==2){
           OpSpeciali(matvec);
+        }else if(scelta_menu==3){
+          MatrixVec<std::string> copmatvec(matvec);
+          Menu(copmatvec);
+          if (matvec==copmatvec) {
+            std::cout << "Le matrici matvec e copmatvec sono uguali!" << '\n';
+          } else {
+            std::cout << "Le matrici matvec e copmatvec NON sono uguali!" << '\n';
+          }
+        }else if(scelta_menu==4){
+          MatrixVec<std::string> movmatvec(std::move(matvec));
+          Menu(movmatvec);
+          if (matvec==movmatvec) {
+            std::cout << "Le matrici matvec e movmatvec sono uguali!" << '\n';
+          } else {
+            std::cout << "Le matrici matvec e movmatvec NON sono uguali!" << '\n';
+          }
+        }else if(scelta_menu==5){
+          MatrixVec<std::string> copmatvecass = matvec;
+          Menu(copmatvecass);
+          if (matvec==copmatvecass) {
+            std::cout << "Le matrici matvec e copmatvecass sono uguali!" << '\n';
+          } else {
+            std::cout << "Le matrici matvec e copmatvecass NON sono uguali!" << '\n';
+          }
+        }else if(scelta_menu==6){
+          MatrixVec<std::string> movmatvecass = std::move(matvec);
+          Menu(movmatvecass);
+          if (matvec==movmatvecass) {
+            std::cout << "Le matrici matvec e movmatvecass sono uguali!" << '\n';
+          } else {
+            std::cout << "Le matrici matvec e movmatvecass NON sono uguali!" << '\n';
+          }
         }
-      } while(scelta_menu==1 || scelta_menu==2);
+      } while(scelta_menu>0 && scelta_menu<7);
     } else if (scelta_struttura==2) {
       MatrixCSR<std::string> matcsr(righe,col);
       PopolazioneRandom(matcsr);
       do {
-        std::cout << "Vuoi effettuare \n1)Operazioni generiche\n2)Map/Fold?\n\nScegli: ";
+        std::cout << "Vuoi effettuare:\n1)Operazioni generiche;\n2)Map/Fold;\n3)Copy constructor;\n4)Move constructor;\n5)Copy assignment;\n6)Move assignment?\n\nScegli: ";
         std::cin >> scelta_menu;
-        if (scelta_menu==1) {
+        if (scelta_menu=1)
           Menu(matcsr);
-        }
         else if(scelta_menu==2){
           OpSpeciali(matcsr);
+        }else if(scelta_menu==3){
+          MatrixCSR<std::string> copmatcsr(matcsr);
+          Menu(copmatcsr);
+          if (matcsr==copmatcsr) {
+            std::cout << "Le matrici matcsr e copmatcsr sono uguali!" << '\n';
+          } else {
+            std::cout << "Le matrici matcsr e copmatcsr NON sono uguali!" << '\n';
+          }
+        }else if(scelta_menu==4){
+          MatrixCSR<std::string> movmatcsr(std::move(matcsr));
+          Menu(movmatcsr);
+          if (matcsr==movmatcsr) {
+            std::cout << "Le matrici matcsr e movmatcsr sono uguali!" << '\n';
+          } else {
+            std::cout << "Le matrici matcsr e movmatcsr NON sono uguali!" << '\n';
+          }
+        }else if(scelta_menu==5){
+          MatrixCSR<std::string> copmatcsrass = matcsr;
+          Menu(copmatcsrass);
+          if (matcsr==copmatcsrass) {
+            std::cout << "Le matrici matcsr e copmatcsrass sono uguali!" << '\n';
+          } else {
+            std::cout << "Le matrici matcsr e copmatcsrass NON sono uguali!" << '\n';
+          }
+        }else if(scelta_menu==6){
+          MatrixCSR<std::string> movmatcsrass = std::move(matcsr);
+          Menu(movmatcsrass);
+          if (matcsr==movmatcsrass) {
+            std::cout << "Le matrici matcsr e movmatcsrass sono uguali!" << '\n';
+          } else {
+            std::cout << "Le matrici matcsr e movmatcsrass NON sono uguali!" << '\n';
+          }
         }
-      } while(scelta_menu==1 || scelta_menu==2);
+      } while(scelta_menu>0 && scelta_menu<7);
     }
   }
 }
@@ -251,13 +454,13 @@ void Menu(Matrix<Data>& mat){
       mat.Clear();
       std::cout << "Matrice pulita!"<< '\n';
     }else if (scelta==10) {
-      try{
         std::cout << "Scegli elemento da inserire: ";
         std::cin >> elem;
         std::cout << "In quale riga?: ";
         std::cin >> riga;
         std::cout << "In quale colonna?: ";
         std::cin >> col;
+        try{
         mat(riga,col) = elem;
         std::cout << "Elemento inserito!" << '\n';
       }catch(std::out_of_range e){
