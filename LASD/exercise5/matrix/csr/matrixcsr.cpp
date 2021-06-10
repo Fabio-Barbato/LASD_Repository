@@ -169,7 +169,6 @@ MatrixCSR<Data>::MatrixCSR(const ulong row, const ulong col): vec(row+1){
       vec.Clear();
       List<std::pair<Data,ulong>>::Clear();
       vec.Resize(1);
-      vec[0] = &head;
     }
     else if(new_column<columns){
       Node** tmp = vec[0];
