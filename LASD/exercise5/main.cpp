@@ -18,6 +18,6 @@ int main() {
   std::cin >> scelta;
   if(scelta==1)
     myTest();
-    
+
   return 0;
 }

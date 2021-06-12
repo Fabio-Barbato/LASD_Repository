@@ -34,21 +34,18 @@ MatrixCSR<Data>::MatrixCSR(const ulong row, const ulong col): vec(row+1){
 
   // Move constructor
   template <typename Data>
-   MatrixCSR<Data>::MatrixCSR(MatrixCSR<Data>&& mat) noexcept: vec(std::move(mat.vec)){
+   MatrixCSR<Data>::MatrixCSR(MatrixCSR<Data>&& mat) noexcept: MatrixCSR() {
      std::swap(size, mat.size);
      std::swap(rows, mat.rows);
      std::swap(columns, mat.columns);
      std::swap(head, mat.head);
+     std::swap(vec, mat.vec);
      ulong i=0;
      while (i<vec.Size() && vec[i]== &mat.head) {
        vec[i] = &head;
        i++;
      }
-     i=0;
-     while (i<mat.vec.Size() && mat.vec[i]== &head) {
-       mat.vec[i] = &mat.head;
-       i++;
-     }
+
    }
 
   //Destructor
@@ -74,7 +71,7 @@ MatrixCSR<Data>::MatrixCSR(const ulong row, const ulong col): vec(row+1){
     std::swap(rows, mat.rows);
     std::swap(columns, mat.columns);
     std::swap(head, mat.head);
-    vec = std::move(mat.vec);
+    std::swap(vec, mat.vec);
 
     ulong i=0;
     while (i<vec.Size() && vec[i]== &mat.head) {
@@ -92,7 +89,7 @@ MatrixCSR<Data>::MatrixCSR(const ulong row, const ulong col): vec(row+1){
 
   //Comparison operators
   template <typename Data>
-  bool MatrixCSR<Data>::operator==(const MatrixCSR<Data>& mat) const noexcept{ //da rivedere
+  bool MatrixCSR<Data>::operator==(const MatrixCSR<Data>& mat) const noexcept{
     if(size==mat.size && rows == mat.rows && columns == mat.columns){
 
         Node** riga1 = vec[0];
@@ -166,9 +163,10 @@ MatrixCSR<Data>::MatrixCSR(const ulong row, const ulong col): vec(row+1){
   template <typename Data>
   void MatrixCSR<Data>::ColumnResize(const ulong new_column){
     if(new_column==0){
-      vec.Clear();
       List<std::pair<Data,ulong>>::Clear();
-      vec.Resize(1);
+      for (ulong i = 0; i < vec.Size(); i++) {
+        vec[i] = &head;
+      }
     }
     else if(new_column<columns){
       Node** tmp = vec[0];
@@ -267,6 +265,7 @@ MatrixCSR<Data>::MatrixCSR(const ulong row, const ulong col): vec(row+1){
     vec.Resize(1);
     columns=0;
     rows=0;
+    size=0;
 
   }
 
